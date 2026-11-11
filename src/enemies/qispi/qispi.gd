@@ -13,9 +13,6 @@ const TURN_SPEED := 6.0
 const LOOK_AROUND_SPEED := 1.4
 const RETARGET_DISTANCE := 0.5
 const WORLD_MASK := 1
-## Temblor del cuerpo mientras está aturdido.
-const WRITHE_FREQUENCY := 28.0
-const WRITHE_ANGLE := 0.18
 
 @export_group("Velocidades (m/s)")
 @export var stalk_speed := 1.0
@@ -58,15 +55,14 @@ var _last_known_position := Vector3.ZERO
 var _move_target := Vector3.ZERO
 var _move_speed := 0.0
 var _stun_duration := 0.0
-var _time := 0.0
 
 @onready var _agent: NavigationAgent3D = $NavigationAgent3D
 @onready var _hearing: NoiseHearing = $NoiseHearing
 @onready var _sight: PlayerSight = $Eyes
 @onready var _stride_audio: StrideAudio = $StrideAudio
-@onready var _model: Node3D = $Model
-@onready var _face: Node3D = $Model/Head
+@onready var _animator: QispiAnimator = $Model
 @onready var _shriek: AudioStreamPlayer3D = $Shriek
+@onready var _face_light: OmniLight3D = $FaceLight
 
 
 ## Busca a Lucía, escucha el mundo y empieza a acechar.
@@ -82,7 +78,6 @@ func _ready() -> void:
 
 ## Actualiza el estado, avanza por el camino y revisa si alcanzó a Lucía.
 func _physics_process(delta: float) -> void:
-	_time += delta
 	_apply_gravity(delta)
 	if _has_caught:
 		_move_speed = 0.0
@@ -93,6 +88,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	var travelled := (global_position - previous_position) * HORIZONTAL_PLANE
 	_stride_audio.register_movement(travelled.length(), travelled.length() / delta)
+	_animator.register_movement(travelled.length() / delta)
 	_check_catch()
 
 
@@ -101,12 +97,14 @@ func reset() -> void:
 	global_transform = _home
 	velocity = Vector3.ZERO
 	_has_caught = false
+	_face_light.visible = false
+	_animator.reset()
 	_enter_state(State.STALK)
 
 
 ## Posición de su cara, a donde mira Lucía al ser atrapada.
 func get_face_position() -> Vector3:
-	return _face.global_position
+	return _animator.get_face_position()
 
 
 ## Deriva a la lógica del estado actual.
@@ -167,10 +165,9 @@ func _update_hunt(delta: float) -> void:
 ## Se retuerce quieto; al pasarse va a buscar a Lucía donde estaba.
 func _update_stunned(delta: float) -> void:
 	_move_speed = 0.0
-	_model.rotation.z = sin(_time * WRITHE_FREQUENCY) * WRITHE_ANGLE
 	_state_timer -= delta
 	if _state_timer <= 0.0:
-		_model.rotation.z = 0.0
+		_animator.set_stunned(false)
 		_last_known_position = _player.global_position
 		_enter_state(State.TRACK)
 
@@ -192,6 +189,7 @@ func _enter_state(new_state: State) -> void:
 		State.STUNNED:
 			_state_timer = _stun_duration
 			_stun_duration = maxf(_stun_duration * stun_resistance, min_stun_seconds)
+			_animator.set_stunned(true)
 			_shriek.play()
 
 
@@ -263,6 +261,9 @@ func _check_catch() -> void:
 		_has_caught = true
 		if offset != Vector3.ZERO:
 			rotation.y = atan2(-offset.x, -offset.z)
+		_animator.play_catch()
+		# Una luz fría solo en la embestida, para que su cara se vea en el susto.
+		_face_light.visible = true
 		EventBus.player_caught.emit()
 
 

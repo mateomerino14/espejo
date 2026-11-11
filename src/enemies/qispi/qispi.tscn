@@ -10,6 +10,8 @@
 [ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_4.wav" id="8_step4"]
 [ext_resource type="AudioStream" path="res://assets/audio/qispi_stunned.wav" id="9_stunned"]
 [ext_resource type="Script" path="res://src/photography/photo_subject.gd" id="10_subject"]
+[ext_resource type="Script" path="res://src/enemies/components/qispi_animator.gd" id="11_animator"]
+[ext_resource type="PackedScene" path="res://assets/models/qispi/qispi.gltf" id="12_model"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_steps"]
 random_pitch = 1.1
@@ -23,44 +25,6 @@ stream_3/stream = ExtResource("8_step4")
 radius = 0.3
 height = 2.2
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_cracks"]
-noise_type = 2
-frequency = 0.08
-cellular_return_type = 3
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cracks"]
-seamless = true
-as_normal_map = true
-bump_strength = 12.0
-noise = SubResource("FastNoiseLite_cracks")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_salt_skin"]
-albedo_color = Color(0.86, 0.85, 0.82, 1)
-roughness = 0.9
-normal_enabled = true
-normal_scale = 1.5
-normal_texture = SubResource("NoiseTexture2D_cracks")
-rim_enabled = true
-rim = 0.6
-uv1_scale = Vector3(2, 2, 2)
-uv1_triplanar = true
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
-radius = 0.2
-height = 1.6
-
-[sub_resource type="SphereMesh" id="SphereMesh_head"]
-radius = 0.14
-height = 0.36
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_arm"]
-radius = 0.05
-height = 1.15
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_leg"]
-radius = 0.07
-height = 0.95
-
 [node name="Qispi" type="CharacterBody3D" groups=["enemies"]]
 collision_layer = 8
 script = ExtResource("1_qispi")
@@ -70,42 +34,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 shape = SubResource("CapsuleShape3D_body")
 
 [node name="Model" type="Node3D" parent="."]
+script = ExtResource("11_animator")
 
-[node name="Body" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
-layers = 1024
-mesh = SubResource("CapsuleMesh_body")
-surface_material_override/0 = SubResource("StandardMaterial3D_salt_skin")
-
-[node name="Head" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, -0.05)
-layers = 1024
-mesh = SubResource("SphereMesh_head")
-surface_material_override/0 = SubResource("StandardMaterial3D_salt_skin")
-
-[node name="ArmLeft" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0.985, 0.174, 0, -0.174, 0.985, 0, 0, 0, 1, -0.3, 1.45, 0)
-layers = 1024
-mesh = SubResource("CapsuleMesh_arm")
-surface_material_override/0 = SubResource("StandardMaterial3D_salt_skin")
-
-[node name="ArmRight" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0.985, -0.174, 0, 0.174, 0.985, 0, 0, 0, 1, 0.3, 1.45, 0)
-layers = 1024
-mesh = SubResource("CapsuleMesh_arm")
-surface_material_override/0 = SubResource("StandardMaterial3D_salt_skin")
-
-[node name="LegLeft" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.48, 0)
-layers = 1024
-mesh = SubResource("CapsuleMesh_leg")
-surface_material_override/0 = SubResource("StandardMaterial3D_salt_skin")
-
-[node name="LegRight" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.48, 0)
-layers = 1024
-mesh = SubResource("CapsuleMesh_leg")
-surface_material_override/0 = SubResource("StandardMaterial3D_salt_skin")
+[node name="Salt" parent="Model" instance=ExtResource("12_model")]
 
 [node name="Eyes" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, -0.15)
@@ -137,6 +68,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
 stream = ExtResource("9_stunned")
 unit_size = 8.0
 bus = &"Efectos"
+
+[node name="FaceLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, -0.9)
+visible = false
+light_color = Color(0.75, 0.85, 1, 1)
+light_energy = 0.3
+omni_range = 2.0
 
 [node name="PhotoSubject" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
