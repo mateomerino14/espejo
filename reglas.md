@@ -143,7 +143,7 @@ src/
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
 │   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos, susto)
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
-├── world/            Niveles, espejos (mirror/), materiales del salar (materials/), reaparición (respawn/) y salas de prueba
+├── world/            Niveles, espejos (mirror/), materiales (materials/), objetos del hotel (props/), reaparición (respawn/) y salas de prueba
 └── ui/               HUD, visor de la cámara, álbum y pantalla de captura
 assets/               Modelos (.gltf del Q'ispi), texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
