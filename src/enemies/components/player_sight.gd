@@ -2,7 +2,8 @@ class_name PlayerSight
 extends Node3D
 ## Vista del ente: ve a Lucía dentro del cono y del alcance, sin nada en medio.
 
-const WORLD_MASK := 1
+## Mundo y puertas: lo que tapa la vista.
+const WORLD_MASK := 17
 
 @export_range(10.0, 180.0) var field_of_view_degrees := 110.0
 @export var view_range := 12.0

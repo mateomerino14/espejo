@@ -12,7 +12,8 @@ const CATCH_DISTANCE := 1.0
 const TURN_SPEED := 6.0
 const LOOK_AROUND_SPEED := 1.4
 const RETARGET_DISTANCE := 0.5
-const WORLD_MASK := 1
+## Mundo y puertas: lo que tapa la vista.
+const WORLD_MASK := 17
 
 @export_group("Velocidades (m/s)")
 @export var stalk_speed := 1.0
