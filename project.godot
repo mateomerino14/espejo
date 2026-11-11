@@ -13,7 +13,7 @@ config_version=5
 config/name="Espejo"
 config/description="Juego de terror en primera persona en el salar de Uyuni convertido en espejo."
 config/version="0.1.0"
-run/main_scene="res://src/world/test_room/test_room.tscn"
+run/main_scene="res://src/world/level_01/level_01.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -147,6 +147,10 @@ pause={
 3d_physics/layer_3="Interactuables"
 3d_physics/layer_4="Enemigos"
 3d_physics/layer_5="Puertas"
+
+[navigation]
+
+3d/default_cell_size=0.1
 
 [physics]
 
