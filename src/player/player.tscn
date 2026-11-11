@@ -5,6 +5,8 @@
 [ext_resource type="Script" path="res://src/player/components/stamina_component.gd" id="3_stamina"]
 [ext_resource type="Script" path="res://src/player/components/footstep_component.gd" id="4_footsteps"]
 [ext_resource type="PackedScene" path="res://src/player/components/photo_camera.tscn" id="9_photo"]
+[ext_resource type="Script" path="res://src/player/components/caught_reaction.gd" id="10_caught"]
+[ext_resource type="AudioStream" path="res://assets/audio/qispi_scream.wav" id="11_scream"]
 [ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_1.wav" id="5_step1"]
 [ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_2.wav" id="6_step2"]
 [ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_3.wav" id="7_step3"]
@@ -70,3 +72,14 @@ bus = &"Efectos"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58, 0)
 enabled = false
 target_position = Vector3(0.6, 0, 0)
+
+[node name="CaughtReaction" type="Node" parent="." node_paths=PackedStringArray("body", "head", "camera")]
+script = ExtResource("10_caught")
+body = NodePath("..")
+head = NodePath("../Head")
+camera = NodePath("../Head/Camera3D")
+
+[node name="Scream" type="AudioStreamPlayer" parent="CaughtReaction"]
+stream = ExtResource("11_scream")
+volume_db = -2.0
+bus = &"Efectos"
