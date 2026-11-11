@@ -12,3 +12,15 @@ signal noise_emitted(origin: Vector3, loudness: float)
 
 ## El aliento de Lucía cambió.
 signal stamina_changed(current: float, maximum: float)
+
+## Lucía levantó o bajó la cámara.
+signal camera_raised(is_raised: bool)
+
+## La batería del flash cambió.
+signal camera_battery_changed(current: float, maximum: float)
+
+## Cambió cuántas fotos quedan en el rollo.
+signal film_changed(remaining: int, capacity: int)
+
+## Se tomó una foto; el álbum la guarda.
+signal photo_taken(photo: Photo)
