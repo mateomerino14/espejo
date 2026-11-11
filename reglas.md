@@ -144,8 +144,8 @@ src/
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
 │   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos, susto, interacción)
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
-├── story/            Notas (notes/) y su lectura en el mundo
-├── world/            Niveles, espejos (mirror/), materiales (materials/), objetos del hotel (props/), salida (level_exit/), reaparición (respawn/) y salas de prueba
+├── story/            Notas (notes/), su lectura en el mundo y apariciones (apparition/)
+├── world/            Niveles (level_0N/), espejos (mirror/), materiales (materials/), objetos del hotel (props/), salida (level_exit/), reaparición (respawn/) y salas de prueba
 └── ui/               HUD, visor de la cámara, álbum, visor de notas y pantalla de captura
 assets/               Modelos (.gltf del Q'ispi), texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
@@ -207,9 +207,27 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 - `QispiAnimator` pasa todo su cuerpo a la capa de render 11 y le quita la sombra, que lo delataría a simple vista.
 - En la embestida se enciende `FaceLight`, una luz fría que deja ver su cara durante el susto.
 
+### Niveles
+
+Cada nivel vive en `src/world/level_0N/` con su escena, su script y su malla de navegación. Piezas obligatorias:
+
+| Nodo | Para qué |
+|---|---|
+| Raíz con su script | Llama a `GameState.reset()` y arma los momentos de la historia |
+| `WorldEnvironment` | Usa un ambiente de `materials/` (el hostal usa `hotel_environment.tres`) |
+| `Player`, `SpawnPoint` y `RespawnDirector` | Lucía, dónde aparece y dónde vuelve al ser atrapada |
+| `Hud`, `Viewfinder`, `Album` y `NoteViewer` | Interfaz |
+| `NavigationRegion3D` | Por dónde camina el Q'ispi |
+| `Exit` | Salida del nivel |
+
+Una prueba revisa que estén todas y que haya camino caminable desde `SpawnPoint` hasta `Exit`.
+
+El Q'ispi puede empezar dormido (`process_mode` desactivado) y despertar con `Qispi.wake()`; en el nivel 1 lo despierta la nota de Javier.
+
 ### Navegación
 
 - Cada nivel tiene un `NavigationRegion3D` con su malla en un `.tres` junto a la escena; solo se hornea el grupo `navigation_source`.
+- Celdas de 10 cm y agente de 30 cm de radio, para que quepa por las puertas de 1 m.
 - Al cambiar la geometría se vuelve a hornear: `godot --headless --path . -s tools/bake_navmesh.gd -- res://ruta/al/nivel.tscn`.
 
 ### Interacción y notas
