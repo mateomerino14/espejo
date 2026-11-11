@@ -16,6 +16,8 @@ func before_each() -> void:
 	_room = ROOM_SCENE.instantiate()
 	add_to_tree(_room)
 	_player = _room.get_node("Player")
+	# El ente se apaga para probar a Lucía sola.
+	_room.get_node("Qispi").process_mode = Node.PROCESS_MODE_DISABLED
 	_camera = _player.get_node("Head/Camera3D/PhotoCamera")
 	_player.global_position = NEAR_INSCRIPTION
 
@@ -23,6 +25,8 @@ func before_each() -> void:
 ## Suelta la cámara y libera la sala cuando termine de avisar la foto.
 func after_each() -> void:
 	Input.action_release("camera_raise")
+	# Sale del árbol ya, para que la sala siguiente no encuentre a esta Lucía.
+	tree.root.remove_child(_room)
 	_room.queue_free()
 
 
