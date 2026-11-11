@@ -24,3 +24,9 @@ signal film_changed(remaining: int, capacity: int)
 
 ## Se tomó una foto; el álbum la guarda.
 signal photo_taken(photo: Photo)
+
+## El flash se disparó desde [param origin] hacia [param direction]; el ente puede quedar aturdido.
+signal flash_fired(origin: Vector3, direction: Vector3)
+
+## El ente alcanzó a Lucía.
+signal player_caught

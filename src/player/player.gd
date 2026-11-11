@@ -4,6 +4,8 @@ extends CharacterBody3D
 
 enum MoveState { IDLE, WALK, SPRINT, CROUCH }
 
+## Grupo declarado en player.tscn; así el ente la encuentra aunque esté antes en el árbol.
+const GROUP := &"player"
 const HORIZONTAL_PLANE := Vector3(1.0, 0.0, 1.0)
 const CROUCH_HEIGHT_TOLERANCE := 0.05
 ## Distancia que se deja entre la cabeza y la pared al asomarse.
@@ -34,6 +36,7 @@ var move_state := MoveState.IDLE
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _capsule: CapsuleShape3D
 var _is_crouch_requested := false
+var _controls_enabled := true
 
 @onready var _collision: CollisionShape3D = $CollisionShape3D
 @onready var _ceiling_check: ShapeCast3D = $CeilingCheck
@@ -42,6 +45,7 @@ var _is_crouch_requested := false
 @onready var _footsteps: FootstepComponent = $FootstepComponent
 @onready var _lean_check: RayCast3D = $LeanCheck
 @onready var _photo_camera: PhotoCamera = $Head/Camera3D/PhotoCamera
+@onready var _caught_reaction: CaughtReaction = $CaughtReaction
 
 
 ## Prepara la cápsula, conecta los componentes y pone a Lucía de pie.
@@ -54,16 +58,19 @@ func _ready() -> void:
 
 ## Dispara la cámara con una sola pulsación.
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("camera_shoot") and _is_mouse_captured():
+	if _controls_enabled and event.is_action_pressed("camera_shoot") and _is_mouse_captured():
 		_photo_camera.shoot()
 
 
 ## Mueve a Lucía y alimenta a la cabeza, el aliento y los pasos.
 func _physics_process(delta: float) -> void:
-	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var lean := Input.get_axis("lean_left", "lean_right")
-	_is_crouch_requested = Input.is_action_pressed("crouch")
-	_photo_camera.set_raised(Input.is_action_pressed("camera_raise"))
+	var input_dir := Vector2.ZERO
+	var lean := 0.0
+	if _controls_enabled:
+		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+		lean = Input.get_axis("lean_left", "lean_right")
+		_is_crouch_requested = Input.is_action_pressed("crouch")
+		_photo_camera.set_raised(Input.is_action_pressed("camera_raise"))
 	_update_crouch(delta)
 	_update_move_state(input_dir)
 	_stamina.set_draining(move_state == MoveState.SPRINT)
@@ -81,6 +88,29 @@ func _physics_process(delta: float) -> void:
 	_head.update_lean(delta, lean, _free_space_to_side(lean))
 
 
+## Activa o desactiva la entrada, por ejemplo mientras la atrapan.
+func set_controls_enabled(enabled: bool) -> void:
+	_controls_enabled = enabled
+	_head.look_enabled = enabled
+
+
+## Lleva a Lucía al punto indicado, de pie, quieta, con aliento lleno y la cámara abajo.
+func respawn_at(spawn: Transform3D) -> void:
+	_caught_reaction.reset()
+	_photo_camera.reset()
+	global_transform = spawn
+	velocity = Vector3.ZERO
+	_is_crouch_requested = false
+	_apply_height(stand_height)
+	_head.reset_look()
+	_stamina.refill()
+
+
+## Devuelve la posición de los ojos, que es lo que el ente intenta ver.
+func get_eye_position() -> Vector3:
+	return _head.global_position
+
+
 ## Dice si la cápsula está por debajo de la altura de pie.
 func is_crouching() -> bool:
 	return _capsule.height < stand_height - CROUCH_HEIGHT_TOLERANCE
@@ -93,6 +123,7 @@ func _connect_components() -> void:
 	_photo_camera.battery_changed.connect(EventBus.camera_battery_changed.emit)
 	_photo_camera.film_changed.connect(EventBus.film_changed.emit)
 	_photo_camera.photo_taken.connect(EventBus.photo_taken.emit)
+	_photo_camera.flash_fired.connect(EventBus.flash_fired.emit)
 	# Los componentes emitieron su estado en su _ready, que corre antes que este.
 	EventBus.stamina_changed.emit(_stamina.current, _stamina.max_stamina)
 	EventBus.camera_battery_changed.emit(_photo_camera.battery, _photo_camera.max_battery)

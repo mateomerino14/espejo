@@ -7,6 +7,7 @@ signal raised_changed(is_raised: bool)
 signal battery_changed(current: float, maximum: float)
 signal film_changed(remaining: int, capacity: int)
 signal photo_taken(photo: Photo)
+signal flash_fired(origin: Vector3, direction: Vector3)
 
 ## Lo que tarda en apagarse el destello.
 const FLASH_FADE_SECONDS := 0.25
@@ -79,6 +80,13 @@ func set_raised(value: bool) -> void:
 	raised_changed.emit(value)
 
 
+## Baja la cámara de golpe, como al reaparecer.
+func reset() -> void:
+	is_raised = false
+	camera.set_cull_mask_value(reveal_layer, false)
+	raised_changed.emit(false)
+
+
 ## Dice si puede disparar: mirando por el visor, con rollo y sin esperar al flash.
 func can_shoot() -> bool:
 	return is_raised and film_remaining > 0 and _cooldown_left <= 0.0
@@ -96,6 +104,7 @@ func shoot() -> void:
 		battery -= flash_cost
 		battery_changed.emit(battery, max_battery)
 		_flash.light_energy = flash_energy
+		flash_fired.emit(global_position, -global_basis.z)
 	_shutter.play()
 	EventBus.noise_emitted.emit(global_position, shutter_loudness)
 	_develop(Photo.new(has_flash, _find_captions()))

@@ -137,13 +137,14 @@ const MAX_LEVEL := 3
 ```
 src/
 ├── core/             Autoloads globales (EventBus)
+├── enemies/          El Q'ispi (qispi/) y sus sentidos y pasos (components/)
 ├── player/           Lucía
 │   ├── player.tscn / player.gd      Raíz: lee la entrada y coordina
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
-│   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos)
+│   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos, susto)
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
-├── world/            Niveles, espejos (mirror/), materiales y salas de prueba
-└── ui/               HUD, visor de la cámara y álbum
+├── world/            Niveles, espejos (mirror/), reaparición (respawn/) y salas de prueba
+└── ui/               HUD, visor de la cámara, álbum y pantalla de captura
 assets/               Modelos, texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
 tools/                Herramientas de desarrollo; nada de aquí entra al juego
@@ -192,6 +193,19 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 - El vidrio mira hacia +Z local y se cuelga a pocos milímetros de la pared. Su tamaño se ajusta con `size`, y la nitidez, con `resolution`.
 - Cuando el ojo está detrás del espejo, el reflejo deja de dibujarse.
 
+### El Q'ispi
+
+- Estados: `STALK` (deambula cerca de su punto de inicio), `TRACK` (va a un ruido o a donde la perdió y mira alrededor), `HUNT` (corre hacia Lucía) y `STUNNED` (aturdido por el flash).
+- Nota a Lucía si la ve (`PlayerSight`) o si ella lo mira por el visor de cerca y sin nada en medio.
+- El flash (`EventBus.flash_fired`) lo aturde si le da en la cara dentro de `flash_range`; cada flash dura `stun_resistance` veces el anterior, hasta `min_stun_seconds`.
+- Al alcanzarla emite `EventBus.player_caught`: `CaughtReaction` muestra su cara aunque no se mire por el visor y `RespawnDirector` lleva a Lucía a su `spawn_point`.
+- Todo su cuerpo está en la capa de render 11.
+
+### Navegación
+
+- Cada nivel tiene un `NavigationRegion3D` con su malla en un `.tres` junto a la escena; solo se hornea el grupo `navigation_source`.
+- Al cambiar la geometría se vuelve a hornear: `godot --headless --path . -s tools/bake_navmesh.gd -- res://ruta/al/nivel.tscn`.
+
 ### Buses de audio
 
 | Bus | Uso |
@@ -207,6 +221,9 @@ Todo sonido nuevo se asigna a `Ambiente` o a `Efectos`, nunca directo a `Master`
 | Grupo | Uso |
 |---|---|
 | `player` | Declarado en `player.tscn`; el ente encuentra así al jugador |
+| `enemies` | Declarado en `qispi.tscn`; `RespawnDirector` los reinicia al reaparecer Lucía |
+| `navigation_source` | Geometría que se hornea en la navegación |
+| `photo_subjects` | Lo agrega cada `PhotoSubject`; la cámara los revisa al disparar |
 
 ---
 

@@ -12,7 +12,7 @@ En desarrollo. La hoja de ruta está en el documento de diseño.
 |---|---|---|
 | 0. Base | Proyecto, jugador, sala de prueba, CI | Lista |
 | 1. Cámara | Visor, flash, fotos y álbum | Lista |
-| 2. Ente | El Q'ispi, visible solo en reflejos | Pendiente |
+| 2. Ente | El Q'ispi, visible solo en reflejos | En curso: espejos e IA listos, falta el modelo |
 | 3. Nivel 1 | Hotel de sal | Pendiente |
 | 4. Niveles 2 a 5 | El resto del salar | Pendiente |
 | 5. Pulido | Menú, cinemáticas, finales y versión para Windows | Pendiente |

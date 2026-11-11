@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" path="res://src/ui/album/album.tscn" id="4_album"]
 [ext_resource type="Script" path="res://src/photography/photo_subject.gd" id="5_subject"]
 [ext_resource type="PackedScene" path="res://src/world/mirror/mirror.tscn" id="6_mirror"]
+[ext_resource type="PackedScene" path="res://src/enemies/qispi/qispi.tscn" id="7_qispi"]
+[ext_resource type="PackedScene" path="res://src/world/respawn/respawn_director.tscn" id="8_respawn"]
+[ext_resource type="NavigationMesh" path="res://src/world/test_room/test_room_navmesh.tres" id="9_navmesh"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_salt"]
 noise_type = 2
@@ -33,18 +36,6 @@ uv1_triplanar = true
 albedo_color = Color(0.32, 0.2, 0.12, 1)
 roughness = 0.7
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_figure"]
-albedo_color = Color(0.82, 0.8, 0.76, 1)
-roughness = 0.95
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
-radius = 0.22
-height = 1.75
-
-[sub_resource type="SphereMesh" id="SphereMesh_head"]
-radius = 0.13
-height = 0.3
-
 [sub_resource type="Environment" id="Environment_night"]
 background_mode = 1
 background_color = Color(0.01, 0.012, 0.02, 1)
@@ -62,7 +53,7 @@ fog_density = 0.02
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_night")
 
-[node name="Room" type="CSGCombiner3D" parent="."]
+[node name="Room" type="CSGCombiner3D" parent="." groups=["navigation_source"]]
 use_collision = true
 material_override = SubResource("StandardMaterial3D_salt")
 
@@ -123,25 +114,17 @@ caption = "En la pared hay algo escrito que no estaba ahí: «no mires el agua»
 [node name="Mirror" parent="." instance=ExtResource("6_mirror")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.97, 1.5, 0)
 
-[node name="Silhouette" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 3.5)
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("9_navmesh")
 
-[node name="Body" type="MeshInstance3D" parent="Silhouette"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
-layers = 1024
-mesh = SubResource("CapsuleMesh_body")
-surface_material_override/0 = SubResource("StandardMaterial3D_figure")
+[node name="Qispi" parent="." instance=ExtResource("7_qispi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.05, -5)
 
-[node name="Head" type="MeshInstance3D" parent="Silhouette"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0)
-layers = 1024
-mesh = SubResource("SphereMesh_head")
-surface_material_override/0 = SubResource("StandardMaterial3D_figure")
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 6)
 
-[node name="SilhouetteSubject" type="Node3D" parent="Silhouette"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
-script = ExtResource("5_subject")
-caption = "Hay alguien de pie en medio de la sala. A simple vista no había nadie."
+[node name="RespawnDirector" parent="." node_paths=PackedStringArray("spawn_point") instance=ExtResource("8_respawn")]
+spawn_point = NodePath("../SpawnPoint")
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 6)

@@ -17,6 +17,8 @@ func before_each() -> void:
 	_room = ROOM_SCENE.instantiate()
 	add_to_tree(_room)
 	_player = _room.get_node("Player")
+	# El ente se apaga para probar a Lucía sola.
+	_room.get_node("Qispi").process_mode = Node.PROCESS_MODE_DISABLED
 	EventBus.noise_emitted.connect(_on_noise_emitted)
 
 
