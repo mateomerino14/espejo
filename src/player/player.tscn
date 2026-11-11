@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://src/player/first_person_camera.gd" id="2_camera"]
 [ext_resource type="Script" path="res://src/player/components/stamina_component.gd" id="3_stamina"]
 [ext_resource type="Script" path="res://src/player/components/footstep_component.gd" id="4_footsteps"]
+[ext_resource type="PackedScene" path="res://src/player/components/first_person_body.tscn" id="13_body"]
 [ext_resource type="PackedScene" path="res://src/player/components/photo_camera.tscn" id="9_photo"]
 [ext_resource type="Script" path="res://src/player/components/caught_reaction.gd" id="10_caught"]
 [ext_resource type="Script" path="res://src/player/components/interactor.gd" id="12_interactor"]
@@ -131,3 +132,7 @@ camera = NodePath("../Head/Camera3D")
 stream = ExtResource("11_scream")
 volume_db = -2.0
 bus = &"Efectos"
+
+[node name="FirstPersonBody" parent="Head/Camera3D" node_paths=PackedStringArray("photo_camera", "interactor") instance=ExtResource("13_body")]
+photo_camera = NodePath("../PhotoCamera")
+interactor = NodePath("../Interactor")

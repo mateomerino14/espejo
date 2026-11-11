@@ -7,14 +7,52 @@
     "macrodetails/universal-female-young-averagemuscle-averageweight": 1.0,
     "macrodetails/height/female-young-averagemuscle-averageweight-minheight": 0.35
   },
-  "skin": {"path": "skins/young_asian_female", "tint": [0.72, 0.55, 0.43]},
+  "skin": {
+    "path": "skins/young_asian_female",
+    "tint": [
+      0.72,
+      0.55,
+      0.43
+    ]
+  },
   "pieces": [
-    {"name": "Chamarra", "path": "clothes/male_casualsuit05", "tint": [0.7, 0.68, 0.62]},
-    {"name": "Botas", "path": "clothes/shoes03"},
-    {"name": "Trenza", "path": "hair/braid01", "alpha": true, "tint": [0.35, 0.3, 0.28]},
-    {"name": "Cejas", "path": "eyebrows/eyebrow001", "alpha": true},
-    {"name": "Pestanas", "path": "eyelashes/eyelashes01", "alpha": true},
-    {"name": "Ojos", "path": "eyes/low-poly"}
+    {
+      "name": "Chamarra",
+      "path": "clothes/male_casualsuit05",
+      "tint": [
+        0.7,
+        0.68,
+        0.62
+      ]
+    },
+    {
+      "name": "Botas",
+      "path": "clothes/shoes03"
+    },
+    {
+      "name": "Trenza",
+      "path": "hair/braid01",
+      "alpha": true,
+      "tint": [
+        0.35,
+        0.3,
+        0.28
+      ]
+    },
+    {
+      "name": "Cejas",
+      "path": "eyebrows/eyebrow001",
+      "alpha": true
+    },
+    {
+      "name": "Pestanas",
+      "path": "eyelashes/eyelashes01",
+      "alpha": true
+    },
+    {
+      "name": "Ojos",
+      "path": "eyes/low-poly"
+    }
   ],
   "animations": {
     "Idle_Loop": "idle",
@@ -26,6 +64,18 @@
     "PickUp_Table": "pick_up",
     "Push_Loop": "push",
     "Pistol_Aim_Neutral": "camera_aim",
-    "Idle_Talking_Loop": "talk"
+    "Idle_Talking_Loop": "talk",
+    "Pistol_Idle_Loop": "camera_idle"
+  },
+  "first_person": {
+    "file": "lucia_brazos",
+    "min_weight": 0.5,
+    "animations": [
+      "camera_idle",
+      "camera_aim",
+      "interact",
+      "pick_up",
+      "push"
+    ]
   }
 }

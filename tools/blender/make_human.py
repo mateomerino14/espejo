@@ -12,6 +12,7 @@ El JSON describe al personaje; ver lucia.json y javier.json.
 
 import bpy  # noqa: I001
 import addon_utils
+import bmesh
 import json
 import os
 import sys
@@ -507,16 +508,49 @@ for pb in rig.pose.bones:
 
 os.makedirs(out_dir, exist_ok=True)
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(out_dir, spec["file"] + ".blend"))
-bpy.ops.object.select_all(action="DESELECT")
-for ob in scene.objects:
-    ob.select_set(ob == rig or ob.parent == rig)
-bpy.ops.export_scene.gltf(
-    filepath=os.path.join(out_dir, spec["file"] + ".gltf"),
-    use_selection=True,
-    export_format="GLTF_SEPARATE",
-    export_animations=True,
-    export_animation_mode="NLA_TRACKS",
-    export_image_format="JPEG",
-    export_jpeg_quality=88,
-)
+
+
+def export(file_name):
+    """Exporta el esqueleto y sus mallas a un glTF con todas las animaciones."""
+    bpy.ops.object.select_all(action="DESELECT")
+    for ob in scene.objects:
+        ob.select_set(ob == rig or ob.parent == rig)
+    bpy.ops.export_scene.gltf(
+        filepath=os.path.join(out_dir, file_name + ".gltf"),
+        use_selection=True,
+        export_format="GLTF_SEPARATE",
+        export_animations=True,
+        export_animation_mode="NLA_TRACKS",
+        export_image_format="JPEG",
+        export_jpeg_quality=88,
+    )
+
+
+export(spec["file"])
 print("personaje exportado")
+
+# Versión en primera persona: solo los brazos y las manos, con las animaciones de las manos
+arms = spec.get("first_person")
+if arms:
+    ARM_BONES = ("clavicle", "shoulder", "upperarm", "lowerarm", "wrist", "metacarpal", "finger")
+    for ob in [o for o in scene.objects if o.type == "MESH" and o.parent == rig]:
+        names = {g.index: g.name for g in ob.vertex_groups}
+        doomed = []
+        for v in ob.data.vertices:
+            weight = sum(g.weight for g in v.groups if names[g.group].startswith(ARM_BONES))
+            if weight < arms["min_weight"]:
+                doomed.append(v)
+        if len(doomed) == len(ob.data.vertices):
+            bpy.data.objects.remove(ob)
+            continue
+        mesh = bmesh.new()
+        mesh.from_mesh(ob.data)
+        mesh.verts.ensure_lookup_table()
+        bmesh.ops.delete(mesh, geom=[mesh.verts[v.index] for v in doomed], context="VERTS")
+        mesh.to_mesh(ob.data)
+        mesh.free()
+    for track in list(rig.animation_data.nla_tracks):
+        if track.name not in arms["animations"]:
+            rig.animation_data.nla_tracks.remove(track)
+    export(arms["file"])
+    print("brazos exportados")
