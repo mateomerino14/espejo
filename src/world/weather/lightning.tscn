@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/weather/lightning.gd" id="1_lightning"]
+[ext_resource type="AudioStream" path="res://assets/audio/thunder_near.ogg" id="2_near"]
+[ext_resource type="AudioStream" path="res://assets/audio/thunder_far.ogg" id="3_far"]
+
+[node name="Lightning" type="Node3D"]
+script = ExtResource("1_lightning")
+
+[node name="Flash" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8, -0.4, 0.45, 0, 0.75, 0.66, -0.6, -0.53, 0.6, 0, 30, 0)
+light_color = Color(0.78, 0.84, 1, 1)
+light_energy = 0.0
+shadow_enabled = true
+
+[node name="ThunderNear" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_near")
+bus = &"Ambiente"
+
+[node name="ThunderFar" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_far")
+volume_db = -4.0
+bus = &"Ambiente"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
