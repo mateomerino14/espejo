@@ -141,7 +141,7 @@ omni_attenuation = 1.4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 2.2, -5.75)
 
 [node name="Car" parent="." instance=ExtResource("car")]
-transform = Transform3D(0.0000, 0, 1.0000, 0, 1, 0, -1.0000, 0, 0.0000, 70, 0, -1.6)
+transform = Transform3D(0.0000, 0, -1.0000, 0, 1, 0, 1.0000, 0, 0.0000, 70, 0, -1.6)
 
 [node name="BeamL" type="SpotLight3D" parent="Car"]
 transform = Transform3D(-1, 0, 0, 0, 0.99, 0.12, 0, 0.12, -0.99, -0.7, 0.92, 2.3)
@@ -167,10 +167,10 @@ shadow_enabled = true
 omni_range = 6.0
 
 [node name="Javier" parent="." instance=ExtResource("javier")]
-transform = Transform3D(0.1240, 0, 0.9923, 0, 1, 0, -0.9923, 0, 0.1240, 4.2, 0, 0.25)
+transform = Transform3D(0.1240, 0, -0.9923, 0, 1, 0, 0.9923, 0, 0.1240, 4.2, 0, 0.25)
 
 [node name="Lucia" parent="." instance=ExtResource("lucia")]
-transform = Transform3D(-0.1240, 0, -0.9923, 0, 1, 0, 0.9923, 0, -0.1240, 1.4, 0, 0.6)
+transform = Transform3D(-0.1240, 0, 0.9923, 0, 1, 0, -0.9923, 0, -0.1240, 1.4, 0, 0.6)
 
 [node name="CameraHold" type="BoneAttachment3D" parent="Lucia/LuciaRig/Skeleton3D"]
 bone_name = "wrist.R"
@@ -208,7 +208,7 @@ light_specular = 0.0
 omni_range = 3.0
 
 [node name="Qispi" type="Node3D" parent="."]
-transform = Transform3D(-1.0000, 0, -0.0000, 0, 1, 0, 0.0000, 0, -1.0000, -3.0, 0, 15.0)
+transform = Transform3D(-1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, -1.0000, -3.0, 0, 15.0)
 script = ExtResource("animator")
 
 [node name="Salt" parent="Qispi" instance=ExtResource("qispi")]
@@ -216,25 +216,25 @@ script = ExtResource("animator")
 [node name="Marks" type="Node3D" parent="."]
 
 [node name="CarStart" type="Marker3D" parent="Marks"]
-transform = Transform3D(0.0000, 0, 1.0000, 0, 1, 0, -1.0000, 0, 0.0000, 70, 0, -1.6)
+transform = Transform3D(0.0000, 0, -1.0000, 0, 1, 0, 1.0000, 0, 0.0000, 70, 0, -1.6)
 
 [node name="CarStop" type="Marker3D" parent="Marks"]
-transform = Transform3D(0.0000, 0, 1.0000, 0, 1, 0, -1.0000, 0, 0.0000, 4.5, 0, -1.6)
+transform = Transform3D(0.0000, 0, -1.0000, 0, 1, 0, 1.0000, 0, 0.0000, 4.5, 0, -1.6)
 
 [node name="JavierOut" type="Marker3D" parent="Marks"]
-transform = Transform3D(0.1240, 0, 0.9923, 0, 1, 0, -0.9923, 0, 0.1240, 4.2, 0, 0.25)
+transform = Transform3D(0.1240, 0, -0.9923, 0, 1, 0, 0.9923, 0, 0.1240, 4.2, 0, 0.25)
 
 [node name="LuciaOut" type="Marker3D" parent="Marks"]
-transform = Transform3D(-0.1240, 0, -0.9923, 0, 1, 0, 0.9923, 0, -0.1240, 1.4, 0, 0.6)
+transform = Transform3D(-0.1240, 0, 0.9923, 0, 1, 0, -0.9923, 0, -0.1240, 1.4, 0, 0.6)
 
 [node name="Shore" type="Marker3D" parent="Marks"]
-transform = Transform3D(1.0000, 0, -0.0000, 0, 1, 0, 0.0000, 0, 1.0000, -0.6, 0, 4.6)
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, -0.6, 0, 4.6)
 
 [node name="QispiFar" type="Marker3D" parent="Marks"]
-transform = Transform3D(-1.0000, 0, -0.0000, 0, 1, 0, 0.0000, 0, -1.0000, -3.0, 0, 15.0)
+transform = Transform3D(-1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, -1.0000, -3.0, 0, 15.0)
 
 [node name="QispiNear" type="Marker3D" parent="Marks"]
-transform = Transform3D(-1.0000, 0, -0.0000, 0, 1, 0, 0.0000, 0, -1.0000, -1.6, 0, 9.0)
+transform = Transform3D(-1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, -1.0000, -1.6, 0, 9.0)
 
 [node name="Sounds" type="Node3D" parent="."]
 

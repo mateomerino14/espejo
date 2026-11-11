@@ -24,3 +24,10 @@ func test_starts_with_car_arriving() -> void:
 	assert_false(_intro.lucia.visible, "Lucía sigue en el auto")
 	assert_false(_intro.javier.visible, "Javier sigue en el auto")
 	assert_false(_intro.qispi.visible, "El Q'ispi aparece recién con el flash")
+
+
+## El auto avanza de frente: su trompa (+Z del modelo) apunta hacia donde va.
+func test_car_drives_forward() -> void:
+	var travel := (_intro.car_stop.global_position - _intro.car_start.global_position).normalized()
+	var nose := _intro.car_start.global_basis.z.normalized()
+	assert_true(nose.dot(travel) > 0.99, "La trompa debe mirar hacia donde avanza")
