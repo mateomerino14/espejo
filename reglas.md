@@ -136,7 +136,7 @@ const MAX_LEVEL := 3
 
 ```
 src/
-├── core/             Autoloads globales (EventBus, GameState)
+├── core/             Autoloads globales (EventBus, GameState, Settings, SaveGame)
 ├── interaction/      Interactable: lo que Lucía puede usar con la tecla de interactuar
 ├── enemies/          El Q'ispi (qispi/) y sus sentidos, pasos y animación (components/)
 ├── player/           Lucía
@@ -146,9 +146,10 @@ src/
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
 ├── story/            Notas (notes/), su lectura en el mundo y apariciones (apparition/)
 ├── world/            Niveles (level_0N/), espejos (mirror/), materiales (materials/), objetos del hotel (props/), salida (level_exit/), reaparición (respawn/) y salas de prueba
-└── ui/               HUD, visor de la cámara, álbum, visor de notas y pantalla de captura
+└── ui/               Menú principal, pausa, opciones, tema, HUD, visor de la cámara, álbum, notas y captura
 assets/               Modelos (.gltf del Q'ispi), texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
+docs/                 LEEME del paquete y notas de versión
 tools/                Generadores de modelos (blender/), sonidos y navegación; nada de aquí entra al juego
 ```
 
@@ -162,6 +163,7 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 | Componente | Resolver una sola cosa y avisar con señales propias | Conocer a otros componentes o leer la entrada |
 | `EventBus` | Transportar eventos entre sistemas que no se conocen | Guardar estado |
 | `GameState` | Guardar el estado de la partida (notas leídas) | Contener reglas de una mecánica |
+| `Settings` y `SaveGame` | Leer y escribir en disco los ajustes y la partida | Decidir qué pasa en el juego |
 | `Interactable` | Avisar a su dueño que Lucía lo usó | Decidir qué pasa al usarlo |
 | HUD y audio | Escuchar `EventBus` y presentar | Cambiar el estado del juego |
 
@@ -223,6 +225,12 @@ Cada nivel vive en `src/world/level_0N/` con su escena, su script y su malla de 
 Una prueba revisa que estén todas y que haya camino caminable desde `SpawnPoint` hasta `Exit`.
 
 El Q'ispi puede empezar dormido (`process_mode` desactivado) y despertar con `Qispi.wake()`; en el nivel 1 lo despierta la nota de Javier.
+
+### Versiones
+
+- La versión vive en `config/version` de `project.godot` y en `export_presets.cfg`; se suben juntas.
+- Al unir con `main`, la acción `release.yml` exporta para Windows y publica `v<versión>` en Releases con `docs/notas_version.md`.
+- Las pruebas guardan en `user://partida_pruebas.cfg` y `user://ajustes_pruebas.cfg`, nunca en la partida real.
 
 ### Navegación
 

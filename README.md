@@ -15,7 +15,7 @@ En desarrollo. La hoja de ruta está en el documento de diseño.
 | 2. Ente | El Q'ispi, visible solo en reflejos | Lista |
 | 3. Nivel 1 | Hostal de sal | Jugable |
 | 4. Niveles 2 a 5 | El resto del salar | Pendiente |
-| 5. Pulido | Menú, cinemáticas, finales y versión para Windows | Pendiente |
+| 5. Pulido | Menú, cinemáticas, finales y versión para Windows | En curso: menú, pausa y exe listos |
 
 ## Controles
 
@@ -29,6 +29,7 @@ En desarrollo. La hoja de ruta está en el documento de diseño.
 | Levantar la cámara | Clic derecho | LT |
 | Tomar foto | Clic izquierdo | RT |
 | Álbum | Tab | Back |
+| Pausa | Escape | Start |
 
 ## Desarrollo
 
