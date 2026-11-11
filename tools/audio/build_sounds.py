@@ -372,3 +372,15 @@ for k, b in enumerate(range(0, 12, 2)):
     place(ch, norm(y), b * bar + eighth * 3, 0.35)
 save_ogg("music_chase", loop(reverb(ch, 1.2, 0.25), LC, 0.3), -3)
 print("musica lista", LC)
+
+# --- Cinemática de inicio ---
+rain = hp(load("704395"), 80)
+heavy = hp(load("624645"), 80)
+n = min(len(rain), int(42 * SR))
+rain_mix = norm(rain[:n]) + 0.5 * norm(np.resize(heavy, n))
+save_ogg("amb_rain", loop(rain_mix, 40, 2), -6)
+save_ogg("thunder_far", fade(hp(load("267550"), 30)[: int(30 * SR)], 0.05, 4.0), -3)
+save_ogg("thunder_near", fade(hp(load("534023"), 30), 0.01, 3.0), -1)
+save_ogg("car_arrive", fade(hp(load("249916"), 30)[: int(13 * SR)], 0.05, 2.0), -3)
+save_wav("car_door", trim(hp(load("208695"), 60), -45), -2)
+print("cinemática lista")

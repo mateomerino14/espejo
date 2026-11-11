@@ -53,3 +53,23 @@ python3 props.py assets/models/props
 ```
 
 Cada objeto tiene su escena en `src/world/props/`, con colisión; los que estorban el paso están en el grupo `navigation_source`.
+
+## Personajes
+
+`make_human.py` arma a Lucía y a Javier con [MakeHuman](http://www.makehumancommunity.org) (CC0): la malla base deformada con sus objetivos de género, edad, origen y estatura, la ropa, el pelo, los ojos y las cejas de los recursos del sistema ajustados con sus `.mhclo`, y el esqueleto por defecto con sus pesos. Las animaciones salen de la Universal Animation Library de Quaternius (CC0, `J-Ponzo/gltf-universal-animation-library`): cada hueso copia el giro de su par comparando las dos poses de descanso, así que se puede usar cualquier animación de esa biblioteca.
+
+Cada personaje es un JSON en `characters/` con sus objetivos, su piel, sus piezas y las animaciones que lleva.
+
+```bash
+python3 make_human.py characters/lucia.json <makehuman>/makehuman/data <recursos_del_sistema> <AnimationLibrary_Godot_Standard.gltf> /ruta/lucia
+```
+
+Los recursos del sistema son `makehuman_system_assets_cc0.zip` de la página de paquetes de MakeHuman. Del resultado se copian el `.gltf`, el `.bin` y las imágenes que nombra a `assets/models/characters/<nombre>/`.
+
+## El 4x4 de Javier
+
+`build_car.py` modela la vagoneta: carrocería, cabina inclinada, parrilla con bultos, rueda de auxilio y ruedas aparte para que giren.
+
+```bash
+python3 build_car.py assets/models/car/car.gltf
+```
