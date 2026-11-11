@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NoteData" format=3]
+
+[ext_resource type="Script" path="res://src/story/note_data.gd" id="1_note"]
+
+[resource]
+script = ExtResource("1_note")
+id = "libro_huespedes"
+title = "Libro de huéspedes"
+signature = "Hostal de sal Ch'aska, Colchani"
+body = "12 de enero. Javier Choque, chofer, habitación 3. Trae a la fotógrafa de La Paz y dice que se van al amanecer, si la lluvia los deja.
+
+12 de enero. Lucía Mamani, habitación 5. Pagó dos noches por adelantado.
+
+Al pie de la hoja, con otra letra y con la tinta corrida por la humedad, alguien escribió: «Hace un año también llovió así. El chico de Potosí, Mateo, durmió aquí una noche antes de irse a la mina, y en el espejo del baño no se veía. No le dije nada. Que Dios me perdone.»"
