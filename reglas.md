@@ -136,15 +136,17 @@ const MAX_LEVEL := 3
 
 ```
 src/
-├── core/             Autoloads globales (EventBus)
+├── core/             Autoloads globales (EventBus, GameState)
+├── interaction/      Interactable: lo que Lucía puede usar con la tecla de interactuar
 ├── enemies/          El Q'ispi (qispi/) y sus sentidos, pasos y animación (components/)
 ├── player/           Lucía
 │   ├── player.tscn / player.gd      Raíz: lee la entrada y coordina
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
-│   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos, susto)
+│   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos, susto, interacción)
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
-├── world/            Niveles, espejos (mirror/), materiales (materials/), objetos del hotel (props/), reaparición (respawn/) y salas de prueba
-└── ui/               HUD, visor de la cámara, álbum y pantalla de captura
+├── story/            Notas (notes/) y su lectura en el mundo
+├── world/            Niveles, espejos (mirror/), materiales (materials/), objetos del hotel (props/), salida (level_exit/), reaparición (respawn/) y salas de prueba
+└── ui/               HUD, visor de la cámara, álbum, visor de notas y pantalla de captura
 assets/               Modelos (.gltf del Q'ispi), texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
 tools/                Generadores de modelos (blender/), sonidos y navegación; nada de aquí entra al juego
@@ -159,6 +161,8 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 | Raíz de sistema (`Player`) | Leer la entrada, decidir el estado, llamar a sus componentes, publicar en `EventBus` | Contener la lógica interna de un componente |
 | Componente | Resolver una sola cosa y avisar con señales propias | Conocer a otros componentes o leer la entrada |
 | `EventBus` | Transportar eventos entre sistemas que no se conocen | Guardar estado |
+| `GameState` | Guardar el estado de la partida (notas leídas) | Contener reglas de una mecánica |
+| `Interactable` | Avisar a su dueño que Lucía lo usó | Decidir qué pasa al usarlo |
 | HUD y audio | Escuchar `EventBus` y presentar | Cambiar el estado del juego |
 
 **Señales hacia arriba, llamadas hacia abajo:** un nodo llama métodos de sus hijos y escucha las señales de ellos; nunca busca a su padre ni a sus hermanos.
@@ -173,6 +177,7 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 | 2 | Jugador |
 | 3 | Interactuables |
 | 4 | Enemigos (el ente) |
+| 5 | Puertas: frenan a Lucía y tapan la vista, pero el Q'ispi las atraviesa |
 
 ### Capas de render
 
@@ -206,6 +211,12 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 
 - Cada nivel tiene un `NavigationRegion3D` con su malla en un `.tres` junto a la escena; solo se hornea el grupo `navigation_source`.
 - Al cambiar la geometría se vuelve a hornear: `godot --headless --path . -s tools/bake_navmesh.gd -- res://ruta/al/nivel.tscn`.
+
+### Interacción y notas
+
+- Lo que se puede usar lleva un `Interactable` (capa 3); el `Interactor` de Lucía es un rayo desde los ojos que muestra su texto en el HUD y lo usa con la tecla de interactuar.
+- Cada nota es un `NoteData` en `src/story/notes/<id>.tres`; en el mundo se pone con `readable_note.tscn` y se lee en `NoteViewer`, con el juego en pausa.
+- `CardonDoor` se abre y se cierra girando sobre su bisagra; el crujido es un ruido que el Q'ispi oye.
 
 ### Buses de audio
 

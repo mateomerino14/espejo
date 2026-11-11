@@ -24,6 +24,7 @@ En desarrollo. La hoja de ruta está en el documento de diseño.
 | Moverse | WASD | Stick izquierdo |
 | Correr | Shift | RB |
 | Agacharse | Ctrl o C | B |
+| Usar, abrir, leer | E | A |
 | Asomarse | Q y Z | Sticks presionados |
 | Levantar la cámara | Clic derecho | LT |
 | Tomar foto | Clic izquierdo | RT |
