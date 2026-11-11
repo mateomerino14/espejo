@@ -117,7 +117,7 @@ def build_body():
 
 
 def build_volumes():
-    """Cabeza humana alargada, costillas apenas marcadas, omóplatos y vértebras salientes."""
+    """Cabeza humana alargada, omóplatos y vértebras salientes."""
     h = HEAD
     parts = [
         blob("Skull", h + Vector((0, -0.02, 0.05)), (0.1, 0.12, 0.15)),
@@ -136,10 +136,6 @@ def build_volumes():
                  rot=(0, math.radians(-12 * s), 0)),
             blob(f"Calf{side}", Vector((0.12 * s, 0.0, 0.42)), (0.045, 0.045, 0.1)),
         ]
-        for k in range(5):
-            z = 1.66 - k * 0.065
-            parts.append(blob(f"Rib{side}{k}", Vector((0.065 * s, 0.11, z)), (0.075, 0.045, 0.012),
-                              rot=(0, math.radians(-16 * s), 0)))
     for k in range(10):
         z = 1.95 - k * 0.085
         parts.append(blob(f"Vertebra{k}", Vector((0, -0.055, z)), (0.022, 0.03, 0.02), segs=12))
