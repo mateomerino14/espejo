@@ -6,8 +6,11 @@ extends Node3D
 
 const OPEN_PROMPT := "Abrir la puerta"
 const CLOSE_PROMPT := "Cerrar la puerta"
+const LOCKED_PROMPT := "Está cerrada con llave"
 
 @export var is_open := false
+## Cerrada con llave: no se abre, solo lo dice.
+@export var is_locked := false
 @export var open_angle_degrees := -100.0
 @export var swing_seconds := 0.8
 ## Volumen del crujido para quien escuche (0 a 1).
@@ -45,13 +48,16 @@ func _target_angle() -> float:
 	return 0.0
 
 
-## Arma el texto según si está abierta.
+## Arma el texto según si está abierta o con llave.
 func _build_prompt(_player: Player) -> String:
+	if is_locked:
+		return LOCKED_PROMPT
 	if is_open:
 		return CLOSE_PROMPT
 	return OPEN_PROMPT
 
 
-## La usa Lucía: la abre si está cerrada y la cierra si está abierta.
+## La usa Lucía: la abre si está cerrada y la cierra si está abierta; con llave no hace nada.
 func _on_interacted(_player: Player) -> void:
-	set_open(not is_open)
+	if not is_locked:
+		set_open(not is_open)

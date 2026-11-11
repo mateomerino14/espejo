@@ -103,6 +103,12 @@ func reset() -> void:
 	_enter_state(State.STALK)
 
 
+## Despierta al ente dormido: desde ahora acecha, oye y caza.
+func wake() -> void:
+	process_mode = Node.PROCESS_MODE_INHERIT
+	_enter_state(State.STALK)
+
+
 ## Posición de su cara, a donde mira Lucía al ser atrapada.
 func get_face_position() -> Vector3:
 	return _animator.get_face_position()
@@ -278,7 +284,10 @@ func _random_point_near(center: Vector3) -> Vector3:
 
 
 ## Va hacia el ruido: si acechaba, a rastrear; si cazaba sin verla, actualiza dónde buscar.
+## Dormido no oye nada.
 func _on_heard(origin: Vector3, _strength: float) -> void:
+	if not can_process():
+		return
 	match state:
 		State.STALK, State.TRACK:
 			_last_known_position = origin
@@ -292,9 +301,9 @@ func _on_camera_raised(is_raised: bool) -> void:
 	_is_camera_raised = is_raised
 
 
-## Queda aturdido si el destello le da en la cara de cerca y sin nada en medio.
+## Queda aturdido si el destello le da en la cara de cerca y sin nada en medio; dormido no.
 func _on_flash_fired(origin: Vector3, direction: Vector3) -> void:
-	if _has_caught or state == State.STUNNED:
+	if not can_process() or _has_caught or state == State.STUNNED:
 		return
 	var face := get_face_position()
 	if origin.distance_to(face) > flash_range:

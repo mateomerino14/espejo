@@ -230,7 +230,7 @@ def cardon():
     dx = g.math("SUBTRACT", g.math("FRACT", cu), g.math("ADD", 0.35, g.math("MULTIPLY", rand.outputs[0], 0.3)))
     dy = g.math("SUBTRACT", g.math("FRACT", cv), g.math("ADD", 0.35, g.math("MULTIPLY", rand.outputs[1], 0.3)))
     distance = g.math("SQRT", g.math("ADD", g.math("MULTIPLY", dx, dx), g.math("MULTIPLY", dy, dy)))
-    radius = g.math("ADD", 0.12, g.math("MULTIPLY", rand.outputs[2], 0.12))
+    radius = g.math("ADD", 0.07, g.math("MULTIPLY", rand.outputs[2], 0.09))
     holes = g.math("SUBTRACT", 1.0, g.math("DIVIDE", distance, radius), clamp=True)
     holes = g.remap(holes, 0.0, 0.25)
     height = g.math("ADD", g.math("MULTIPLY", fibers, 0.3), g.math("MULTIPLY", grain, 0.3))
@@ -238,7 +238,7 @@ def cardon():
     tone = g.math("ADD", g.math("MULTIPLY", fibers, 0.5), g.math("MULTIPLY", g.noise(2.5, 5.0, 0.6), 0.5))
     color = g.ramp(tone, [(0.25, (0.2, 0.16, 0.12, 1)), (0.55, (0.38, 0.32, 0.25, 1)),
                           (0.85, (0.52, 0.46, 0.38, 1))])
-    color = g.mix(color, (0.04, 0.03, 0.02, 1), holes)
+    color = g.mix(color, (0.08, 0.06, 0.04, 1), g.math("MULTIPLY", holes, 0.85))
     rough = g.math("ADD", 0.72, g.math("MULTIPLY", grain, 0.2))
     return g, height, color, rough
 

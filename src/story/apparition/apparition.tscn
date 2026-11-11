@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/story/apparition/apparition.gd" id="1_apparition"]
+[ext_resource type="Script" path="res://src/enemies/components/qispi_animator.gd" id="2_animator"]
+[ext_resource type="PackedScene" path="res://assets/models/qispi/qispi.gltf" id="3_model"]
+[ext_resource type="Script" path="res://src/photography/photo_subject.gd" id="4_subject"]
+
+[node name="Apparition" type="Node3D"]
+script = ExtResource("1_apparition")
+
+[node name="Model" type="Node3D" parent="."]
+script = ExtResource("2_animator")
+
+[node name="Salt" parent="Model" instance=ExtResource("3_model")]
+
+[node name="Face" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -0.1)
+
+[node name="PhotoSubject" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+script = ExtResource("4_subject")
+max_distance = 14.0
+caption = "Al fondo del pasillo hay alguien de pie, mirando hacia aquí. En el pasillo no había nadie."
