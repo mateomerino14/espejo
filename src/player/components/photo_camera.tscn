@@ -11,6 +11,8 @@ script = ExtResource("1_camera")
 light_color = Color(0.93, 0.96, 1, 1)
 light_energy = 0.0
 shadow_enabled = true
+shadow_bias = 0.08
+shadow_normal_bias = 2.0
 spot_range = 14.0
 spot_angle = 55.0
 

@@ -53,8 +53,9 @@ func test_sight_makes_it_hunt() -> void:
 
 ## Mirarlo por el visor también le avisa, aunque esté de espaldas.
 func test_watching_through_camera_makes_it_hunt() -> void:
-	await wait_physics_frames(SETTLE_FRAMES)
+	# Quieto mientras Lucía levanta la cámara, para que no deambule detrás del pilar.
 	_qispi.set_physics_process(false)
+	await wait_physics_frames(SETTLE_FRAMES)
 	Input.action_press("camera_raise")
 	await wait_physics_frames(SETTLE_FRAMES)
 	_qispi.set_physics_process(true)

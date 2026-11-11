@@ -28,7 +28,7 @@ const HEADLESS_DISPLAY := "headless"
 @export_group("Flash")
 @export var max_battery := 100.0
 @export var flash_cost := 12.5
-@export var flash_energy := 16.0
+@export var flash_energy := 4.0
 ## Segundos entre una foto y la siguiente.
 @export var cooldown := 1.2
 

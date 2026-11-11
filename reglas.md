@@ -137,7 +137,7 @@ const MAX_LEVEL := 3
 ```
 src/
 ├── core/             Autoloads globales (EventBus)
-├── enemies/          El Q'ispi (qispi/) y sus sentidos y pasos (components/)
+├── enemies/          El Q'ispi (qispi/) y sus sentidos, pasos y animación (components/)
 ├── player/           Lucía
 │   ├── player.tscn / player.gd      Raíz: lee la entrada y coordina
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
@@ -145,9 +145,9 @@ src/
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
 ├── world/            Niveles, espejos (mirror/), reaparición (respawn/) y salas de prueba
 └── ui/               HUD, visor de la cámara, álbum y pantalla de captura
-assets/               Modelos, texturas y audio
+assets/               Modelos (.gltf del Q'ispi), texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
-tools/                Herramientas de desarrollo; nada de aquí entra al juego
+tools/                Generadores de modelos (blender/), sonidos y navegación; nada de aquí entra al juego
 ```
 
 Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.gd`). La estructura crece con cada módulo y se actualiza aquí en el mismo Pull Request.
@@ -199,7 +199,8 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 - Nota a Lucía si la ve (`PlayerSight`) o si ella lo mira por el visor de cerca y sin nada en medio.
 - El flash (`EventBus.flash_fired`) lo aturde si le da en la cara dentro de `flash_range`; cada flash dura `stun_resistance` veces el anterior, hasta `min_stun_seconds`.
 - Al alcanzarla emite `EventBus.player_caught`: `CaughtReaction` muestra su cara aunque no se mire por el visor y `RespawnDirector` lleva a Lucía a su `spawn_point`.
-- Todo su cuerpo está en la capa de render 11.
+- `QispiAnimator` pasa todo su cuerpo a la capa de render 11 y le quita la sombra, que lo delataría a simple vista.
+- En la embestida se enciende `FaceLight`, una luz fría que deja ver su cara durante el susto.
 
 ### Navegación
 
