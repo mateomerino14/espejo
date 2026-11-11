@@ -30,3 +30,12 @@ signal flash_fired(origin: Vector3, direction: Vector3)
 
 ## El ente alcanzó a Lucía.
 signal player_caught
+
+## Cambió lo que Lucía puede usar al frente; texto vacío si no hay nada.
+signal interaction_prompt_changed(prompt: String)
+
+## Un aviso breve para la jugadora, como "Saliste del hotel".
+signal notice_requested(text: String)
+
+## Lucía abrió una nota para leerla.
+signal note_opened(note: NoteData)

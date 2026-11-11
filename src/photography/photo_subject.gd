@@ -3,8 +3,8 @@ extends Node3D
 ## Algo que vale la pena fotografiar: si sale en cuadro, la foto guarda su descripción.
 
 const GROUP := &"photo_subjects"
-## Capa de física que tapa la vista (el mundo).
-const OCCLUDER_MASK := 1
+## Capas de física que tapan la vista: el mundo y las puertas.
+const OCCLUDER_MASK := 17
 ## Margen para no contar como obstáculo la superficie donde está el sujeto.
 const SURFACE_MARGIN := 0.15
 
