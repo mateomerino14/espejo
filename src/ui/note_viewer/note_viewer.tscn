@@ -1,6 +1,9 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/ui/note_viewer/note_viewer.gd" id="1_viewer"]
+[ext_resource type="AudioStream" path="res://assets/audio/paper_pick.wav" id="2_paper"]
+[ext_resource type="AudioStream" path="res://assets/audio/paper_open.wav" id="3_book"]
+[ext_resource type="AudioStream" path="res://assets/audio/paper_fold.wav" id="4_fold"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
 bg_color = Color(0.84, 0.77, 0.62, 1)
@@ -90,3 +93,18 @@ layout_mode = 2
 text = "[E] Cerrar"
 label_settings = SubResource("LabelSettings_hint")
 horizontal_alignment = 2
+
+[node name="PaperSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_paper")
+volume_db = -6.0
+bus = &"Efectos"
+
+[node name="BookSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_book")
+volume_db = -6.0
+bus = &"Efectos"
+
+[node name="FoldSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_fold")
+volume_db = -8.0
+bus = &"Efectos"

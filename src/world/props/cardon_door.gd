@@ -16,12 +16,16 @@ const LOCKED_PROMPT := "Está cerrada con llave"
 @export var swing_seconds := 0.8
 ## Volumen del crujido para quien escuche (0 a 1).
 @export var creak_loudness := 0.25
+## Volumen del golpe al cerrarse y del traqueteo de la manija con llave (0 a 1).
+@export var knock_loudness := 0.15
 
 var _swing: Tween
 
 @onready var _hinge: Node3D = $Hinge
 @onready var _interactable: Interactable = $Hinge/Interactable
 @onready var _creak: AudioStreamPlayer3D = $Hinge/Creak
+@onready var _shut: AudioStreamPlayer3D = $Hinge/Shut
+@onready var _rattle: AudioStreamPlayer3D = $Hinge/Rattle
 
 
 ## Deja la puerta en su posición inicial y conecta la interacción.
@@ -38,8 +42,16 @@ func set_open(value: bool) -> void:
 		_swing.kill()
 	_swing = create_tween().set_trans(Tween.TRANS_SINE)
 	_swing.tween_property(_hinge, "rotation:y", _target_angle(), swing_seconds)
+	if not value:
+		_swing.tween_callback(_on_shut)
 	_creak.play()
 	EventBus.noise_emitted.emit(global_position, creak_loudness)
+
+
+## La puerta llegó al marco: golpe de madera.
+func _on_shut() -> void:
+	_shut.play()
+	EventBus.noise_emitted.emit(global_position, knock_loudness)
 
 
 ## Devuelve el giro de la bisagra según si está abierta.
@@ -58,7 +70,10 @@ func _build_prompt(_player: Player) -> String:
 	return OPEN_PROMPT
 
 
-## La usa Lucía: la abre si está cerrada y la cierra si está abierta; con llave no hace nada.
+## La usa Lucía: la abre si está cerrada y la cierra si está abierta; con llave solo traquetea.
 func _on_interacted(_player: Player) -> void:
-	if not is_locked:
-		set_open(not is_open)
+	if is_locked:
+		_rattle.play()
+		EventBus.noise_emitted.emit(global_position, knock_loudness)
+		return
+	set_open(not is_open)
