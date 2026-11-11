@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/player/components/first_person_body.gd" id="1_body"]
+[ext_resource type="PackedScene" path="res://assets/models/characters/lucia/lucia_brazos.gltf" id="2_lucia"]
+[ext_resource type="PackedScene" path="res://src/player/components/film_camera_prop.tscn" id="3_prop"]
+
+[node name="FirstPersonBody" type="Node3D"]
+script = ExtResource("1_body")
+
+[node name="Lucia" parent="." instance=ExtResource("2_lucia")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.1, -1.36, -0.09)
+
+[node name="CameraHold" type="BoneAttachment3D" parent="Lucia/LuciaRig/Skeleton3D"]
+bone_name = "wrist.R"
+
+[node name="FilmCameraProp" parent="Lucia/LuciaRig/Skeleton3D/CameraHold" instance=ExtResource("3_prop")]
+transform = Transform3D(0.2439, 0.9539, 0.1749, -0.0217, 0.1856, -0.9824, -0.9695, 0.2358, 0.0660, 0.0018, 0.0095, -0.0383)

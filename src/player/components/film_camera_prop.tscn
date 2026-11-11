@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
+albedo_color = Color(0.07, 0.07, 0.075, 1)
+roughness = 0.45
+metallic = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trim"]
+albedo_color = Color(0.62, 0.62, 0.6, 1)
+roughness = 0.3
+metallic = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glass"]
+albedo_color = Color(0.02, 0.03, 0.05, 1)
+roughness = 0.05
+metallic = 0.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+material = SubResource("StandardMaterial3D_body")
+size = Vector3(0.14, 0.085, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_top"]
+material = SubResource("StandardMaterial3D_trim")
+size = Vector3(0.14, 0.012, 0.052)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lens"]
+material = SubResource("StandardMaterial3D_body")
+top_radius = 0.026
+bottom_radius = 0.028
+height = 0.05
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_glass"]
+material = SubResource("StandardMaterial3D_glass")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.004
+
+[node name="FilmCameraProp" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_body")
+
+[node name="Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.048, 0)
+mesh = SubResource("BoxMesh_top")
+
+[node name="Lens" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, -0.05)
+mesh = SubResource("CylinderMesh_lens")
+
+[node name="Glass" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, -0.076)
+mesh = SubResource("CylinderMesh_glass")

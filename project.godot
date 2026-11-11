@@ -148,6 +148,7 @@ theme/custom="res://src/ui/theme/espejo_theme.tres"
 [layer_names]
 
 3d_render/layer_11="Reflejo"
+3d_render/layer_12="Primera persona"
 3d_physics/layer_1="Mundo"
 3d_physics/layer_2="Jugador"
 3d_physics/layer_3="Interactuables"
