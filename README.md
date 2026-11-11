@@ -12,7 +12,7 @@ En desarrollo. La hoja de ruta está en el documento de diseño.
 |---|---|---|
 | 0. Base | Proyecto, jugador, sala de prueba, CI | Lista |
 | 1. Cámara | Visor, flash, fotos y álbum | Lista |
-| 2. Ente | El Q'ispi, visible solo en reflejos | En curso: espejos e IA listos, falta el modelo |
+| 2. Ente | El Q'ispi, visible solo en reflejos | Lista |
 | 3. Nivel 1 | Hotel de sal | Pendiente |
 | 4. Niveles 2 a 5 | El resto del salar | Pendiente |
 | 5. Pulido | Menú, cinemáticas, finales y versión para Windows | Pendiente |
@@ -32,6 +32,7 @@ En desarrollo. La hoja de ruta está en el documento de diseño.
 ## Desarrollo
 
 - Motor: Godot 4.7.2 (Forward+, física Jolt).
-- Sonidos de la cámara: `python3 tools/generate_sounds.py assets/audio`.
+- Modelos: scripts de Blender en `tools/blender/` (ver su README).
+- Sonidos de la cámara y del ente: `python3 tools/generate_sounds.py assets/audio`.
 - Pruebas: `godot --headless --path . --script res://tests/run_tests.gd`.
 - Convenciones de ramas, commits, código y arquitectura: [reglas.md](reglas.md).
