@@ -11,7 +11,13 @@
 [ext_resource type="NavigationMesh" path="res://src/world/test_room/test_room_navmesh.tres" id="9_navmesh"]
 [ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="10_salt_block"]
 [ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="11_salt_crust"]
-[ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="12_cardon"]
+[ext_resource type="PackedScene" path="res://src/world/props/salt_bed.tscn" id="13_bed"]
+[ext_resource type="PackedScene" path="res://src/world/props/salt_table.tscn" id="14_table"]
+[ext_resource type="PackedScene" path="res://src/world/props/salt_stool.tscn" id="15_stool"]
+[ext_resource type="PackedScene" path="res://src/world/props/kerosene_lamp.tscn" id="16_lamp"]
+[ext_resource type="PackedScene" path="res://src/world/props/suitcase.tscn" id="17_suitcase"]
+[ext_resource type="PackedScene" path="res://src/world/props/reception_desk.tscn" id="18_desk"]
+[ext_resource type="PackedScene" path="res://src/world/props/cardon_door_frame.tscn" id="19_door"]
 
 [sub_resource type="Environment" id="Environment_night"]
 background_mode = 1
@@ -49,33 +55,34 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 0)
 size = Vector3(12, 0.1, 16)
 material = ExtResource("11_salt_crust")
 
-[node name="Bed" type="CSGBox3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.3, 0.25, -5.5)
-size = Vector3(2.2, 0.5, 3)
-material = ExtResource("10_salt_block")
-
 [node name="Pillar" type="CSGBox3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.5, -2)
 size = Vector3(0.8, 3, 0.8)
 material = ExtResource("10_salt_block")
 
-[node name="Bench" type="CSGBox3D" parent="Room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.3, 0.25, 2)
-size = Vector3(1, 0.5, 4)
-material = ExtResource("10_salt_block")
+[node name="Bed" parent="." instance=ExtResource("13_bed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4, 0, -5.8)
 
-[node name="Table" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.75, 2.5)
-use_collision = true
-size = Vector3(1.4, 0.06, 0.9)
-material = ExtResource("12_cardon")
+[node name="Suitcase" parent="." instance=ExtResource("17_suitcase")]
+transform = Transform3D(0.94, 0, 0.34, 0, 1, 0, -0.34, 0, 0.94, -3.3, 0, -7.3)
 
-[node name="Lamp" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 1.4, 2.5)
-light_color = Color(1, 0.72, 0.42, 1)
-light_energy = 2.2
-shadow_enabled = true
-omni_range = 9.0
+[node name="Table" parent="." instance=ExtResource("14_table")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 2.5)
+
+[node name="Lamp" parent="." instance=ExtResource("16_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3, 0.68, 2.4)
+
+[node name="StoolA" parent="." instance=ExtResource("15_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4, 0, 3.6)
+
+[node name="StoolB" parent="." instance=ExtResource("15_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0, 2.1)
+
+[node name="Desk" parent="." instance=ExtResource("18_desk")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 5.4, 0, 2.5)
+
+[node name="DoorFrame" parent="." instance=ExtResource("19_door")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 7.95)
 
 [node name="Window" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.4, -6.5)
