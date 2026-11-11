@@ -35,6 +35,6 @@ En desarrollo. La hoja de ruta está en el documento de diseño.
 
 - Motor: Godot 4.7.2 (Forward+, física Jolt).
 - Modelos: scripts de Blender en `tools/blender/` (ver su README).
-- Sonidos de la cámara y del ente: `python3 tools/generate_sounds.py assets/audio`.
+- Sonidos: grabaciones CC0 de Freesound armadas con `tools/audio/build_sounds.py` (ver su README); el ente y el crujido de las puertas, con `python3 tools/generate_sounds.py assets/audio`.
 - Pruebas: `godot --headless --path . --script res://tests/run_tests.gd`.
 - Convenciones de ramas, commits, código y arquitectura: [reglas.md](reglas.md).

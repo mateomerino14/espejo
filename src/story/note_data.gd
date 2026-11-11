@@ -8,3 +8,5 @@ extends Resource
 ## Quién la escribió y cuándo, si se sabe.
 @export var signature := ""
 @export_multiline var body := ""
+## Un libro o cuaderno: al abrirlo se oyen hojas que pasan en vez de papel suelto.
+@export var is_book := false

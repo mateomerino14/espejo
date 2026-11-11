@@ -1,4 +1,4 @@
-"""Genera los sonidos de la cámara de Lucía, del ente y del hotel con síntesis simple.
+"""Genera los sonidos del ente y el crujido de las puertas con síntesis simple.
 
 Uso: python3 tools/generate_sounds.py assets/audio
 """
@@ -35,25 +35,6 @@ def click(length, frequencies, decay):
     burst = rng.standard_normal(len(t)) * np.exp(-t * decay)
     body = sum(resonate(burst, f, 900.0) for f in frequencies)
     return 0.6 * burst / np.abs(burst).max() + 0.4 * body / len(frequencies)
-
-
-def shutter():
-    """Obturador: la cortina abre y cierra con dos golpes secos."""
-    gap = np.zeros(int(RATE * 0.045))
-    tail = np.zeros(int(RATE * 0.12))
-    first = click(0.03, (2400.0, 5200.0), 220.0)
-    second = click(0.05, (1800.0, 4100.0), 140.0) * 0.8
-    return np.concatenate([first, gap, second, tail])
-
-
-def focus():
-    """Motor del enfoque: un zumbido que va y viene y termina con un tic."""
-    t = seconds(0.32)
-    hum = np.sin(2 * np.pi * (520.0 + 140.0 * np.sin(2 * np.pi * 9.0 * t)) * t)
-    grit = rng.standard_normal(len(t)) * 0.25
-    envelope = np.minimum(t / 0.03, 1.0) * np.exp(-t * 4.0)
-    whirr = (hum + grit) * envelope * 0.35
-    return np.concatenate([whirr, click(0.02, (3500.0,), 300.0) * 0.4])
 
 
 def glass_cracks(length, count):
@@ -116,8 +97,6 @@ def main():
     """Genera cada sonido en la carpeta indicada."""
     folder = Path(sys.argv[1])
     folder.mkdir(parents=True, exist_ok=True)
-    write(folder / "shutter.wav", shutter(), 0.8)
-    write(folder / "focus.wav", focus(), 0.5)
     write(folder / "qispi_stunned.wav", stunned(), 0.8)
     write(folder / "qispi_scream.wav", scream(), 0.95)
     write(folder / "door_creak.wav", creak(), 0.6)

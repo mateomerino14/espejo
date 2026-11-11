@@ -5,6 +5,11 @@ extends Node3D
 ## Volumen de la pisada más fuerte; las demás bajan según su volumen de ruido.
 const LOUDEST_STEP_DB := 0.0
 const QUIETEST_STEP_DB := -24.0
+## Cuántas zonas de piso se revisan bajo el pie; con la primera basta.
+const MAX_SURFACE_HITS := 1
+
+## Sonido de los pasos según el piso; sin zona debajo suena la sal.
+@export var surface_sounds: Dictionary[StringName, AudioStream] = {}
 
 @export_group("Distancia entre pasos (m)")
 @export var walk_step_distance := 0.75
@@ -30,9 +35,24 @@ func register_movement(distance: float, state: Player.MoveState, origin: Vector3
 	if _distance_since_step >= _step_distance_for(state):
 		_distance_since_step = 0.0
 		var loudness := _loudness_for(state)
+		_audio.stream = surface_sounds.get(surface_at(origin), _audio.stream)
 		_audio.volume_db = lerpf(QUIETEST_STEP_DB, LOUDEST_STEP_DB, loudness)
 		_audio.play()
 		EventBus.noise_emitted.emit(origin, loudness)
+
+
+## Devuelve el piso que hay en [param point]: el de la zona que lo cubre, o sal si no hay ninguna.
+func surface_at(point: Vector3) -> StringName:
+	var query := PhysicsPointQueryParameters3D.new()
+	query.position = point
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	query.collision_mask = FootstepSurface.PHYSICS_LAYER
+	for hit in get_world_3d().direct_space_state.intersect_point(query, MAX_SURFACE_HITS):
+		var zone := hit["collider"] as FootstepSurface
+		if zone:
+			return StringName(zone.surface)
+	return FootstepSurface.SALT
 
 
 ## Devuelve el largo del paso para el estado de movimiento.

@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_note")
 id = "libro_huespedes"
+is_book = true
 title = "Libro de huéspedes"
 signature = "Hostal de sal Ch'aska, Colchani"
 body = "12 de enero. Javier Choque, chofer, habitación 3. Trae a la fotógrafa de La Paz y dice que se van al amanecer, si la lluvia los deja.

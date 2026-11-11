@@ -8,24 +8,63 @@
 [ext_resource type="Script" path="res://src/player/components/caught_reaction.gd" id="10_caught"]
 [ext_resource type="Script" path="res://src/player/components/interactor.gd" id="12_interactor"]
 [ext_resource type="AudioStream" path="res://assets/audio/qispi_scream.wav" id="11_scream"]
-[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_1.wav" id="5_step1"]
-[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_2.wav" id="6_step2"]
-[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_3.wav" id="7_step3"]
-[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_4.wav" id="8_step4"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_1.wav" id="step_salt_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_2.wav" id="step_salt_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_3.wav" id="step_salt_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_4.wav" id="step_salt_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_1.wav" id="step_dirt_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_2.wav" id="step_dirt_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_3.wav" id="step_dirt_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_4.wav" id="step_dirt_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_wood_1.wav" id="step_wood_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_wood_2.wav" id="step_wood_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_wood_3.wav" id="step_wood_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_wood_4.wav" id="step_wood_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_1.wav" id="step_water_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_2.wav" id="step_water_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_3.wav" id="step_water_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_4.wav" id="step_water_4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 resource_local_to_scene = true
 radius = 0.32
 height = 1.7
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_steps"]
-random_pitch = 1.12
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_salt"]
+random_pitch = 1.1
 random_volume_offset_db = 2.0
 streams_count = 4
-stream_0/stream = ExtResource("5_step1")
-stream_1/stream = ExtResource("6_step2")
-stream_2/stream = ExtResource("7_step3")
-stream_3/stream = ExtResource("8_step4")
+stream_0/stream = ExtResource("step_salt_1")
+stream_1/stream = ExtResource("step_salt_2")
+stream_2/stream = ExtResource("step_salt_3")
+stream_3/stream = ExtResource("step_salt_4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dirt"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("step_dirt_1")
+stream_1/stream = ExtResource("step_dirt_2")
+stream_2/stream = ExtResource("step_dirt_3")
+stream_3/stream = ExtResource("step_dirt_4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wood"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("step_wood_1")
+stream_1/stream = ExtResource("step_wood_2")
+stream_2/stream = ExtResource("step_wood_3")
+stream_3/stream = ExtResource("step_wood_4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_water"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("step_water_1")
+stream_1/stream = ExtResource("step_water_2")
+stream_2/stream = ExtResource("step_water_3")
+stream_3/stream = ExtResource("step_water_4")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ceiling"]
 radius = 0.28
@@ -70,9 +109,10 @@ script = ExtResource("3_stamina")
 [node name="FootstepComponent" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 script = ExtResource("4_footsteps")
+surface_sounds = Dictionary[StringName, AudioStream]({&"sal": SubResource("AudioStreamRandomizer_salt"), &"tierra": SubResource("AudioStreamRandomizer_dirt"), &"madera": SubResource("AudioStreamRandomizer_wood"), &"agua": SubResource("AudioStreamRandomizer_water")})
 
 [node name="Audio" type="AudioStreamPlayer3D" parent="FootstepComponent"]
-stream = SubResource("AudioStreamRandomizer_steps")
+stream = SubResource("AudioStreamRandomizer_salt")
 max_polyphony = 2
 bus = &"Efectos"
 
