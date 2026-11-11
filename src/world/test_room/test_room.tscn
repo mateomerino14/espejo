@@ -9,32 +9,9 @@
 [ext_resource type="PackedScene" path="res://src/enemies/qispi/qispi.tscn" id="7_qispi"]
 [ext_resource type="PackedScene" path="res://src/world/respawn/respawn_director.tscn" id="8_respawn"]
 [ext_resource type="NavigationMesh" path="res://src/world/test_room/test_room_navmesh.tres" id="9_navmesh"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_salt"]
-noise_type = 2
-frequency = 0.05
-fractal_octaves = 3
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_salt"]
-width = 512
-height = 512
-seamless = true
-as_normal_map = true
-bump_strength = 6.0
-noise = SubResource("FastNoiseLite_salt")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_salt"]
-albedo_color = Color(0.86, 0.83, 0.77, 1)
-roughness = 0.85
-normal_enabled = true
-normal_scale = 0.6
-normal_texture = SubResource("NoiseTexture2D_salt")
-uv1_scale = Vector3(0.5, 0.5, 0.5)
-uv1_triplanar = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood"]
-albedo_color = Color(0.32, 0.2, 0.12, 1)
-roughness = 0.7
+[ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="10_salt_block"]
+[ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="11_salt_crust"]
+[ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="12_cardon"]
 
 [sub_resource type="Environment" id="Environment_night"]
 background_mode = 1
@@ -55,34 +32,43 @@ environment = SubResource("Environment_night")
 
 [node name="Room" type="CSGCombiner3D" parent="." groups=["navigation_source"]]
 use_collision = true
-material_override = SubResource("StandardMaterial3D_salt")
 
 [node name="Shell" type="CSGBox3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 size = Vector3(12.6, 3.6, 16.6)
+material = ExtResource("10_salt_block")
 
 [node name="Inside" type="CSGBox3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 operation = 2
 size = Vector3(12, 3, 16)
+material = ExtResource("10_salt_block")
+
+[node name="Floor" type="CSGBox3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 0)
+size = Vector3(12, 0.1, 16)
+material = ExtResource("11_salt_crust")
 
 [node name="Bed" type="CSGBox3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.3, 0.25, -5.5)
 size = Vector3(2.2, 0.5, 3)
+material = ExtResource("10_salt_block")
 
 [node name="Pillar" type="CSGBox3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.5, -2)
 size = Vector3(0.8, 3, 0.8)
+material = ExtResource("10_salt_block")
 
 [node name="Bench" type="CSGBox3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.3, 0.25, 2)
 size = Vector3(1, 0.5, 4)
+material = ExtResource("10_salt_block")
 
 [node name="Table" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.75, 2.5)
 use_collision = true
 size = Vector3(1.4, 0.06, 0.9)
-material = SubResource("StandardMaterial3D_wood")
+material = ExtResource("12_cardon")
 
 [node name="Lamp" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 1.4, 2.5)
