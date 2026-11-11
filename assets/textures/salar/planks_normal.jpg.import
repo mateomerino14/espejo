@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csxvgd03he6xs"
-path="res://.godot/imported/salt_block_orm.png-4ed769708808d941556d38261e71d538.ctex"
+uid="uid://33b4lsvrd8qv"
+path="res://.godot/imported/planks_normal.jpg-7a414875068a63a08141d3407d0ccd97.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/salar/salt_block_orm.png"
-dest_files=["res://.godot/imported/salt_block_orm.png-4ed769708808d941556d38261e71d538.ctex"]
+source_file="res://assets/textures/salar/planks_normal.jpg"
+dest_files=["res://.godot/imported/planks_normal.jpg-7a414875068a63a08141d3407d0ccd97.ctex"]
 
 [params]
 

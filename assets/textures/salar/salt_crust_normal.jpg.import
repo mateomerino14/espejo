@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdbl6kamo53rs"
-path="res://.godot/imported/salt_crust_normal.png-0acdaa805870393322445163f964d336.ctex"
+uid="uid://qvs2ixfacw2t"
+path="res://.godot/imported/salt_crust_normal.jpg-bed65aed9b64bfeed94f1e399732621d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/salar/salt_crust_normal.png"
-dest_files=["res://.godot/imported/salt_crust_normal.png-0acdaa805870393322445163f964d336.ctex"]
+source_file="res://assets/textures/salar/salt_crust_normal.jpg"
+dest_files=["res://.godot/imported/salt_crust_normal.jpg-bed65aed9b64bfeed94f1e399732621d.ctex"]
 
 [params]
 

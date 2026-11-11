@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ds4gbkqqg1k44"
-path="res://.godot/imported/salt_block_normal.png-b907fe41c75401325060e4fe16677a10.ctex"
+uid="uid://hd2wo8teuph0"
+path="res://.godot/imported/salt_block_orm.jpg-14b868d73d51b0b80b5187eb7f84175c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/salar/salt_block_normal.png"
-dest_files=["res://.godot/imported/salt_block_normal.png-b907fe41c75401325060e4fe16677a10.ctex"]
+source_file="res://assets/textures/salar/salt_block_orm.jpg"
+dest_files=["res://.godot/imported/salt_block_orm.jpg-14b868d73d51b0b80b5187eb7f84175c.ctex"]
 
 [params]
 
