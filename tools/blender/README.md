@@ -23,3 +23,13 @@ python3 preview.py /ruta/qispi_painted.blend /ruta/vista 24
 Del último paso se copian `qispi.gltf`, `qispi.bin` y los PNG a `assets/models/qispi/`. El modelo mira hacia +Y en Blender, que en Godot queda mirando a −Z (el frente).
 
 `bake.py` sirve para cualquier modelo: la pieza principal se llama `<Nombre>High`, y las piezas con la propiedad `keep_material` se suman sin hornear.
+
+## Texturas del salar
+
+`salt_textures.py` hornea texturas repetibles sin costuras: bloques de sal del hotel (con estratos y juntas), la costra hexagonal del salar y madera de cardón con sus agujeros. Saca albedo, normales y ORM (oclusión y rugosidad); las normales y la oclusión salen de la altura, calculadas con numpy.
+
+```bash
+python3 salt_textures.py assets/textures/salar 1024
+```
+
+En Godot se usan con los materiales triplanares de `src/world/materials/` (`salt_block.tres`, `salt_crust.tres`, `cardon.tres`), que ajustan la escala a metros reales.
