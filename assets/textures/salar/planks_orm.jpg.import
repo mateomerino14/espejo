@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ff6imbeb2gqo"
-path="res://.godot/imported/salt_crust_orm.png-d5c749fb305a4430530884833e9da984.ctex"
+uid="uid://bwodfioac0r7i"
+path="res://.godot/imported/planks_orm.jpg-db2ab8ece52dc683884a6a3fce7f8460.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/salar/salt_crust_orm.png"
-dest_files=["res://.godot/imported/salt_crust_orm.png-d5c749fb305a4430530884833e9da984.ctex"]
+source_file="res://assets/textures/salar/planks_orm.jpg"
+dest_files=["res://.godot/imported/planks_orm.jpg-db2ab8ece52dc683884a6a3fce7f8460.ctex"]
 
 [params]
 

@@ -278,6 +278,8 @@ Todo sonido nuevo se asigna a `Ambiente` o a `Efectos`, nunca directo a `Master`
 ## ASSETS
 
 - Las superficies usan los materiales triplanares de `src/world/materials/`, así no necesitan UV.
+- Las texturas fotográficas vienen de bibliotecas CC0 (Poly Haven) mediante `tools/download_textures.py`, que anota el autor; los autores van en los créditos.
+- Los efectos caros del ambiente (iluminación global, luz rebotada, niebla volumétrica) los controla `EnvironmentQuality` según el ajuste de calidad.
 - Los modelos salen de scripts de Blender en `tools/blender/` y se exportan a `assets/models/` (glTF u OBJ), con escala real en metros.
 - El audio se guarda en `.ogg`; los efectos cortos pueden ir en `.wav`.
 - Los sonidos y voces se generan con scripts en `tools/`; para cambiar uno se cambia su script y se vuelve a generar. Al reemplazar uno por una grabación real se mantiene el mismo nombre de archivo.

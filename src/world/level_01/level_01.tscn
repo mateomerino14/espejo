@@ -4,7 +4,7 @@
 [ext_resource type="Environment" path="res://src/world/materials/hotel_environment.tres" id="2_r"]
 [ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="3_r"]
 [ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="4_r"]
-[ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="5_r"]
+[ext_resource type="Material" path="res://src/world/materials/planks.tres" id="planks_r"]
 [ext_resource type="PackedScene" path="res://src/player/player.tscn" id="6_r"]
 [ext_resource type="PackedScene" path="res://src/ui/hud/hud.tscn" id="7_r"]
 [ext_resource type="PackedScene" path="res://src/ui/viewfinder/viewfinder.tscn" id="8_r"]
@@ -29,6 +29,7 @@
 [ext_resource type="Resource" path="res://src/story/notes/nota_javier.tres" id="27_r"]
 [ext_resource type="PackedScene" path="res://src/ui/pause_menu/pause_menu.tscn" id="pause_r"]
 [ext_resource type="PackedScene" path="res://src/ui/film_effects/film_effects.tscn" id="film_r"]
+[ext_resource type="Script" path="res://src/world/environment_quality.gd" id="quality_r"]
 
 [node name="Level01" type="Node3D" node_paths=PackedStringArray("qispi")]
 script = ExtResource("1_r")
@@ -37,6 +38,7 @@ qispi = NodePath("Qispi")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("2_r")
+script = ExtResource("quality_r")
 
 [node name="Hostal" type="CSGCombiner3D" parent="." groups=["navigation_source"]]
 use_collision = true
@@ -156,7 +158,7 @@ material = ExtResource("4_r")
 [node name="Ceiling" type="CSGBox3D" parent="Hostal"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.76, -8.2)
 size = Vector3(11.2, 0.1, 32.8)
-material = ExtResource("5_r")
+material = ExtResource("planks_r")
 
 [node name="R1Door" parent="." instance=ExtResource("14_r")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.3, 0, -2.05)

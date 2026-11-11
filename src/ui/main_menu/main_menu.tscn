@@ -4,7 +4,7 @@
 [ext_resource type="Environment" path="res://src/world/materials/hotel_environment.tres" id="2_env"]
 [ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="3_salt"]
 [ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="4_crust"]
-[ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="5_cardon"]
+[ext_resource type="Material" path="res://src/world/materials/planks.tres" id="planks_r"]
 [ext_resource type="PackedScene" path="res://src/world/mirror/mirror.tscn" id="6_mirror"]
 [ext_resource type="PackedScene" path="res://src/world/props/kerosene_lamp.tscn" id="7_lamp"]
 [ext_resource type="PackedScene" path="res://src/world/props/salt_bed.tscn" id="8_bed"]
@@ -15,6 +15,7 @@
 [ext_resource type="LabelSettings" path="res://src/ui/theme/heading.tres" id="13_heading"]
 [ext_resource type="Script" path="res://src/enemies/components/qispi_animator.gd" id="14_animator"]
 [ext_resource type="PackedScene" path="res://assets/models/qispi/qispi.gltf" id="15_qispi"]
+[ext_resource type="Script" path="res://src/world/environment_quality.gd" id="quality_r"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("12_fell")
@@ -37,6 +38,7 @@ script = ExtResource("1_menu")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("2_env")
+script = ExtResource("quality_r")
 
 [node name="Room" type="CSGCombiner3D" parent="."]
 
@@ -59,7 +61,7 @@ material = ExtResource("4_crust")
 [node name="Ceiling" type="CSGBox3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.76, 0)
 size = Vector3(4.6, 0.1, 5.6)
-material = ExtResource("5_cardon")
+material = ExtResource("planks_r")
 
 [node name="Mirror" parent="." instance=ExtResource("6_mirror")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.45, -2.77)
@@ -178,6 +180,8 @@ layout_mode = 2
 text = "Idea, dirección y código: mateomerino14
 
 Hecho en Godot 4.7. El Q'ispi, los objetos del hostal y las texturas del salar se modelaron y pintaron por código en Blender.
+
+Texturas escaneadas de Poly Haven (CC0): Charlotte Baglioni, Rob Tuytel y Amal Kumar.
 
 Sonidos sintetizados por código.
 

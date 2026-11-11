@@ -1,4 +1,6 @@
-"""Genera texturas repetibles del salar: bloques de sal del hotel, costra hexagonal y madera de cardón.
+"""Genera la textura repetible de madera de cardón, con los agujeros alargados del cactus seco.
+
+La sal y la madera de tablas vienen de fotos reales: ver tools/download_textures.py.
 
 Hornea materiales procedurales de Blender sobre un plano usando ruido 4D en un toro, así que
 los bordes empalman sin costura. Las normales y la oclusión se calculan de la altura con numpy.
@@ -150,63 +152,6 @@ class Graph:
         return px.reshape(size, size, 4)[:, :, :3]
 
 
-def salt_block():
-    """Muro del hotel: bloques de sal cortados con estratos, juntas hundidas y poros."""
-    g = Graph("SaltBlock")
-    u, v = g.uv()
-    rows = 4.0
-    row = g.math("FLOOR", g.math("MULTIPLY", v, rows))
-    # Las filas impares se corren medio bloque, como en un muro de verdad.
-    shift = g.math("MULTIPLY", g.math("MODULO", row, 2.0), 0.5)
-    across = g.math("ADD", g.math("MULTIPLY", u, 2.0), shift)
-    fx = g.math("FRACT", across)
-    fy = g.math("FRACT", g.math("MULTIPLY", v, rows))
-    edge_x = g.math("MINIMUM", fx, g.math("SUBTRACT", 1.0, fx))
-    edge_y = g.math("MULTIPLY", g.math("MINIMUM", fy, g.math("SUBTRACT", 1.0, fy)), 0.5)
-    edge = g.math("MINIMUM", g.math("MULTIPLY", edge_x, 0.5), edge_y)
-    joint = g.remap(edge, 0.012, 0.0)
-    bevel = g.remap(edge, 0.045, 0.0)
-    strata_warp = g.noise(3.0, 4.0, 0.5, offset=3.0)
-    strata = g.math("FRACT", g.math("ADD", g.math("MULTIPLY", v, 22.0), g.math("MULTIPLY", strata_warp, 1.5)))
-    bands = g.math("MULTIPLY", g.math("ADD", g.math("SINE", g.math("MULTIPLY", strata, math.tau)), 1.0), 0.5)
-    pores = g.remap(g.voronoi(40.0, "F1", offset=5.0), 0.08, 0.0)
-    fbm = g.noise(6.0, 8.0, 0.6, offset=1.0)
-    block_tone = g.noise(1.0, 2.0, 0.4, offset=9.0)
-    height = g.math("SUBTRACT", 0.8, g.math("MULTIPLY", bevel, 0.5))
-    height = g.math("SUBTRACT", height, g.math("MULTIPLY", joint, 0.3))
-    height = g.math("ADD", height, g.math("MULTIPLY", fbm, 0.15))
-    height = g.math("ADD", height, g.math("MULTIPLY", bands, 0.05))
-    height = g.math("SUBTRACT", height, g.math("MULTIPLY", pores, 0.12))
-    tone = g.math("ADD", g.math("MULTIPLY", bands, 0.45), g.math("MULTIPLY", block_tone, 0.55))
-    color = g.ramp(tone, [(0.2, (0.62, 0.58, 0.51, 1)), (0.5, (0.76, 0.73, 0.66, 1)),
-                          (0.8, (0.86, 0.84, 0.79, 1))])
-    color = g.mix(color, (0.4, 0.36, 0.3, 1), g.math("MULTIPLY", joint, 0.8))
-    color = g.mix(color, (0.3, 0.27, 0.22, 1), g.math("MULTIPLY", pores, 0.5))
-    rough = g.math("ADD", 0.78, g.math("MULTIPLY", fbm, 0.15))
-    return g, height, color, rough
-
-
-def salt_crust():
-    """Suelo del salar: costra blanca partida en hexágonos con bordes levantados."""
-    g = Graph("SaltCrust")
-    cells = g.voronoi(0.7, "DISTANCE_TO_EDGE", randomness=0.55)
-    ridge = g.remap(cells, 0.05, 0.0)
-    crack = g.remap(cells, 0.008, 0.0)
-    fine = g.noise(9.0, 10.0, 0.65, offset=2.0)
-    grit = g.remap(g.voronoi(60.0, "F1", offset=7.0), 0.15, 0.0)
-    damp = g.remap(g.noise(1.2, 3.0, 0.5, offset=11.0), 0.55, 0.7)
-    height = g.math("ADD", g.math("MULTIPLY", ridge, 0.5), g.math("MULTIPLY", fine, 0.3))
-    height = g.math("SUBTRACT", height, g.math("MULTIPLY", crack, 0.3))
-    height = g.math("ADD", height, g.math("MULTIPLY", grit, 0.06))
-    color = g.ramp(fine, [(0.3, (0.7, 0.69, 0.66, 1)), (0.6, (0.86, 0.86, 0.84, 1)),
-                          (0.8, (0.93, 0.93, 0.92, 1))])
-    color = g.mix(color, (0.97, 0.97, 0.96, 1), g.math("MULTIPLY", ridge, 0.6))
-    color = g.mix(color, (0.42, 0.39, 0.35, 1), crack)
-    color = g.mix(color, (0.52, 0.5, 0.47, 1), g.math("MULTIPLY", damp, 0.5))
-    rough = g.math("SUBTRACT", 0.85, g.math("MULTIPLY", damp, 0.45))
-    return g, height, color, rough
-
-
 def cardon():
     """Madera de cardón: fibras grises con los agujeros alargados del cactus seco."""
     g = Graph("Cardon")
@@ -285,8 +230,7 @@ def save(name, rgb, is_color):
     print("textura", name)
 
 
-for name, builder, strength in (("salt_block", salt_block, 5.0), ("salt_crust", salt_crust, 5.0),
-                                ("cardon", cardon, 4.0)):
+for name, builder, strength in (("cardon", cardon, 4.0),):
     graph, height_s, color_s, rough_s = builder()
     height = graph.bake(height_s, name + "_h", False)[:, :, 0]
     color = graph.bake(color_s, name + "_c", True)

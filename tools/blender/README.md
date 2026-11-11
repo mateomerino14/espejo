@@ -26,13 +26,19 @@ Del último paso se copian `qispi.gltf`, `qispi.bin` y los PNG a `assets/models/
 
 ## Texturas del salar
 
-`salt_textures.py` hornea texturas repetibles sin costuras: bloques de sal del hotel (con estratos y juntas), la costra hexagonal del salar y madera de cardón con sus agujeros. Saca albedo, normales y ORM (oclusión y rugosidad); las normales y la oclusión salen de la altura, calculadas con numpy.
+La sal y las tablas vienen de fotos escaneadas de Poly Haven (CC0): `tools/download_textures.py` las descarga y recolorea la sal por luminancia, para conservar el detalle real con los tonos blancos del salar.
+
+```bash
+python3 tools/download_textures.py assets/textures/salar 2k
+```
+
+La madera de cardón, con sus agujeros alargados, no existe escaneada: la hornea `salt_textures.py` sin costuras (albedo, normales y ORM, con normales y oclusión calculadas de la altura con numpy).
 
 ```bash
 python3 salt_textures.py assets/textures/salar 1024
 ```
 
-En Godot se usan con los materiales triplanares de `src/world/materials/` (`salt_block.tres`, `salt_crust.tres`, `cardon.tres`), que ajustan la escala a metros reales.
+En Godot se usan con los materiales triplanares de `src/world/materials/` (`salt_block.tres`, `salt_crust.tres`, `planks.tres`, `cardon.tres`), que ajustan la escala a metros reales.
 
 ## Objetos del hotel
 

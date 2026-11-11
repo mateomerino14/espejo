@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwvnlw04hrx2a"
-path="res://.godot/imported/salt_block_albedo.png-85729b14295e682a1801da6058280031.ctex"
+uid="uid://r67rk25fa2pr"
+path="res://.godot/imported/salt_block_albedo.jpg-a3bf1621a36049c9f939b2be11e991ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/salar/salt_block_albedo.png"
-dest_files=["res://.godot/imported/salt_block_albedo.png-85729b14295e682a1801da6058280031.ctex"]
+source_file="res://assets/textures/salar/salt_block_albedo.jpg"
+dest_files=["res://.godot/imported/salt_block_albedo.jpg-a3bf1621a36049c9f939b2be11e991ab.ctex"]
 
 [params]
 
