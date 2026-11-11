@@ -1,0 +1,81 @@
+{
+  "name": "Javier",
+  "file": "javier",
+  "targets": {
+    "macrodetails/asian-male-young": 0.35,
+    "macrodetails/asian-male-old": 0.35,
+    "macrodetails/caucasian-male-young": 0.15,
+    "macrodetails/caucasian-male-old": 0.15,
+    "macrodetails/universal-male-young-averagemuscle-averageweight": 0.35,
+    "macrodetails/universal-male-young-averagemuscle-maxweight": 0.15,
+    "macrodetails/universal-male-old-averagemuscle-averageweight": 0.35,
+    "macrodetails/universal-male-old-averagemuscle-maxweight": 0.15,
+    "macrodetails/height/male-young-averagemuscle-averageweight-minheight": 0.3
+  },
+  "skin": {
+    "path": "skins/middleage_asian_male",
+    "tint": [
+      0.7,
+      0.54,
+      0.42
+    ]
+  },
+  "pieces": [
+    {
+      "name": "Ropa",
+      "path": "clothes/male_casualsuit03",
+      "tint": [
+        0.8,
+        0.78,
+        0.74
+      ]
+    },
+    {
+      "name": "Zapatos",
+      "path": "clothes/shoes02"
+    },
+    {
+      "name": "Pelo",
+      "path": "hair/short02",
+      "alpha": true,
+      "tint": [
+        0.3,
+        0.28,
+        0.27
+      ],
+      "under": "Sombrero",
+      "margin": 0.012
+    },
+    {
+      "name": "Sombrero",
+      "path": "clothes/fedora01",
+      "tint": [
+        0.55,
+        0.5,
+        0.45
+      ]
+    },
+    {
+      "name": "Cejas",
+      "path": "eyebrows/eyebrow010",
+      "alpha": true
+    },
+    {
+      "name": "Pestanas",
+      "path": "eyelashes/eyelashes01",
+      "alpha": true
+    },
+    {
+      "name": "Ojos",
+      "path": "eyes/low-poly"
+    }
+  ],
+  "animations": {
+    "Idle_Loop": "idle",
+    "Walk_Loop": "walk",
+    "Driving_Loop": "drive",
+    "Idle_Talking_Loop": "talk",
+    "Sitting_Idle_Loop": "sit",
+    "Interact": "interact"
+  }
+}
