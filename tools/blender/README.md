@@ -10,6 +10,7 @@ Los modelos se generan enteros con Python dentro de Blender 5.2, sin esculpir a 
 | 2. Pintar | `qispi_materials.py` | Piel de sal con grietas hexagonales, cara pálida con cuencas oscuras y cristales lisos |
 | 3. Hornear | `bake.py` | Malla de juego con albedo, rugosidad y normales horneadas; los cristales conservan su material |
 | 4. Animar | `qispi_rig.py` | Esqueleto, pesos y animaciones `idle`, `walk`, `run`, `stunned` y `catch` |
+| 5. Captura de movimiento | `qispi_mocap.py` | Cambia `walk`, `run` y `stunned` por captura real de CMU; `idle` y `catch` quedan hechas a mano |
 | Revisar | `preview.py` | Vistas de frente, cara y perfil renderizadas con Cycles |
 
 ```bash
@@ -17,10 +18,13 @@ python3 build_qispi.py /ruta/qispi_high.blend
 python3 qispi_materials.py /ruta/qispi_high.blend /ruta/qispi_painted.blend
 python3 bake.py /ruta/qispi_painted.blend /ruta/horneado 2048 qispi
 python3 qispi_rig.py /ruta/horneado/qispi_game.blend /ruta/animado
+python3 qispi_mocap.py /ruta/animado/qispi_rigged.blend /ruta/cmu-mocap/data /ruta/captura
 python3 preview.py /ruta/qispi_painted.blend /ruta/vista 24
 ```
 
-Del último paso se copian `qispi.gltf`, `qispi.bin` y los PNG a `assets/models/qispi/`. El modelo mira hacia +Y en Blender, que en Godot queda mirando a −Z (el frente).
+Los BVH salen del repositorio público `una-dinosauria/cmu-mocap` (CMU Graphics Lab Motion Capture Database, de uso libre): una caminata sigilosa (77_29), una carrera (16_35) y un gesto de susto (79_73). Cada hueso copia la dirección de su par en la captura, así que da igual que las proporciones sean distintas; los ciclos se recortan a un paso completo, de un despegue del pie izquierdo al siguiente.
+
+Del paso de captura (o del 4, si no se usa) se copian `qispi.gltf`, `qispi.bin` y los PNG a `assets/models/qispi/`. El modelo mira hacia +Y en Blender, que en Godot queda mirando a −Z (el frente).
 
 `bake.py` sirve para cualquier modelo: la pieza principal se llama `<Nombre>High`, y las piezas con la propiedad `keep_material` se suman sin hornear.
 
