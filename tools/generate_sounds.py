@@ -1,4 +1,4 @@
-"""Genera los sonidos de la cámara de Lucía con síntesis simple.
+"""Genera los sonidos de la cámara de Lucía y del ente con síntesis simple.
 
 Uso: python3 tools/generate_sounds.py assets/audio
 """
@@ -56,6 +56,37 @@ def focus():
     return np.concatenate([whirr, click(0.02, (3500.0,), 300.0) * 0.4])
 
 
+def glass_cracks(length, count):
+    """Crujidos secos de vidrio o sal que se quiebra, repartidos al azar."""
+    out = np.zeros(int(RATE * length))
+    for start in rng.integers(0, len(out) - RATE // 20, count):
+        crack = click(0.02, (rng.uniform(3000.0, 7000.0),), 400.0) * rng.uniform(0.3, 1.0)
+        out[start:start + len(crack)] += crack
+    return out
+
+
+def shriek(length, base, rise):
+    """Chillido vidrioso: varias voces agudas desafinadas que suben y tiemblan."""
+    t = seconds(length)
+    pitch = base * (1.0 + rise * t / length) * (1.0 + 0.02 * np.sin(2 * np.pi * 7.0 * t))
+    phase = 2 * np.pi * np.cumsum(pitch) / RATE
+    voices = sum(np.sin(phase * ratio + i) for i, ratio in enumerate((1.0, 1.013, 2.02, 2.97)))
+    breath = resonate(rng.standard_normal(len(t)), base * 3.0, 300.0) * 0.5
+    envelope = np.minimum(t / 0.08, 1.0) * np.exp(-t * 2.5 / length)
+    return (voices / 4.0 + breath) * envelope
+
+
+def stunned():
+    """El ente aturdido: chilla y la sal de su cuerpo cruje."""
+    return shriek(1.2, 880.0, -0.4) + glass_cracks(1.2, 14) * 0.6
+
+
+def scream():
+    """Grito al atrapar a Lucía: crece de golpe y se quiebra."""
+    body = shriek(1.6, 620.0, 0.9)
+    return body + glass_cracks(1.6, 30) * 0.8
+
+
 def write(path, signal, gain):
     """Normaliza y guarda la señal como WAV mono de 16 bits."""
     signal = signal / (np.abs(signal).max() + 1e-9) * gain
@@ -74,6 +105,8 @@ def main():
     folder.mkdir(parents=True, exist_ok=True)
     write(folder / "shutter.wav", shutter(), 0.8)
     write(folder / "focus.wav", focus(), 0.5)
+    write(folder / "qispi_stunned.wav", stunned(), 0.8)
+    write(folder / "qispi_scream.wav", scream(), 0.95)
     print("sonidos generados")
 
 
