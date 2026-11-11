@@ -44,6 +44,8 @@ const FLASH_FADE_SECONDS := 0.3
 @export var lucia: Node3D
 @export var javier_out: Marker3D
 @export var lucia_out: Marker3D
+## Marcadores que rodean el auto por delante hasta la puerta del hostal.
+@export var javier_path: Node3D
 @export var door: CardonDoor
 @export var shore: Marker3D
 
@@ -92,7 +94,7 @@ func _on_cue_reached(cue: StringName) -> void:
 			_play(lucia, TALK)
 		JAVIER_LEAVES:
 			_play(lucia, IDLE)
-			_walk(javier, door.global_position, _enter_hostel)
+			_walk_path(javier, javier_path.get_children(), _enter_hostel)
 		LUCIA_WALKS:
 			_walk(lucia, shore.global_position, _face_water)
 		FIRST_PHOTO:
@@ -160,6 +162,15 @@ func _flash_at(spot: Marker3D) -> void:
 	qispi.visible = true
 	flash.light_energy = flash_energy
 	_shutter.play()
+
+
+## Camina por los marcadores de [param points] en orden y al final llama a [param arrived].
+func _walk_path(actor: Node3D, points: Array[Node], arrived: Callable) -> void:
+	if points.is_empty():
+		arrived.call()
+		return
+	var next := points.pop_front() as Node3D
+	_walk(actor, next.global_position, _walk_path.bind(actor, points, arrived))
 
 
 ## Camina hasta [param target] mirando hacia allá y al llegar llama a [param arrived].

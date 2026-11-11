@@ -1,6 +1,6 @@
 class_name CinematicDirector
 extends Node
-## Pasa los planos de una cinemática en orden, muestra los subtítulos y, al terminar o si la
+## Pasa los planos de una cinemática en orden, con sus voces y subtítulos, y, al terminar o si la
 ## jugadora la salta, funde a negro, muestra el texto final y cambia de escena.
 
 signal cue_reached(cue: StringName)
@@ -25,6 +25,7 @@ var _is_closing := false
 @onready var _curtain: ColorRect = %Curtain
 @onready var _subtitle: Label = %Subtitle
 @onready var _closing: Label = %Closing
+@onready var _voice: AudioStreamPlayer = $Voice
 
 
 ## Junta los planos, oculta el ratón y abre desde negro.
@@ -64,6 +65,7 @@ func close() -> void:
 		return
 	_is_closing = true
 	_subtitle.text = ""
+	_voice.stop()
 	var fade := create_tween()
 	fade.tween_property(_curtain, "modulate:a", OPAQUE, fade_seconds)
 	if not closing_text.is_empty():
@@ -85,6 +87,9 @@ func _next_shot() -> void:
 	camera.fov = shot.fov
 	camera.global_transform = shot.camera_transform(0.0)
 	_subtitle.text = shot.subtitle
+	if shot.voice:
+		_voice.stream = shot.voice
+		_voice.play()
 	if not shot.cue.is_empty():
 		cue_reached.emit(shot.cue)
 

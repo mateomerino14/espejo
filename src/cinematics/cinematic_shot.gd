@@ -7,6 +7,8 @@ extends Node3D
 @export var fov := 50.0
 ## Texto en pantalla durante el plano: un diálogo, o el lugar y la fecha.
 @export_multiline var subtitle := ""
+## Lo que se dice en este plano; el subtítulo es su texto.
+@export var voice: AudioStream
 ## Nombre del momento que empieza con este plano; la escena decide qué pasa.
 @export var cue: StringName
 ## Si se asigna, la cámara le apunta todo el plano en vez de seguir el giro de los marcadores.

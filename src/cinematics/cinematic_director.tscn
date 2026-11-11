@@ -21,6 +21,10 @@ font_color = Color(0.6, 0.62, 0.66, 0.7)
 [node name="CinematicDirector" type="Node"]
 script = ExtResource("1_director")
 
+[node name="Voice" type="AudioStreamPlayer" parent="."]
+volume_db = 2.0
+bus = &"Efectos"
+
 [node name="Ui" type="CanvasLayer" parent="."]
 
 [node name="Subtitle" type="Label" parent="Ui"]
