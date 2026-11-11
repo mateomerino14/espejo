@@ -224,6 +224,25 @@ def make_mesh(name, verts, uvs, faces, weights, material):
     return ob
 
 
+def tinted(path, tint, name):
+    """Carga la textura y la tiñe en los píxeles, para que el color viaje dentro del glTF."""
+    image = bpy.data.images.load(path)
+    if tuple(tint) == (1, 1, 1):
+        return image
+    pixels = np.empty(len(image.pixels), dtype=np.float32)
+    image.pixels.foreach_get(pixels)
+    pixels = pixels.reshape(-1, 4)
+    pixels[:, :3] *= np.array(tint, dtype=np.float32)
+    copy = bpy.data.images.new(name + "_color", image.size[0], image.size[1], alpha=True)
+    copy.pixels.foreach_set(pixels.ravel())
+    folder = os.path.join(out_dir, "tenidas")
+    os.makedirs(folder, exist_ok=True)
+    copy.filepath_raw = os.path.join(folder, name.lower() + "_color.png")
+    copy.file_format = "PNG"
+    copy.save()
+    return copy
+
+
 def material(name, textures, tint=(1, 1, 1), alpha=False, roughness=0.8):
     """Material con la textura difusa (teñida), normales y transparencia recortada si hace falta."""
     mat = bpy.data.materials.new(name)
@@ -234,14 +253,8 @@ def material(name, textures, tint=(1, 1, 1), alpha=False, roughness=0.8):
     diffuse = textures.get("diffuseTexture")
     if diffuse and os.path.exists(diffuse):
         tex = nodes.new("ShaderNodeTexImage")
-        tex.image = bpy.data.images.load(diffuse)
-        mix = nodes.new("ShaderNodeMix")
-        mix.data_type = "RGBA"
-        mix.blend_type = "MULTIPLY"
-        mix.inputs["Factor"].default_value = 1.0
-        links.new(tex.outputs["Color"], mix.inputs["A"])
-        mix.inputs["B"].default_value = (*tint, 1.0)
-        links.new(mix.outputs["Result"], bsdf.inputs["Base Color"])
+        tex.image = tinted(diffuse, tint, name)
+        links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
         if alpha:
             links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
             mat.blend_method = "CLIP"
