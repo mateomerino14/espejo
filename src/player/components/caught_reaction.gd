@@ -16,7 +16,7 @@ const SHAKE_VERTICAL_RATIO := 1.3
 ## Rapidez con la que la mirada se clava en la cara.
 @export var turn_speed := 9.0
 ## Metros que la vista se arrastra hacia la cara.
-@export var pull_distance := 0.15
+@export var pull_distance := 0.08
 @export var pull_speed := 3.0
 ## Temblor de la vista en el momento del susto, que se va calmando.
 @export var shake_strength := 0.03
