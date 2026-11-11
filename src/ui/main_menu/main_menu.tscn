@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://src/enemies/components/qispi_animator.gd" id="14_animator"]
 [ext_resource type="PackedScene" path="res://assets/models/qispi/qispi.gltf" id="15_qispi"]
 [ext_resource type="Script" path="res://src/world/environment_quality.gd" id="quality_r"]
+[ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music_r"]
+[ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience_r"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("12_fell")
@@ -29,7 +31,7 @@ font_size = 22
 font_color = Color(0.64, 0.7, 0.76, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_credits"]
-font_size = 18
+font_size = 16
 font_color = Color(0.74, 0.78, 0.83, 1)
 line_spacing = 4.0
 
@@ -167,6 +169,7 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 14
 
 [node name="CreditsTitle" type="Label" parent="Ui/Column/CreditsPanel"]
@@ -174,9 +177,15 @@ layout_mode = 2
 text = "Créditos"
 label_settings = ExtResource("13_heading")
 
-[node name="CreditsText" type="Label" parent="Ui/Column/CreditsPanel"]
+[node name="CreditsScroll" type="ScrollContainer" parent="Ui/Column/CreditsPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CreditsText" type="Label" parent="Ui/Column/CreditsPanel/CreditsScroll"]
 custom_minimum_size = Vector2(460, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Idea, dirección y código: mateomerino14
 
 Hecho en Godot 4.7. El Q'ispi, los objetos del hostal y las texturas del salar se modelaron y pintaron por código en Blender.
@@ -185,7 +194,7 @@ Texturas escaneadas de Poly Haven (CC0): Charlotte Baglioni, Rob Tuytel y Amal K
 
 Movimientos del Q'ispi tomados de la base de captura de movimiento de Carnegie Mellon (mocap.cs.cmu.edu).
 
-Sonidos sintetizados por código.
+Sonidos y música armados con grabaciones de Freesound (CC0) de aglinder, BenjaminNelan, cms4f, craigsmith, davidbain, felix.blume, j1987, janbezouska, jaredpass24, khenshom, lisaisanut, MarleneAyni, mshahen, OwlStorm, Patitodilluvio_, PLukx, Proxima4, ralph.whitehead, razrox, Sclolex, timbreknight y wjtaylor. El Q'ispi y las puertas se sintetizaron por código.
 
 Tipografías IM Fell English SC (Igino Marini) y Lora, bajo licencia SIL Open Font.
 
@@ -210,3 +219,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="MusicDirector" parent="." instance=ExtResource("music_r")]
+
+[node name="Ambience" parent="." instance=ExtResource("ambience_r")]

@@ -3,6 +3,9 @@ extends CharacterBody3D
 ## El Q'ispi: vive del otro lado del reflejo. Acecha, sigue los ruidos, caza a Lucía si la ve o
 ## si ella lo mira por el visor, y el flash lo aturde cada vez por menos tiempo.
 
+## Cambió de estado: acecha, rastrea, caza o está aturdido.
+signal state_changed(new_state: State)
+
 enum State { STALK, TRACK, HUNT, STUNNED }
 
 const GROUP := &"enemies"
@@ -198,6 +201,7 @@ func _enter_state(new_state: State) -> void:
 			_stun_duration = maxf(_stun_duration * stun_resistance, min_stun_seconds)
 			_animator.set_stunned(true)
 			_shriek.play()
+	state_changed.emit(state)
 
 
 ## Dice si sabe dónde está Lucía: porque la ve o porque ella lo mira por el visor.
