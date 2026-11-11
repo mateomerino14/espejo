@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NoteData" format=3]
+
+[ext_resource type="Script" path="res://src/story/note_data.gd" id="1_note"]
+
+[resource]
+script = ExtResource("1_note")
+id = "nota_rosa"
+title = "Nota bajo la puerta"
+signature = "Doña Rosa"
+body = "Señorita Lucía:
+
+Le dejé una vela por si se corta la luz, que con esta lluvia se corta siempre. Una cosa más, y no se ría de mí. Si se despierta de noche, no se mire en el espejo del cuarto, y si lo hace, no se quede mirando. Mi mamá decía que en enero el salar se pone a mirar de vuelta.
+
+Mañana le preparo api con pastel para el viaje."
