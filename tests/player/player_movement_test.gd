@@ -1,5 +1,6 @@
 extends TestCase
-## Pruebas del jugador dentro de la sala de prueba: camina sobre el suelo y sus pasos hacen ruido.
+## Pruebas del jugador dentro de la sala de prueba: camina sobre el suelo, sus pasos hacen ruido y
+## con la cámara en alto no corre.
 
 const ROOM_SCENE := preload("res://src/world/test_room/test_room.tscn")
 const SETTLE_FRAMES := 20
@@ -22,6 +23,8 @@ func before_each() -> void:
 ## Suelta las teclas y libera la sala.
 func after_each() -> void:
 	Input.action_release("move_forward")
+	Input.action_release("sprint")
+	Input.action_release("camera_raise")
 	EventBus.noise_emitted.disconnect(_on_noise_emitted)
 	_room.free()
 
@@ -38,6 +41,16 @@ func test_walks_forward_on_floor() -> void:
 	assert_true(_player.is_on_floor(), "Debe seguir en el suelo")
 	assert_true(_player.move_state == Player.MoveState.WALK, "Debe estar caminando")
 	assert_true(_noises > 0, "Sus pasos deben emitir ruido")
+
+
+## Mirando por el visor no puede correr.
+func test_cannot_sprint_while_raising_camera() -> void:
+	await wait_physics_frames(SETTLE_FRAMES)
+	Input.action_press("camera_raise")
+	Input.action_press("sprint")
+	Input.action_press("move_forward")
+	await wait_physics_frames(SETTLE_FRAMES)
+	assert_true(_player.move_state == Player.MoveState.WALK, "Debe caminar en vez de correr")
 
 
 ## Cuenta los ruidos emitidos.

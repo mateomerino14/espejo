@@ -14,6 +14,9 @@ const LEAN_WALL_MARGIN := 0.2
 @export var sprint_speed := 4.6
 @export var crouch_speed := 1.2
 
+## Fracción de la velocidad que conserva mientras mira por el visor.
+@export_range(0.1, 1.0) var raised_speed_scale := 0.55
+
 @export_group("Aceleración")
 @export var acceleration := 10.0
 @export var deceleration := 14.0
@@ -38,16 +41,21 @@ var _is_crouch_requested := false
 @onready var _stamina: StaminaComponent = $StaminaComponent
 @onready var _footsteps: FootstepComponent = $FootstepComponent
 @onready var _lean_check: RayCast3D = $LeanCheck
+@onready var _photo_camera: PhotoCamera = $Head/Camera3D/PhotoCamera
 
 
 ## Prepara la cápsula, conecta los componentes y pone a Lucía de pie.
 func _ready() -> void:
 	_capsule = _collision.shape as CapsuleShape3D
-	_stamina.changed.connect(EventBus.stamina_changed.emit)
-	# El aliento emitió su estado en su _ready, que corre antes que este.
-	EventBus.stamina_changed.emit(_stamina.current, _stamina.max_stamina)
+	_connect_components()
 	_apply_height(stand_height)
 	_head.position.y = stand_height - eye_offset
+
+
+## Dispara la cámara con una sola pulsación.
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("camera_shoot") and _is_mouse_captured():
+		_photo_camera.shoot()
 
 
 ## Mueve a Lucía y alimenta a la cabeza, el aliento y los pasos.
@@ -55,6 +63,7 @@ func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var lean := Input.get_axis("lean_left", "lean_right")
 	_is_crouch_requested = Input.is_action_pressed("crouch")
+	_photo_camera.set_raised(Input.is_action_pressed("camera_raise"))
 	_update_crouch(delta)
 	_update_move_state(input_dir)
 	_stamina.set_draining(move_state == MoveState.SPRINT)
@@ -77,6 +86,19 @@ func is_crouching() -> bool:
 	return _capsule.height < stand_height - CROUCH_HEIGHT_TOLERANCE
 
 
+## Reenvía las señales de los componentes al bus y publica su estado inicial.
+func _connect_components() -> void:
+	_stamina.changed.connect(EventBus.stamina_changed.emit)
+	_photo_camera.raised_changed.connect(EventBus.camera_raised.emit)
+	_photo_camera.battery_changed.connect(EventBus.camera_battery_changed.emit)
+	_photo_camera.film_changed.connect(EventBus.film_changed.emit)
+	_photo_camera.photo_taken.connect(EventBus.photo_taken.emit)
+	# Los componentes emitieron su estado en su _ready, que corre antes que este.
+	EventBus.stamina_changed.emit(_stamina.current, _stamina.max_stamina)
+	EventBus.camera_battery_changed.emit(_photo_camera.battery, _photo_camera.max_battery)
+	EventBus.film_changed.emit(_photo_camera.film_remaining, _photo_camera.film_capacity)
+
+
 ## Elige quieto, caminar, correr o agachada según la entrada y el aliento.
 func _update_move_state(input_dir: Vector2) -> void:
 	var new_state := MoveState.WALK
@@ -84,20 +106,32 @@ func _update_move_state(input_dir: Vector2) -> void:
 		new_state = MoveState.IDLE
 	elif _is_crouch_requested or is_crouching():
 		new_state = MoveState.CROUCH
-	elif Input.is_action_pressed("sprint") and input_dir.y < 0.0 and _stamina.can_sprint():
+	elif _can_sprint(input_dir):
 		new_state = MoveState.SPRINT
 	move_state = new_state
 
 
-## Devuelve la velocidad máxima del estado actual.
+## Dice si puede correr: pide correr hacia adelante, le queda aliento y no mira por el visor.
+func _can_sprint(input_dir: Vector2) -> bool:
+	return (
+		Input.is_action_pressed("sprint")
+		and input_dir.y < 0.0
+		and _stamina.can_sprint()
+		and not _photo_camera.is_raised
+	)
+
+
+## Devuelve la velocidad máxima del estado actual, más lenta mirando por el visor.
 func _speed_for_state() -> float:
+	var speed := walk_speed
 	match move_state:
 		MoveState.SPRINT:
-			return sprint_speed
+			speed = sprint_speed
 		MoveState.CROUCH:
-			return crouch_speed
-		_:
-			return walk_speed
+			speed = crouch_speed
+	if _photo_camera.is_raised:
+		speed *= raised_speed_scale
+	return speed
 
 
 ## Aplica la gravedad mientras está en el aire.
@@ -152,3 +186,8 @@ func _free_space_to_side(direction: float) -> float:
 		return _head.lean_distance
 	var distance := _lean_check.global_position.distance_to(_lean_check.get_collision_point())
 	return maxf(distance - LEAN_WALL_MARGIN, 0.0)
+
+
+## Dice si el ratón está capturado, para no disparar al volver a la ventana.
+func _is_mouse_captured() -> bool:
+	return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED

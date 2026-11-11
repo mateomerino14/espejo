@@ -2,6 +2,9 @@
 
 [ext_resource type="PackedScene" path="res://src/player/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://src/ui/hud/hud.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://src/ui/viewfinder/viewfinder.tscn" id="3_viewfinder"]
+[ext_resource type="PackedScene" path="res://src/ui/album/album.tscn" id="4_album"]
+[ext_resource type="Script" path="res://src/photography/photo_subject.gd" id="5_subject"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_salt"]
 noise_type = 2
@@ -91,7 +94,24 @@ light_energy = 0.8
 shadow_enabled = true
 omni_range = 8.0
 
+[node name="Inscription" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.7, -7.97)
+layers = 1024
+modulate = Color(0.55, 0.08, 0.06, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "NO MIRES EL AGUA"
+font_size = 96
+outline_size = 0
+
+[node name="InscriptionSubject" type="Node3D" parent="Inscription"]
+script = ExtResource("5_subject")
+caption = "En la pared hay algo escrito que no estaba ahí: «no mires el agua»."
+
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 6)
 
 [node name="Hud" parent="." instance=ExtResource("2_hud")]
+
+[node name="Viewfinder" parent="." instance=ExtResource("3_viewfinder")]
+
+[node name="Album" parent="." instance=ExtResource("4_album")]
