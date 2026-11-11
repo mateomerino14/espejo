@@ -27,6 +27,8 @@
 [ext_resource type="Resource" path="res://src/story/notes/libro_huespedes.tres" id="25_r"]
 [ext_resource type="Resource" path="res://src/story/notes/nota_rosa.tres" id="26_r"]
 [ext_resource type="Resource" path="res://src/story/notes/nota_javier.tres" id="27_r"]
+[ext_resource type="PackedScene" path="res://src/ui/pause_menu/pause_menu.tscn" id="pause_r"]
+[ext_resource type="PackedScene" path="res://src/ui/film_effects/film_effects.tscn" id="film_r"]
 
 [node name="Level01" type="Node3D" node_paths=PackedStringArray("qispi")]
 script = ExtResource("1_r")
@@ -362,3 +364,7 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.2, 0.05, -12.8)
 [node name="Album" parent="." instance=ExtResource("9_r")]
 
 [node name="NoteViewer" parent="." instance=ExtResource("10_r")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("pause_r")]
+
+[node name="FilmEffects" parent="." instance=ExtResource("film_r")]
