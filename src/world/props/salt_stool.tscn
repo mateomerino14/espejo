@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/props/salt_stool.obj" id="1_r"]
+[ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="2_r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_shape"]
+size = Vector3(0.4, 0.45, 0.4)
+
+[node name="SaltStool" type="Node3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_r")
+surface_material_override/0 = ExtResource("2_r")
+
+[node name="Body" type="StaticBody3D" parent="." groups=["navigation_source"]]
+
+[node name="Shape" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.225, 0)
+shape = SubResource("BoxShape3D_shape")

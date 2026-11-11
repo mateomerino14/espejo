@@ -33,3 +33,13 @@ python3 salt_textures.py assets/textures/salar 1024
 ```
 
 En Godot se usan con los materiales triplanares de `src/world/materials/` (`salt_block.tres`, `salt_crust.tres`, `cardon.tres`), que ajustan la escala a metros reales.
+
+## Objetos del hotel
+
+`props.py` modela la cama de bloques de sal (con colchón y frazada de aguayo), la mesa y el banco de sal, la puerta de cardón con su marco, la lámpara de kerosene, la maleta y el mostrador de la recepción. Exporta un OBJ por material a `assets/models/props/`, sin UV, porque en Godot usan materiales triplanares.
+
+```bash
+python3 props.py assets/models/props
+```
+
+Cada objeto tiene su escena en `src/world/props/`, con colisión; los que estorban el paso están en el grupo `navigation_source`.
