@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://brfdc6boenyg5"
-path="res://.godot/imported/shutter.wav-bdfe97b293ab7e58e4ab08650b7515ad.sample"
+uid="uid://ckccis5kucaw8"
+path="res://.godot/imported/drip_1.wav-9e12a0e6f7ad6f552e629adaceb8a0f5.sample"
 
 [deps]
 
-source_file="res://assets/audio/shutter.wav"
-dest_files=["res://.godot/imported/shutter.wav-bdfe97b293ab7e58e4ab08650b7515ad.sample"]
+source_file="res://assets/audio/drip_1.wav"
+dest_files=["res://.godot/imported/drip_1.wav-9e12a0e6f7ad6f552e629adaceb8a0f5.sample"]
 
 [params]
 
