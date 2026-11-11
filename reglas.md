@@ -140,9 +140,10 @@ src/
 ├── player/           Lucía
 │   ├── player.tscn / player.gd      Raíz: lee la entrada y coordina
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
-│   └── components/                  Piezas independientes (aliento, pasos)
+│   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos)
+├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
 ├── world/            Niveles, materiales y salas de prueba
-└── ui/               HUD
+└── ui/               HUD, visor de la cámara y álbum
 assets/               Modelos, texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
 tools/                Herramientas de desarrollo; nada de aquí entra al juego
@@ -171,6 +172,19 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 | 2 | Jugador |
 | 3 | Interactuables |
 | 4 | Enemigos (el ente) |
+
+### Capas de render
+
+| Capa | Uso |
+|---|---|
+| 1 | Todo lo que se ve a simple vista |
+| 11 | Reflejo: solo se ve por el visor de la cámara (y, más adelante, en espejos y agua) |
+
+### Cámara de fotos
+
+- `PhotoCamera` vive en la cámara del jugador: levantada, acerca la vista y suma la capa 11 a lo que se dibuja.
+- Cada foto es un `Photo` con su imagen, si llevó flash y las descripciones de los `PhotoSubject` que salieron en cuadro, cerca y sin nada en medio.
+- El álbum y el visor solo escuchan `EventBus` (`camera_raised`, `film_changed`, `camera_battery_changed`, `photo_taken`).
 
 ### Buses de audio
 
