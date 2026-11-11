@@ -60,8 +60,19 @@ func test_pause_menu_pauses_and_resumes() -> void:
 	assert_false(menu.visible, "El menú debe ocultarse")
 
 
+## En calidad baja se apagan la iluminación global y la niebla volumétrica.
+func test_low_quality_turns_off_expensive_effects() -> void:
+	var environment: Environment = _level.get_node("WorldEnvironment").environment
+	Settings.set_high_quality(false)
+	assert_false(environment.sdfgi_enabled, "Debe apagar la iluminación global")
+	assert_false(environment.volumetric_fog_enabled, "Debe apagar la niebla volumétrica")
+	Settings.set_high_quality(true)
+	assert_true(environment.sdfgi_enabled, "Debe volver a encenderla")
+
+
 ## Deja los ajustes en sus valores por defecto sin escribir en disco.
 func _restore_defaults() -> void:
 	Settings.mouse_sensitivity = DEFAULT_SENSITIVITY
 	Settings.crouch_toggles = false
 	Settings.master_volume = DEFAULT_VOLUME
+	Settings.high_quality = true
