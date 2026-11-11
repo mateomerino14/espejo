@@ -142,7 +142,7 @@ src/
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
 │   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos)
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
-├── world/            Niveles, materiales y salas de prueba
+├── world/            Niveles, espejos (mirror/), materiales y salas de prueba
 └── ui/               HUD, visor de la cámara y álbum
 assets/               Modelos, texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
@@ -178,13 +178,19 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 | Capa | Uso |
 |---|---|
 | 1 | Todo lo que se ve a simple vista |
-| 11 | Reflejo: solo se ve por el visor de la cámara (y, más adelante, en espejos y agua) |
+| 11 | Reflejo: solo se ve por el visor de la cámara y en los espejos (más adelante, también en el agua) |
 
 ### Cámara de fotos
 
 - `PhotoCamera` vive en la cámara del jugador: levantada, acerca la vista y suma la capa 11 a lo que se dibuja.
 - Cada foto es un `Photo` con su imagen, si llevó flash y las descripciones de los `PhotoSubject` que salieron en cuadro, cerca y sin nada en medio.
 - El álbum y el visor solo escuchan `EventBus` (`camera_raised`, `film_changed`, `camera_battery_changed`, `photo_taken`).
+
+### Espejos
+
+- `Mirror` dibuja su reflejo con una cámara puesta en el ojo reflejado, cuyo plano cercano es el propio vidrio; así nada de lo que hay detrás de la pared se cuela en la imagen.
+- El vidrio mira hacia +Z local y se cuelga a pocos milímetros de la pared. Su tamaño se ajusta con `size`, y la nitidez, con `resolution`.
+- Cuando el ojo está detrás del espejo, el reflejo deja de dibujarse.
 
 ### Buses de audio
 
