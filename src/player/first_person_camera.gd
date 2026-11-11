@@ -26,6 +26,8 @@ const BOB_SIDE_AMPLITUDE_RATIO := 0.6
 @export var lean_speed := 8.0
 
 var look_enabled := true
+## Multiplica la sensibilidad; viene de los ajustes.
+var sensitivity_scale := 1.0
 
 var _target_height := 0.0
 var _bob_time := 0.0
@@ -45,7 +47,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	elif event is InputEventMouseMotion and _can_look_with_mouse():
-		_look(event.relative * mouse_sensitivity)
+		_look(event.relative * mouse_sensitivity * sensitivity_scale)
 
 
 ## Mira con el stick derecho y acerca la cabeza a su altura objetivo.

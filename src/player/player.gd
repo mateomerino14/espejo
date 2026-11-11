@@ -31,6 +31,8 @@ const LEAN_WALL_MARGIN := 0.2
 @export var eye_offset := 0.12
 @export var crouch_transition_speed := 9.0
 
+## Falso: hay que mantener la tecla. Verdadero: se alterna con cada pulsación. Viene de Settings.
+var crouch_toggles := false
 var move_state := MoveState.IDLE
 
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -52,6 +54,8 @@ var _controls_enabled := true
 ## Prepara la cápsula, conecta los componentes y pone a Lucía de pie.
 func _ready() -> void:
 	_capsule = _collision.shape as CapsuleShape3D
+	Settings.changed.connect(_apply_settings)
+	_apply_settings()
 	_connect_components()
 	_apply_height(stand_height)
 	_head.position.y = stand_height - eye_offset
@@ -61,7 +65,9 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _controls_enabled:
 		return
-	if event.is_action_pressed("interact"):
+	if crouch_toggles and event.is_action_pressed("crouch"):
+		_is_crouch_requested = not _is_crouch_requested
+	elif event.is_action_pressed("interact"):
 		_interactor.try_interact(self)
 	elif event.is_action_pressed("camera_shoot") and _is_mouse_captured():
 		_photo_camera.shoot()
@@ -74,7 +80,8 @@ func _physics_process(delta: float) -> void:
 	if _controls_enabled:
 		input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 		lean = Input.get_axis("lean_left", "lean_right")
-		_is_crouch_requested = Input.is_action_pressed("crouch")
+		if not crouch_toggles:
+			_is_crouch_requested = Input.is_action_pressed("crouch")
 		_photo_camera.set_raised(Input.is_action_pressed("camera_raise"))
 	_update_crouch(delta)
 	_update_move_state(input_dir)
@@ -229,3 +236,9 @@ func _free_space_to_side(direction: float) -> float:
 ## Dice si el ratón está capturado, para no disparar al volver a la ventana.
 func _is_mouse_captured() -> bool:
 	return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
+
+
+## Toma la sensibilidad y el modo de agacharse de los ajustes guardados.
+func _apply_settings() -> void:
+	crouch_toggles = Settings.crouch_toggles
+	_head.sensitivity_scale = Settings.mouse_sensitivity

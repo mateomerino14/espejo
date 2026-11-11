@@ -8,9 +8,13 @@ extends Node3D
 @export var qispi: Qispi
 
 
-## Empieza una partida limpia y espera la nota que despierta al ente.
+## Restaura la partida guardada o empieza una limpia, guarda y espera la nota del ente.
 func _ready() -> void:
 	GameState.reset()
+	if SaveGame.has_pending():
+		var pending := SaveGame.take_pending()
+		GameState.read_notes = pending.get(SaveGame.NOTES_KEY, PackedStringArray())
+	SaveGame.save(scene_file_path)
 	EventBus.note_opened.connect(_on_note_opened)
 
 

@@ -1,0 +1,22 @@
+ESPEJO
+Una historia del Manqha Pacha
+
+Cómo jugar
+Descomprime la carpeta y abre Espejo.exe. Si Windows avisa que no conoce al editor,
+elige "Más información" y luego "Ejecutar de todas formas".
+
+Controles
+Moverse ................ W A S D
+Correr ................. Shift
+Agacharse .............. Ctrl o C
+Asomarse ............... Q y Z
+Usar, abrir, leer ...... E
+Levantar la cámara ..... Clic derecho
+Tomar una foto ......... Clic izquierdo (con la cámara levantada)
+Álbum de fotos ......... Tab
+Pausa .................. Escape
+
+Algunas cosas solo se ven por el visor de la cámara o en los espejos.
+El flash aturde a lo que vive en el reflejo, pero cada vez le dura menos.
+
+La partida se guarda sola al empezar cada nivel.
