@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/props/reception_desk_salt.obj" id="1_r"]
+[ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="2_r"]
+[ext_resource type="ArrayMesh" path="res://assets/models/props/reception_desk_wood.obj" id="3_r"]
+[ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="4_r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_front"]
+size = Vector3(2.4, 1.05, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_counter"]
+size = Vector3(2.6, 0.06, 0.7)
+
+[node name="ReceptionDesk" type="Node3D"]
+
+[node name="Salt" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_r")
+surface_material_override/0 = ExtResource("2_r")
+
+[node name="Counter" type="MeshInstance3D" parent="."]
+mesh = ExtResource("3_r")
+surface_material_override/0 = ExtResource("4_r")
+
+[node name="Body" type="StaticBody3D" parent="." groups=["navigation_source"]]
+
+[node name="Front" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525, 0)
+shape = SubResource("BoxShape3D_front")
+
+[node name="Counter" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08, 0.05)
+shape = SubResource("BoxShape3D_counter")
