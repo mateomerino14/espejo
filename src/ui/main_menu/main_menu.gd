@@ -2,7 +2,8 @@ class_name MainMenu
 extends Node3D
 ## Pantalla de inicio: un cuarto del hostal frente a un espejo, y en el espejo, alguien detrás.
 
-const FIRST_LEVEL := "res://src/world/level_01/level_01.tscn"
+## La partida nueva empieza con la llegada al hostal.
+const INTRO := "res://src/cinematics/intro/intro.tscn"
 const OPAQUE := 1.0
 const CLEAR := 0.0
 ## El vaivén vertical va a otro ritmo para que no dibuje un círculo.
@@ -31,7 +32,7 @@ func _ready() -> void:
 	_camera_origin = _camera.position
 	_continue_button.disabled = not SaveGame.has_save()
 	_continue_button.pressed.connect(SaveGame.continue_game)
-	%NewGameButton.pressed.connect(SaveGame.new_game.bind(FIRST_LEVEL))
+	%NewGameButton.pressed.connect(SaveGame.new_game.bind(INTRO))
 	%OptionsButton.pressed.connect(_show_options)
 	%CreditsButton.pressed.connect(_show_credits)
 	%QuitButton.pressed.connect(get_tree().quit)
