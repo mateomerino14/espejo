@@ -1,4 +1,4 @@
-"""Genera los sonidos de la cámara de Lucía y del ente con síntesis simple.
+"""Genera los sonidos de la cámara de Lucía, del ente y del hotel con síntesis simple.
 
 Uso: python3 tools/generate_sounds.py assets/audio
 """
@@ -87,6 +87,19 @@ def scream():
     return body + glass_cracks(1.6, 30) * 0.8
 
 
+def creak():
+    """Bisagra de cardón: tirones de fricción cada vez más seguidos que hacen sonar la madera."""
+    t = seconds(0.85)
+    rate = 28.0 + 60.0 * t / t[-1]
+    phase = np.cumsum(rate) / RATE
+    pulses = np.zeros_like(t)
+    ticks = np.nonzero(np.diff(np.floor(phase)) > 0)[0]
+    pulses[ticks] = rng.uniform(0.5, 1.0, len(ticks))
+    body = resonate(pulses, 720.0, 260.0) + resonate(pulses, 1450.0, 420.0) * 0.5
+    envelope = np.minimum(t / 0.05, 1.0) * np.minimum((t[-1] - t) / 0.1, 1.0)
+    return body * envelope
+
+
 def write(path, signal, gain):
     """Normaliza y guarda la señal como WAV mono de 16 bits."""
     signal = signal / (np.abs(signal).max() + 1e-9) * gain
@@ -107,6 +120,7 @@ def main():
     write(folder / "focus.wav", focus(), 0.5)
     write(folder / "qispi_stunned.wav", stunned(), 0.8)
     write(folder / "qispi_scream.wav", scream(), 0.95)
+    write(folder / "door_creak.wav", creak(), 0.6)
     print("sonidos generados")
 
 
