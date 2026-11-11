@@ -46,6 +46,17 @@ func test_closes_when_used_again() -> void:
 	assert_almost_eq(_door.get_node("Hinge").rotation.y, 0.0, "Debe quedar cerrada")
 
 
+## Con llave no se abre y lo dice.
+func test_locked_door_stays_closed() -> void:
+	_door.is_locked = true
+	assert_true(
+		_interactable.get_prompt(null) == CardonDoor.LOCKED_PROMPT, "Debe decir que tiene llave"
+	)
+	_interactable.interact(null)
+	assert_false(_door.is_open, "No debe abrirse")
+	assert_true(_noises == 0, "No debe crujir")
+
+
 ## Cuenta los ruidos.
 func _on_noise_emitted(_origin: Vector3, _loudness: float) -> void:
 	_noises += 1
