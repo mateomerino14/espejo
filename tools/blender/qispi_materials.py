@@ -5,11 +5,15 @@ Uso: python3 qispi_materials.py <entrada.blend> <salida.blend>
 
 import bpy  # noqa: I001
 import sys
+from pathlib import Path
 from mathutils import Vector
 
 src, out = sys.argv[-2], sys.argv[-1]
 bpy.ops.wm.open_mainfile(filepath=src)
 HEAD = Vector((0.0, 0.2, 2.13))
+# Detalle real: la foto de la costra de sal (ver tools/download_textures.py), proyectada en caja.
+SCAN = Path(__file__).resolve().parents[2] / "assets/textures/salar/salt_crust_albedo.jpg"
+SCAN_SCALE = 3.0
 
 
 def new_mat(name):
@@ -126,6 +130,22 @@ def salt_skin(skin_ob):
     stains = node(nt, "ShaderNodeTexNoise", in_Scale=6.0, in_Detail=6.0)
     L.new(pos, stains.inputs["Vector"])
     base = mix(nt, (0.86, 0.85, 0.81, 1), (0.74, 0.71, 0.64, 1), stains.outputs["Fac"])
+    # La foto escaneada aporta poros, granos y grietas finas reales sobre el color base.
+    scaled = node(nt, "ShaderNodeVectorMath", operation="SCALE")
+    L.new(pos, scaled.inputs[0])
+    socket(scaled.inputs, "Scale").default_value = SCAN_SCALE
+    scan = node(nt, "ShaderNodeTexImage", projection="BOX", projection_blend=0.3)
+    scan.image = bpy.data.images.load(str(SCAN))
+    L.new(scaled.outputs[0], scan.inputs["Vector"])
+    scan_value = node(nt, "ShaderNodeRGBToBW")
+    L.new(scan.outputs["Color"], scan_value.inputs[0])
+    detail = node(nt, "ShaderNodeMapRange", in_From_Min=0.55, in_From_Max=0.95,
+                  in_To_Min=0.72, in_To_Max=1.08)
+    L.new(scan_value.outputs[0], detail.inputs["Value"])
+    tinted = node(nt, "ShaderNodeVectorMath", operation="SCALE")
+    L.new(base, tinted.inputs[0])
+    L.new(detail.outputs["Result"], socket(tinted.inputs, "Scale"))
+    base = tinted.outputs[0]
     face = sphere_mask(nt, pos, HEAD + Vector((0, 0.08, -0.04)), (0.09, 0.07, 0.14), 0.5)
     skin = mix(nt, base, (0.8, 0.69, 0.63, 1), face)
     hollows = [sphere_mask(nt, pos, Vector(skin_ob[key]), radii, 0.6) for key, radii in (
@@ -143,6 +163,9 @@ def salt_skin(skin_ob):
     inverted.inputs[0].default_value = 1.0
     L.new(cracks, inverted.inputs[1])
     L.new(inverted.outputs[0], bump.inputs["Height"])
+    fine_bump = node(nt, "ShaderNodeBump", in_Strength=0.45, in_Distance=0.002)
+    L.new(scan_value.outputs[0], fine_bump.inputs["Height"])
+    L.new(fine_bump.outputs["Normal"], bump.inputs["Normal"])
     L.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
     return m
 
