@@ -11,7 +11,8 @@ const LOCKED_PROMPT := "Está cerrada con llave"
 @export var is_open := false
 ## Cerrada con llave: no se abre, solo lo dice.
 @export var is_locked := false
-@export var open_angle_degrees := -100.0
+## Positivo: con el marco en una pared de pasillo, la puerta se abre hacia el cuarto.
+@export var open_angle_degrees := 100.0
 @export var swing_seconds := 0.8
 ## Volumen del crujido para quien escuche (0 a 1).
 @export var creak_loudness := 0.25
