@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/player/components/footstep_component.gd" id="4_footsteps"]
 [ext_resource type="PackedScene" path="res://src/player/components/photo_camera.tscn" id="9_photo"]
 [ext_resource type="Script" path="res://src/player/components/caught_reaction.gd" id="10_caught"]
+[ext_resource type="Script" path="res://src/player/components/interactor.gd" id="12_interactor"]
 [ext_resource type="AudioStream" path="res://assets/audio/qispi_scream.wav" id="11_scream"]
 [ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_1.wav" id="5_step1"]
 [ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_2.wav" id="6_step2"]
@@ -31,6 +32,7 @@ radius = 0.28
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 collision_layer = 2
+collision_mask = 17
 script = ExtResource("1_player")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -51,6 +53,12 @@ cull_mask = 1047551
 current = true
 fov = 75.0
 near = 0.05
+
+[node name="Interactor" type="RayCast3D" parent="Head/Camera3D"]
+target_position = Vector3(0, 0, -2.2)
+collision_mask = 21
+collide_with_areas = true
+script = ExtResource("12_interactor")
 
 [node name="PhotoCamera" parent="Head/Camera3D" node_paths=PackedStringArray("camera") instance=ExtResource("9_photo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -0.1)

@@ -46,6 +46,7 @@ var _controls_enabled := true
 @onready var _lean_check: RayCast3D = $LeanCheck
 @onready var _photo_camera: PhotoCamera = $Head/Camera3D/PhotoCamera
 @onready var _caught_reaction: CaughtReaction = $CaughtReaction
+@onready var _interactor: Interactor = $Head/Camera3D/Interactor
 
 
 ## Prepara la cápsula, conecta los componentes y pone a Lucía de pie.
@@ -56,9 +57,13 @@ func _ready() -> void:
 	_head.position.y = stand_height - eye_offset
 
 
-## Dispara la cámara con una sola pulsación.
+## Atiende las acciones de una sola pulsación: usar lo que hay al frente y disparar la cámara.
 func _unhandled_input(event: InputEvent) -> void:
-	if _controls_enabled and event.is_action_pressed("camera_shoot") and _is_mouse_captured():
+	if not _controls_enabled:
+		return
+	if event.is_action_pressed("interact"):
+		_interactor.try_interact(self)
+	elif event.is_action_pressed("camera_shoot") and _is_mouse_captured():
 		_photo_camera.shoot()
 
 
@@ -86,6 +91,7 @@ func _physics_process(delta: float) -> void:
 	if move_state == MoveState.SPRINT:
 		lean = 0.0
 	_head.update_lean(delta, lean, _free_space_to_side(lean))
+	_interactor.update_focus(self)
 
 
 ## Activa o desactiva la entrada, por ejemplo mientras la atrapan.
@@ -124,6 +130,7 @@ func _connect_components() -> void:
 	_photo_camera.film_changed.connect(EventBus.film_changed.emit)
 	_photo_camera.photo_taken.connect(EventBus.photo_taken.emit)
 	_photo_camera.flash_fired.connect(EventBus.flash_fired.emit)
+	_interactor.focus_changed.connect(EventBus.interaction_prompt_changed.emit)
 	# Los componentes emitieron su estado en su _ready, que corre antes que este.
 	EventBus.stamina_changed.emit(_stamina.current, _stamina.max_stamina)
 	EventBus.camera_battery_changed.emit(_photo_camera.battery, _photo_camera.max_battery)
