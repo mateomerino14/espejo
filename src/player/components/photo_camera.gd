@@ -15,6 +15,10 @@ const FLASH_FADE_SECONDS := 0.25
 const DEVELOP_FRAMES := 2
 ## Sin pantalla (pruebas en CI) no hay imagen que capturar.
 const HEADLESS_DISPLAY := "headless"
+## Después del obturador, Lucía pasa el rollo con la palanca.
+const ADVANCE_DELAY := 0.45
+## Y el flash empieza a cargarse para la próxima foto.
+const CHARGE_DELAY := 0.8
 
 ## Cámara del jugador, cuya vista se acerca y revela la capa del reflejo.
 @export var camera: Camera3D
@@ -46,7 +50,11 @@ var _cooldown_left := 0.0
 
 @onready var _flash: SpotLight3D = $FlashLight
 @onready var _shutter: AudioStreamPlayer3D = $Shutter
-@onready var _focus: AudioStreamPlayer3D = $Focus
+@onready var _raise_sound: AudioStreamPlayer3D = $Raise
+@onready var _lower_sound: AudioStreamPlayer3D = $Lower
+@onready var _advance: AudioStreamPlayer3D = $Advance
+@onready var _flash_charge: AudioStreamPlayer3D = $FlashCharge
+@onready var _dry_fire: AudioStreamPlayer3D = $DryFire
 
 
 ## Arranca con la batería llena, el rollo nuevo y el reflejo oculto.
@@ -76,7 +84,9 @@ func set_raised(value: bool) -> void:
 	is_raised = value
 	camera.set_cull_mask_value(reveal_layer, value)
 	if value:
-		_focus.play()
+		_raise_sound.play()
+	else:
+		_lower_sound.play()
 	raised_changed.emit(value)
 
 
@@ -93,7 +103,12 @@ func can_shoot() -> bool:
 
 
 ## Toma una foto, con flash si queda batería; la imagen se revela al dibujarse el cuadro.
+## Sin rollo, el obturador hace un clic seco y no dispara.
 func shoot() -> void:
+	if is_raised and film_remaining == 0 and _cooldown_left <= 0.0:
+		_cooldown_left = cooldown
+		_dry_fire.play()
+		return
 	if not can_shoot():
 		return
 	_cooldown_left = cooldown
@@ -106,8 +121,16 @@ func shoot() -> void:
 		_flash.light_energy = flash_energy
 		flash_fired.emit(global_position, -global_basis.z)
 	_shutter.play()
+	_play_after(_advance, ADVANCE_DELAY)
+	if battery >= flash_cost:
+		_play_after(_flash_charge, CHARGE_DELAY)
 	EventBus.noise_emitted.emit(global_position, shutter_loudness)
 	_develop(Photo.new(has_flash, _find_captions()))
+
+
+## Hace sonar [param sound] dentro de [param delay] segundos.
+func _play_after(sound: AudioStreamPlayer3D, delay: float) -> void:
+	create_tween().tween_callback(sound.play).set_delay(delay)
 
 
 ## Devuelve lo que la foto alcanza a mostrar de los sujetos que hay en cuadro.

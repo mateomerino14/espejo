@@ -153,6 +153,7 @@ theme/custom="res://src/ui/theme/espejo_theme.tres"
 3d_physics/layer_3="Interactuables"
 3d_physics/layer_4="Enemigos"
 3d_physics/layer_5="Puertas"
+3d_physics/layer_6="Superficies"
 
 [navigation]
 

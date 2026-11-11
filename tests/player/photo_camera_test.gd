@@ -78,3 +78,13 @@ func test_film_runs_out() -> void:
 	_camera.shoot()
 	assert_true(_camera.film_remaining == 0, "Debe gastar la última foto")
 	assert_false(_camera.can_shoot(), "Sin rollo no debe poder disparar")
+
+
+## Sin rollo el obturador hace un clic seco: no hay foto ni ruido que el ente oiga.
+func test_dry_fire_without_film() -> void:
+	_camera.film_remaining = 0
+	_camera.set_raised(true)
+	_camera.shoot()
+	await tree.process_frame
+	assert_true(_photos.is_empty(), "No debe salir ninguna foto")
+	assert_true(_camera.get_node("DryFire").playing, "Debe sonar el clic seco")
