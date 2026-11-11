@@ -143,7 +143,7 @@ src/
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
 │   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos, susto)
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
-├── world/            Niveles, espejos (mirror/), reaparición (respawn/) y salas de prueba
+├── world/            Niveles, espejos (mirror/), materiales del salar (materials/), reaparición (respawn/) y salas de prueba
 └── ui/               HUD, visor de la cámara, álbum y pantalla de captura
 assets/               Modelos (.gltf del Q'ispi), texturas y audio
 tests/                Pruebas, en carpetas que reflejan src/
@@ -240,6 +240,7 @@ Todo sonido nuevo se asigna a `Ambiente` o a `Efectos`, nunca directo a `Master`
 
 ## ASSETS
 
+- Las superficies usan los materiales triplanares de `src/world/materials/`, así no necesitan UV.
 - Los modelos salen de scripts de Blender en `tools/blender/` y se exportan a `assets/models/` (glTF u OBJ), con escala real en metros.
 - El audio se guarda en `.ogg`; los efectos cortos pueden ir en `.wav`.
 - Los sonidos y voces se generan con scripts en `tools/`; para cambiar uno se cambia su script y se vuelve a generar. Al reemplazar uno por una grabación real se mantiene el mismo nombre de archivo.
