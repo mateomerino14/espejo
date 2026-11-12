@@ -1,0 +1,20 @@
+{
+  "qubodup_door_set": {
+    "url": "https://opengameart.org/sites/default/files/qubodup-DoorSet.7z",
+    "page": "https://opengameart.org/content/door-open-door-close-set",
+    "author": "qubodup",
+    "license": "CC0"
+  },
+  "creaky_door_hinge": {
+    "url": "https://opengameart.org/sites/default/files/creaky_door_hinge.wav",
+    "page": "https://opengameart.org/content/creaky-door-hinge-spooky",
+    "author": "w.forster",
+    "license": "CC0"
+  },
+  "wood_metal_sfx": {
+    "url": "https://opengameart.org/sites/default/files/100-CC0-wood-metal-SFX.zip",
+    "page": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+    "author": "rubberduck",
+    "license": "CC0"
+  }
+}

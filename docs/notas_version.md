@@ -1,3 +1,13 @@
+# Espejo 1.0.1
+
+Arreglos después de ver el juego en video:
+
+- Lucía y Javier ahora sostienen la cámara con las dos manos en los finales, en lugar de llevarla colgando de la muñeca.
+- Don Celestino se sienta sobre una piedra a la altura justa y apoya la espalda en otra; antes quedaba sentado en el aire.
+- En primera persona, Lucía sostiene la cámara con la manga de la chamarra entera y la cámara queda frente a ella; antes la manga salía en pedazos sueltos y la cámara asomaba de costado.
+- Sonidos nuevos: las puertas suenan con el pestillo y la bisagra al abrirse y con un golpe de madera al cerrarse; los roperos chirrían y se cierran con Lucía adentro, y los casilleros suenan a lata.
+- Los créditos son más cortos: el autor, un agradecimiento, si la historia es real y qué es el Q'ispi. Las licencias de material de otros autores pasaron a LICENCIAS.txt, que viene junto al juego.
+
 # Espejo 1.0.0
 
 Primera versión completa: la noche entera de Lucía en el salar, de la llegada al hostal hasta el amanecer en el centro, en cinco niveles y con tres finales.

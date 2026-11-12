@@ -6,7 +6,6 @@ const LEVEL_SCENE := preload("res://src/world/level_05/level_05.tscn")
 const LEVEL_04_SCENE := preload("res://src/world/level_04/level_04.tscn")
 const ROUTER_PATH := "res://src/cinematics/endings/ending_router.tscn"
 const LEVEL_05_PATH := "res://src/world/level_05/level_05.tscn"
-const MAX_SETTLE_FRAMES := 300
 const REACH_TOLERANCE := 1.5
 const REFLECTION_LAYER := 1024
 
@@ -29,11 +28,11 @@ func after_each() -> void:
 func test_center_is_reachable() -> void:
 	var map := _level.get_world_3d().navigation_map
 	var start: Vector3 = _level.get_node("SpawnPoint").global_position
-	var far_goal: Vector3 = _level.get_node("Exit").global_position
-	for i in MAX_SETTLE_FRAMES:
-		if NavigationServer3D.map_get_closest_point(map, far_goal).distance_to(far_goal) < 1.0:
-			break
-		await wait_physics_frames(1)
+	var goals: Array[Vector3] = [
+		_level.get_node("NavigationRegion3D/Apacheta").global_position,
+		_level.get_node("Exit").global_position,
+	]
+	await wait_for_paths(map, start, goals, REACH_TOLERANCE)
 	for goal_name: String in ["NavigationRegion3D/Apacheta", "Exit"]:
 		var goal: Vector3 = _level.get_node(goal_name).global_position
 		var path := NavigationServer3D.map_get_path(map, start, goal, true)

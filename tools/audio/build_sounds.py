@@ -238,7 +238,6 @@ save_wav("camera_flash_charge", fade(whine.astype(np.float32), 0.01, 0.2), -22)
 save_wav("paper_pick", trim(hp(seg("151231", 0.0, 0.9), 120)), -6)
 save_wav("paper_open", trim(hp(seg("136778", 0.08, 1.75), 120)), -6)
 save_wav("paper_fold", trim(hp(seg("197179", 0.35, 1.1), 120)), -8)
-save_wav("door_close", trim(hp(load("266682"), 60), -45), -3)
 save_wav("door_locked", trim(hp(load("321087"), 80), -45), -6)
 
 # --- Ambiente ---

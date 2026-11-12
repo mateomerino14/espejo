@@ -9,6 +9,9 @@ const ENTER_PROMPT := "Esconderse"
 
 ## Lo que tarda Lucía en entrar o salir.
 @export var move_seconds := 0.7
+## Lo que suena al entrar y al salir: la puerta que se abre y se cierra con Lucía adentro.
+@export var enter_sound: AudioStream
+@export var leave_sound: AudioStream
 ## Cuánto puede girar la cabeza adentro, hacia cada lado.
 @export_range(0.0, 90.0) var look_limit_degrees := 35.0
 
@@ -48,14 +51,14 @@ func get_search_position() -> Vector3:
 func enter(player: Player) -> void:
 	occupant = player
 	_interactable.enabled = false
-	_sound.play()
+	_play(enter_sound)
 
 
 ## Lucía sale, o la sacan.
 func leave() -> void:
 	occupant = null
 	_interactable.enabled = true
-	_sound.play()
+	_play(leave_sound)
 
 
 ## Ofrece esconderse si está vacío.
@@ -67,3 +70,10 @@ func _build_prompt(_player: Player) -> String:
 func _on_interacted(player: Player) -> void:
 	if occupant == null:
 		player.hide_in(self)
+
+
+## Hace sonar [param stream], o el sonido que trae el escondite si no hay otro.
+func _play(stream: AudioStream) -> void:
+	if stream:
+		_sound.stream = stream
+	_sound.play()

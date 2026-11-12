@@ -187,25 +187,17 @@ horizontal_scroll_mode = 0
 custom_minimum_size = Vector2(460, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Idea, dirección y código: mateomerino14
+text = "Creado por Mateo Alejandro Merino Vidal
 
-Hecho en Godot 4.7. El Q'ispi, los objetos del hostal, los trenes, la isla con sus cardones y las texturas del salar se modelaron y pintaron por código en Blender.
+Gracias por jugar.
 
-Texturas escaneadas de Poly Haven (CC0): Charlotte Baglioni, Rob Tuytel, Amal Kumar y Dimitrios Savva.
+¿Pasó de verdad?
+No. Espejo es una historia inventada. Los lugares sí existen: los hostales de sal de Colchani, el cementerio de trenes de Uyuni, la isla Incahuasi y el salar, que en época de lluvias se vuelve el espejo más grande del mundo. También son reales las costumbres que aparecen en el juego: las apachetas donde los viajeros dejan una piedra para pedir buen camino, la q'oa que se quema como ofrenda y el Tío, dueño del mundo de abajo, al que los mineros le dejan coca y cigarros.
 
-Movimientos del Q'ispi tomados de la base de captura de movimiento de Carnegie Mellon (mocap.cs.cmu.edu).
+¿Qué es el Q'ispi?
+Un ser inventado para este juego. Su nombre viene del quechua: q'ispi es el vidrio, la piedra transparente. En la historia es el salar mirándose a sí mismo: cuando alguien se queda mucho rato mirando el agua, el agua le aprende la cara y se la queda. Por eso solo se lo ve a través de una lente, en un espejo o en un reflejo.
 
-Lucía, Javier, Mateo y Don Celestino se armaron con MakeHuman (CC0) y se mueven con la Universal Animation Library de Quaternius (CC0).
-
-Voces sintetizadas con Piper: ald (español de México, dominio público), claude (español de México, de HirCoir, Apache 2.0) y daniela (español de Argentina, entrenada con el corpus de Google publicado en OpenSLR 61, CC BY-SA 4.0).
-
-Sonidos y música armados con grabaciones de Freesound (CC0) de aglinder, BenjaminNelan, cms4f, craigsmith, davidbain, felix.blume, j1987, janbezouska, jaredpass24, khenshom, lisaisanut, MarleneAyni, mshahen, OwlStorm, Patitodilluvio_, PLukx, Proxima4, ralph.whitehead, razrox, Sclolex, timbreknight y wjtaylor. El Q'ispi y las puertas se sintetizaron por código.
-
-Tipografías IM Fell English SC (Igino Marini) y Lora, bajo licencia SIL Open Font.
-
-Desarrollado con la ayuda de Claude, de Anthropic.
-
-Para quienes viven junto al salar, que en enero no se quedan mirando el agua."
+Las licencias de las texturas, voces, sonidos y tipografías de otros autores están en LICENCIAS.txt, junto al juego."
 label_settings = SubResource("LabelSettings_credits")
 autowrap_mode = 3
 
