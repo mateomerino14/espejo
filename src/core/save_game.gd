@@ -1,5 +1,6 @@
 extends Node
-## Partida guardada en disco (autoload "SaveGame"): el nivel y las notas leídas.
+## Partida guardada en disco (autoload "SaveGame"): el nivel, las notas leídas y lo que decide
+## el final.
 ##
 ## Se escribe al empezar cada nivel. Al continuar, el nivel se carga y toma lo pendiente.
 
@@ -7,6 +8,9 @@ const DEFAULT_PATH := "user://partida.cfg"
 const SECTION := "partida"
 const LEVEL_KEY := "nivel"
 const NOTES_KEY := "notas"
+const OFFERINGS_KEY := "ofrendas"
+const CLUES_KEY := "pistas"
+const STARES_KEY := "miradas"
 
 var save_path := DEFAULT_PATH
 
@@ -23,6 +27,9 @@ func save(level_path: String) -> void:
 	var config := ConfigFile.new()
 	config.set_value(SECTION, LEVEL_KEY, level_path)
 	config.set_value(SECTION, NOTES_KEY, GameState.read_notes)
+	config.set_value(SECTION, OFFERINGS_KEY, GameState.offerings)
+	config.set_value(SECTION, CLUES_KEY, GameState.clue_photos)
+	config.set_value(SECTION, STARES_KEY, GameState.mirror_stares)
 	config.save(save_path)
 
 
@@ -52,6 +59,14 @@ func new_game(first_level_path: String) -> void:
 ## Dice si el próximo nivel que cargue debe restaurar una partida.
 func has_pending() -> bool:
 	return not _pending.is_empty()
+
+
+## Vuelca en GameState lo que guardaba la partida pendiente.
+func restore_state(pending: Dictionary) -> void:
+	GameState.read_notes = pending.get(NOTES_KEY, PackedStringArray())
+	GameState.offerings = pending.get(OFFERINGS_KEY, 0)
+	GameState.clue_photos = pending.get(CLUES_KEY, PackedStringArray())
+	GameState.mirror_stares = pending.get(STARES_KEY, 0)
 
 
 ## Entrega la partida por restaurar y la olvida.

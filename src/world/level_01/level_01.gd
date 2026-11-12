@@ -12,8 +12,7 @@ extends Node3D
 func _ready() -> void:
 	GameState.reset()
 	if SaveGame.has_pending():
-		var pending := SaveGame.take_pending()
-		GameState.read_notes = pending.get(SaveGame.NOTES_KEY, PackedStringArray())
+		SaveGame.restore_state(SaveGame.take_pending())
 	SaveGame.save(scene_file_path)
 	EventBus.note_opened.connect(_on_note_opened)
 
