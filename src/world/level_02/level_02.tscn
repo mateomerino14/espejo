@@ -1,0 +1,405 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/level_02/level_02.gd" id="1_r"]
+[ext_resource type="Environment" path="res://src/world/materials/hotel_environment.tres" id="2_r"]
+[ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="3_r"]
+[ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="4_r"]
+[ext_resource type="Material" path="res://src/world/materials/planks.tres" id="planks_r"]
+[ext_resource type="PackedScene" path="res://src/player/player.tscn" id="6_r"]
+[ext_resource type="PackedScene" path="res://src/ui/hud/hud.tscn" id="7_r"]
+[ext_resource type="PackedScene" path="res://src/ui/viewfinder/viewfinder.tscn" id="8_r"]
+[ext_resource type="PackedScene" path="res://src/ui/album/album.tscn" id="9_r"]
+[ext_resource type="PackedScene" path="res://src/ui/note_viewer/note_viewer.tscn" id="10_r"]
+[ext_resource type="PackedScene" path="res://src/world/respawn/respawn_director.tscn" id="11_r"]
+[ext_resource type="PackedScene" path="res://src/enemies/qispi/qispi.tscn" id="12_r"]
+[ext_resource type="PackedScene" path="res://src/world/mirror/mirror.tscn" id="13_r"]
+[ext_resource type="PackedScene" path="res://src/world/props/cardon_door.tscn" id="14_r"]
+[ext_resource type="PackedScene" path="res://src/world/props/salt_bed.tscn" id="15_r"]
+[ext_resource type="PackedScene" path="res://src/world/props/salt_table.tscn" id="16_r"]
+[ext_resource type="PackedScene" path="res://src/world/props/salt_stool.tscn" id="17_r"]
+[ext_resource type="PackedScene" path="res://src/world/props/kerosene_lamp.tscn" id="18_r"]
+[ext_resource type="PackedScene" path="res://src/world/props/suitcase.tscn" id="19_r"]
+[ext_resource type="PackedScene" path="res://src/world/props/reception_desk.tscn" id="20_r"]
+[ext_resource type="PackedScene" path="res://src/story/readable_note.tscn" id="21_r"]
+[ext_resource type="PackedScene" path="res://src/world/level_exit/level_exit.tscn" id="23_r"]
+[ext_resource type="NavigationMesh" path="res://src/world/level_02/level_02_navmesh.tres" id="24_r"]
+[ext_resource type="Resource" path="res://src/story/notes/nota_rosa_mantas.tres" id="26_r"]
+[ext_resource type="PackedScene" path="res://src/ui/pause_menu/pause_menu.tscn" id="pause_r"]
+[ext_resource type="PackedScene" path="res://src/ui/film_effects/film_effects.tscn" id="film_r"]
+[ext_resource type="Script" path="res://src/world/environment_quality.gd" id="quality_r"]
+[ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music_r"]
+[ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience_r"]
+
+[ext_resource type="PackedScene" path="res://src/world/apacheta/apacheta.tscn" id="apacheta_r"]
+[ext_resource type="PackedScene" path="res://src/world/pickups/battery_pickup.tscn" id="battery_r"]
+[ext_resource type="PackedScene" path="res://src/world/hiding_spot/wardrobe.tscn" id="wardrobe_r"]
+[ext_resource type="PackedScene" path="res://src/enemies/components/mirror_passage.tscn" id="passage_r"]
+[node name="Level02" type="Node3D" node_paths=PackedStringArray("front_door", "mirrors_root")]
+script = ExtResource("1_r")
+front_door = NodePath("FrontDoor")
+mirrors_root = NodePath("Mirrors")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_r")
+script = ExtResource("quality_r")
+
+[node name="Hostal" type="CSGCombiner3D" parent="." groups=["navigation_source"]]
+use_collision = true
+
+[node name="Shell" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -8.2)
+size = Vector3(12.4, 3.4, 33.6)
+material = ExtResource("3_r")
+
+[node name="Lobby" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.4, 4.199999999999999)
+operation = 2
+size = Vector3(11.2, 2.8, 7.999999999999999)
+material = ExtResource("3_r")
+
+[node name="Corridor" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.4, -8.0)
+operation = 2
+size = Vector3(2.4, 2.8, 16.6)
+material = ExtResource("3_r")
+
+[node name="R1" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 1.4, -2.5)
+operation = 2
+size = Vector3(4.199999999999999, 2.8, 4.6)
+material = ExtResource("3_r")
+
+[node name="R2" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1.4, -2.5)
+operation = 2
+size = Vector3(4.199999999999999, 2.8, 4.6)
+material = ExtResource("3_r")
+
+[node name="R3" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 1.4, -7.6)
+operation = 2
+size = Vector3(4.199999999999999, 2.8, 4.8)
+material = ExtResource("3_r")
+
+[node name="R4" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1.4, -7.6)
+operation = 2
+size = Vector3(4.199999999999999, 2.8, 4.8)
+material = ExtResource("3_r")
+
+[node name="R5" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 1.4, -12.8)
+operation = 2
+size = Vector3(4.199999999999999, 2.8, 4.799999999999999)
+material = ExtResource("3_r")
+
+[node name="R6" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1.4, -12.8)
+operation = 2
+size = Vector3(4.199999999999999, 2.8, 4.799999999999999)
+material = ExtResource("3_r")
+
+[node name="Dining" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.4, -19.4)
+operation = 2
+size = Vector3(11.2, 2.8, 6.400000000000002)
+material = ExtResource("3_r")
+
+[node name="Vestibule" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.4, -23.55)
+operation = 2
+size = Vector3(1.4, 2.8, 2.1000000000000014)
+material = ExtResource("3_r")
+
+[node name="R1Doorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3, 1.075, -2.5)
+operation = 2
+size = Vector3(0.4, 2.15, 1.0)
+material = ExtResource("3_r")
+
+[node name="R2Doorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3, 1.075, -2.5)
+operation = 2
+size = Vector3(0.4, 2.15, 1.0)
+material = ExtResource("3_r")
+
+[node name="R3Doorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3, 1.075, -7.6)
+operation = 2
+size = Vector3(0.4, 2.15, 1.0)
+material = ExtResource("3_r")
+
+[node name="R4Doorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3, 1.075, -7.6)
+operation = 2
+size = Vector3(0.4, 2.15, 1.0)
+material = ExtResource("3_r")
+
+[node name="R5Doorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3, 1.075, -12.8)
+operation = 2
+size = Vector3(0.4, 2.15, 1.0)
+material = ExtResource("3_r")
+
+[node name="R6Doorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3, 1.075, -12.8)
+operation = 2
+size = Vector3(0.4, 2.15, 1.0)
+material = ExtResource("3_r")
+
+[node name="BackDoorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.075, -22.55)
+operation = 2
+size = Vector3(1.0, 2.15, 0.3)
+material = ExtResource("3_r")
+
+[node name="Floor" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, -8.2)
+size = Vector3(11.2, 0.1, 32.8)
+material = ExtResource("4_r")
+
+[node name="Ceiling" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.76, -8.2)
+size = Vector3(11.2, 0.1, 32.8)
+material = ExtResource("planks_r")
+
+[node name="R1Door" parent="." instance=ExtResource("14_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.3, 0, -2.05)
+
+[node name="R2Door" parent="." instance=ExtResource("14_r")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.3, 0, -2.95)
+
+[node name="R3Door" parent="." instance=ExtResource("14_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.3, 0, -7.1499999999999995)
+is_open = true
+
+[node name="R4Door" parent="." instance=ExtResource("14_r")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.3, 0, -8.049999999999999)
+is_locked = true
+
+[node name="R5Door" parent="." instance=ExtResource("14_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.3, 0, -12.350000000000001)
+
+[node name="R6Door" parent="." instance=ExtResource("14_r")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.3, 0, -13.25)
+
+[node name="BackDoor" parent="." instance=ExtResource("14_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0, -22.55)
+is_locked = true
+
+[node name="FrontDoor" parent="." instance=ExtResource("14_r")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.45, 0, 8.3)
+is_locked = true
+
+[node name="FrontDoorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.075, 8.3)
+operation = 2
+size = Vector3(1.0, 2.15, 0.3)
+material = ExtResource("3_r")
+
+[node name="Desk" parent="." instance=ExtResource("20_r")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 3.6, 0, 4.2)
+
+[node name="DeskLamp" parent="." instance=ExtResource("18_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 1.11, 5.0)
+
+[node name="LobbyStool0" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0, 0, 2.5)
+
+[node name="LobbyStool1" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, 3.2)
+
+[node name="LobbyStool2" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0, 6.4)
+
+[node name="LobbyTable" parent="." instance=ExtResource("16_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0, 0, 3.8)
+
+[node name="R1Bed" parent="." instance=ExtResource("15_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.6, 0, -3.65)
+
+[node name="R1Stool" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0, -0.7)
+
+[node name="R2Bed" parent="." instance=ExtResource("15_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.6, 0, -3.65)
+
+[node name="R2Stool" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, -0.7)
+
+[node name="R2Lamp" parent="." instance=ExtResource("18_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.46, -0.7)
+
+[node name="R3Bed" parent="." instance=ExtResource("15_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.6, 0, -8.85)
+
+[node name="R3Stool" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0, -5.7)
+
+[node name="R3Lamp" parent="." instance=ExtResource("18_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0.46, -5.7)
+
+[node name="R4Bed" parent="." instance=ExtResource("15_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.6, 0, -8.85)
+
+[node name="R4Stool" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, -5.7)
+
+[node name="R5Bed" parent="." instance=ExtResource("15_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.6, 0, -14.049999999999999)
+
+[node name="R5Stool" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0, -10.9)
+
+[node name="R5Lamp" parent="." instance=ExtResource("18_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0.46, -10.9)
+
+[node name="R6Bed" parent="." instance=ExtResource("15_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.6, 0, -14.049999999999999)
+
+[node name="R6Stool" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, -10.9)
+
+[node name="Suitcase" parent="." instance=ExtResource("19_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, -14.6)
+
+[node name="RosaNote" parent="." instance=ExtResource("21_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1, 0.685, -19.4)
+note = ExtResource("26_r")
+
+[node name="Mirrors" type="Node3D" parent="."]
+
+[node name="LobbyMirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.57, 1.5, 4.0)
+coverable = true
+
+[node name="R1Mirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.569999999999999, 1.5, -1.9)
+coverable = true
+
+[node name="R2Mirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 5.569999999999999, 1.5, -1.9)
+coverable = true
+
+[node name="R3Mirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.569999999999999, 1.5, -7.0)
+coverable = true
+
+[node name="R4Mirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 5.569999999999999, 1.5, -7.0)
+coverable = true
+
+[node name="R5Mirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -5.569999999999999, 1.5, -12.200000000000001)
+coverable = true
+
+[node name="R6Mirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 5.569999999999999, 1.5, -12.200000000000001)
+coverable = true
+
+[node name="CorridorMirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -1.17, 1.5, -10.0)
+coverable = true
+
+[node name="DiningMirror" parent="Mirrors" instance=ExtResource("13_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1.5, -22.57)
+coverable = true
+
+[node name="CorridorLamp0" parent="." instance=ExtResource("18_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 1.9, -2.0)
+
+[node name="CorridorLamp1" parent="." instance=ExtResource("18_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 1.9, -7.5)
+
+[node name="CorridorLamp2" parent="." instance=ExtResource("18_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 1.9, -13.0)
+
+[node name="DiningTable0" parent="." instance=ExtResource("16_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0, -19.5)
+
+[node name="DiningStool00" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1000000000000005, 0, -19.5)
+
+[node name="DiningStool01" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3000000000000003, 0, -19.5)
+
+[node name="DiningTable1" parent="." instance=ExtResource("16_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 0, -19.5)
+
+[node name="DiningStool10" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3000000000000003, 0, -19.5)
+
+[node name="DiningStool11" parent="." instance=ExtResource("17_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1000000000000005, 0, -19.5)
+
+[node name="DiningLamp" parent="." instance=ExtResource("18_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0.68, -19.3)
+
+[node name="Exit" parent="." instance=ExtResource("23_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.9)
+message = "Afuera ya no llueve. A lo lejos, sobre el agua, se ven los vagones del cementerio de trenes."
+
+[node name="MoonLobby" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 2.4, 7.4)
+light_color = Color(0.5, 0.6, 0.85, 1)
+light_energy = 0.6
+omni_range = 7.0
+shadow_enabled = true
+
+[node name="MoonDining" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2.4, -21.8)
+light_color = Color(0.5, 0.6, 0.85, 1)
+light_energy = 0.6
+omni_range = 7.0
+shadow_enabled = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("24_r")
+
+[node name="Qispi" parent="." instance=ExtResource("12_r")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.5, 0.05, -2.5)
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.05, -21.6)
+
+[node name="RespawnDirector" parent="." node_paths=PackedStringArray("spawn_point") instance=ExtResource("11_r")]
+spawn_point = NodePath("../SpawnPoint")
+
+[node name="Player" parent="." instance=ExtResource("6_r")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.05, -21.6)
+
+[node name="Hud" parent="." instance=ExtResource("7_r")]
+
+[node name="Viewfinder" parent="." instance=ExtResource("8_r")]
+
+[node name="Album" parent="." instance=ExtResource("9_r")]
+
+[node name="NoteViewer" parent="." instance=ExtResource("10_r")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("pause_r")]
+
+[node name="FilmEffects" parent="." instance=ExtResource("film_r")]
+
+[node name="MusicDirector" parent="." node_paths=PackedStringArray("qispi") instance=ExtResource("music_r")]
+qispi = NodePath("../Qispi")
+
+[node name="Ambience" parent="." instance=ExtResource("ambience_r")]
+
+[node name="R2Wardrobe" parent="." instance=ExtResource("wardrobe_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, -4.48)
+
+[node name="R3Wardrobe" parent="." instance=ExtResource("wardrobe_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 0, -9.68)
+
+[node name="R4Wardrobe" parent="." instance=ExtResource("wardrobe_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, -9.68)
+
+[node name="MirrorPassage" parent="." node_paths=PackedStringArray("qispi") instance=ExtResource("passage_r")]
+qispi = NodePath("../Qispi")
+
+[node name="Apacheta" parent="." instance=ExtResource("apacheta_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7, 0, 1.0)
+apacheta_id = "hostal_vacio_recepcion"
+
+[node name="BatteriesR6" parent="." instance=ExtResource("battery_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.45, -10.9)

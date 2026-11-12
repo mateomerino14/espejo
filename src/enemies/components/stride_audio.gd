@@ -2,6 +2,9 @@ class_name StrideAudio
 extends Node3D
 ## Pasos del ente: suenan cada cierto tramo, más fuerte cuanto más rápido va.
 
+## Dio un paso.
+signal stepped
+
 @export var stride_length := 1.2
 @export var quiet_db := -10.0
 @export var loud_db := 4.0
@@ -21,3 +24,4 @@ func register_movement(distance: float, speed: float) -> void:
 	_distance = 0.0
 	_audio.volume_db = lerpf(quiet_db, loud_db, clampf(speed / loud_speed, 0.0, 1.0))
 	_audio.play()
+	stepped.emit()

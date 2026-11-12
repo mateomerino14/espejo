@@ -13,6 +13,8 @@ Primera versión jugable: el nivel 1, el hostal de sal de noche.
 - Tres finales en el centro del salar, al amanecer: "El reflejo devuelto", "El trato" y "El salar mira de vuelta". Cuál toca depende de las ofrendas, las fotos de pistas y de cuántas veces Lucía se quedó mirándose en un espejo.
 - Apachetas: dejar coca y una vela aquieta al Q'ispi un rato y guarda la partida. Hay una en el comedor del hostal.
 - Pilas para el flash, y fotos de pistas (el Q'ispi y la aparición del pasillo) que cuentan para el final.
+- Nivel 2, el hostal vacío: Lucía vuelve y no hay nadie. El Q'ispi sale por los espejos destapados; hay que taparlos todos con mantas para abrir la puerta principal.
+- Huellas mojadas del Q'ispi, que aparecen en el piso aunque no se lo vea, y voces robadas: a veces llama a Lucía con la voz de Javier o de Doña Rosa.
 - Música que sigue al Q'ispi: calma con una quena lejana, tensión cuando rastrea y bombo cuando caza, con su propio volumen en las opciones.
 
-Pendiente: voces, el agua del salar y los niveles 2 a 5.
+Pendiente: el agua del salar y los niveles 3 a 5.

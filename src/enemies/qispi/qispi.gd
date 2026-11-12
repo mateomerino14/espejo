@@ -83,6 +83,7 @@ var _calm_left := 0.0
 @onready var _hearing: NoiseHearing = $NoiseHearing
 @onready var _sight: PlayerSight = $Eyes
 @onready var _stride_audio: StrideAudio = $StrideAudio
+@onready var _footprints: FootprintTrail = $FootprintTrail
 @onready var _animator: QispiAnimator = $Model
 @onready var _shriek: AudioStreamPlayer3D = $Shriek
 @onready var _face_light: OmniLight3D = $FaceLight
@@ -94,6 +95,7 @@ func _ready() -> void:
 	_stun_duration = stun_seconds
 	_player = get_tree().get_first_node_in_group(Player.GROUP) as Player
 	_hearing.heard.connect(_on_heard)
+	_stride_audio.stepped.connect(_footprints.place)
 	EventBus.flash_fired.connect(_on_flash_fired)
 	EventBus.camera_raised.connect(_on_camera_raised)
 	EventBus.player_hiding_changed.connect(_on_player_hiding_changed)
@@ -131,6 +133,14 @@ func reset() -> void:
 func wake() -> void:
 	process_mode = Node.PROCESS_MODE_INHERIT
 	_enter_state(State.STALK)
+
+
+## Sale de un espejo en [param spot] y va a buscar a Lucía donde está ahora.
+func emerge_at(spot: Vector3, target: Vector3) -> void:
+	global_position = spot
+	velocity = Vector3.ZERO
+	_last_known_position = target
+	_enter_state(State.TRACK)
 
 
 ## Posición de su cara, a donde mira Lucía al ser atrapada.

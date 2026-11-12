@@ -1,7 +1,10 @@
 class_name Mirror
 extends Node3D
 ## Espejo plano: una cámara puesta en el reflejo del ojo mira a través del marco del espejo y
-## dibuja también la capa del reflejo, donde vive el ente.
+## dibuja también la capa del reflejo, donde vive el ente. Algunos se pueden tapar con una manta.
+
+## Lo taparon.
+signal covered
 
 ## Por debajo de esta distancia al vidrio no se actualiza el reflejo.
 const MIN_EYE_DISTANCE := 0.01
@@ -12,6 +15,11 @@ const FRAME_BORDER := 0.06
 const FRAME_DEPTH := 0.04
 ## Separación entre el vidrio y la madera, para que no parpadeen.
 const GLASS_GAP := 0.005
+const GROUP := &"mirrors"
+const COVER_PROMPT := "Tapar el espejo con una manta"
+## La manta cuelga un poco más grande que el marco y apenas por delante.
+const COVER_MARGIN := 0.08
+const COVER_DEPTH := 0.03
 
 ## Ancho y alto del vidrio en metros; el vidrio mira hacia +Z.
 @export var size := Vector2(1.0, 1.6)
@@ -27,6 +35,11 @@ const GLASS_GAP := 0.005
 @export var stare_distance := 2.2
 @export_range(5.0, 60.0) var stare_angle_degrees := 22.0
 
+@export_group("Manta")
+## Si Lucía puede taparlo; los espejos del nivel 1 no.
+@export var coverable := false
+@export var is_covered := false
+
 var _stare_time := 0.0
 var _has_counted_stare := false
 
@@ -34,6 +47,9 @@ var _has_counted_stare := false
 @onready var _frame: CSGBox3D = $Frame
 @onready var _viewport: SubViewport = $Reflection
 @onready var _camera: Camera3D = $Reflection/Camera3D
+@onready var _cover: MeshInstance3D = $Cover
+@onready var _interactable: Interactable = $Interactable
+@onready var _cover_sound: AudioStreamPlayer3D = $CoverSound
 
 
 ## Ajusta el vidrio, el marco y la imagen al tamaño del espejo.
@@ -46,15 +62,43 @@ func _ready() -> void:
 	_viewport.size = Vector2i(roundi(resolution * size.x / size.y), resolution)
 	var material := _surface.material_override as ShaderMaterial
 	material.set_shader_parameter("reflection", _viewport.get_texture())
+	var cloth := BoxMesh.new()
+	cloth.size = Vector3(size.x + COVER_MARGIN * 2.0, size.y + COVER_MARGIN * 2.0, COVER_DEPTH)
+	_cover.mesh = cloth
+	_cover.position.z = COVER_DEPTH
+	var reach := _interactable.get_child(0) as CollisionShape3D
+	(reach.shape as BoxShape3D).size = Vector3(size.x, size.y, COVER_DEPTH * 10.0)
+	_interactable.prompt = COVER_PROMPT
+	_interactable.interacted.connect(_on_interacted)
+	_show_cover()
+	add_to_group(GROUP)
 
 
 ## Sigue al ojo de quien mira y cuenta si se queda mirándose.
 func _process(delta: float) -> void:
+	if is_covered:
+		return
 	var eye := get_viewport().get_camera_3d()
 	if eye:
 		update_reflection(eye.global_position)
 		if counts_stares:
 			_update_stare(eye, delta)
+
+
+## Lo tapa con la manta: deja de reflejar y de contar miradas.
+func cover() -> void:
+	if is_covered:
+		return
+	is_covered = true
+	_cover_sound.play()
+	_show_cover()
+	covered.emit()
+
+
+## Lo deja tapado sin ruido ni aviso, como al continuar una partida.
+func restore_cover() -> void:
+	is_covered = true
+	_show_cover()
 
 
 ## Dice si [param eye] mira el espejo de frente y de cerca.
@@ -90,3 +134,16 @@ func update_reflection(eye: Vector3) -> void:
 	var reflected := Vector3(local_eye.x, local_eye.y, -local_eye.z)
 	_camera.global_transform = global_transform * Transform3D(FACING_FRONT, reflected)
 	_camera.set_frustum(size.y, Vector2(local_eye.x, -local_eye.y), local_eye.z, far)
+
+
+## Muestra la manta y apaga el reflejo si está tapado; si no, deja tapar solo a los que se puede.
+func _show_cover() -> void:
+	_cover.visible = is_covered
+	_interactable.enabled = coverable and not is_covered
+	if is_covered:
+		_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+
+
+## Lucía lo tapa.
+func _on_interacted(_player: Player) -> void:
+	cover()
