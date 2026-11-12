@@ -7,7 +7,9 @@ const IDLE := &"idle"
 const WALK := &"walk"
 const TALK := &"talk"
 const AIM := &"camera_aim"
-const LOOPED: Array[StringName] = [&"idle", &"walk", &"talk"]
+## Parado con la cámara en las dos manos, a la altura del pecho.
+const HOLD := &"camera_idle"
+const LOOPED: Array[StringName] = [&"idle", &"walk", &"talk", &"camera_idle"]
 ## Ruedas del auto, que giran al andar.
 const WHEELS: Array[String] = ["WheelFL", "WheelFR", "WheelBL", "WheelBR"]
 ## Cambio suave entre animaciones.

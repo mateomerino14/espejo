@@ -46,18 +46,18 @@ func _ready() -> void:
 func _on_cue(cue: StringName) -> void:
 	match cue:
 		DAWN:
-			play(lucia, IDLE)
+			play(lucia, HOLD)
 		APPROACH:
 			qispi.global_transform = qispi_near.global_transform
 			play(lucia, AIM)
 		PHOTO:
 			create_tween().tween_callback(_shoot).set_delay(AIM_SECONDS)
 		JAVIER_WAKES:
-			play(lucia, IDLE)
+			play(lucia, HOLD)
 			play(javier, TALK)
 		LUCIA_ANSWERS:
 			play(javier, IDLE)
-			play(lucia, TALK)
+			play(lucia, HOLD)
 		LEAVE:
 			lucia.visible = false
 			javier.visible = false
@@ -76,5 +76,5 @@ func _shoot() -> void:
 	javier.visible = true
 	face(javier, lucia.global_position)
 	face(lucia, javier.global_position)
-	play(lucia, IDLE)
+	play(lucia, HOLD)
 	play(javier, IDLE)

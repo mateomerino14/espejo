@@ -47,3 +47,20 @@ func add_to_tree(node: Node) -> Node:
 func wait_physics_frames(count: int) -> void:
 	for i in count:
 		await tree.physics_frame
+
+
+## Espera a que la navegación tenga camino de [param start] a cada meta, a menos de
+## [param tolerance]; en mapas grandes se arma de a poco. Se rinde a los [param max_frames].
+func wait_for_paths(
+	map: RID, start: Vector3, goals: Array[Vector3], tolerance: float, max_frames := 600
+) -> void:
+	for i in max_frames:
+		var ready := true
+		for goal in goals:
+			var path := NavigationServer3D.map_get_path(map, start, goal, true)
+			if path.is_empty() or path[path.size() - 1].distance_to(goal) >= tolerance:
+				ready = false
+				break
+		if ready:
+			return
+		await tree.physics_frame
