@@ -17,6 +17,7 @@ Primera versión jugable: el nivel 1, el hostal de sal de noche.
 - Huellas mojadas del Q'ispi, que aparecen en el piso aunque no se lo vea, y voces robadas: a veces llama a Lucía con la voz de Javier o de Doña Rosa.
 - Nivel 3, el cementerio de trenes: vagones oxidados y una locomotora sobre la tierra seca, un charco donde se refleja el Q'ispi, el altar del Tío dentro de un vagón con la lista de Mateo, y el sombrero de Javier junto al agua. El altar y la lista son fotos de pistas.
 - Nivel 4, la isla Incahuasi: un cerro de coral fósil lleno de cardones en medio del salar inundado. En la cima espera Don Celestino junto a su q'oa; mientras habla, con voz y subtítulos, el Q'ispi se aquieta. Hay una apacheta en la cima, grietas entre las rocas para esconderse y, al terminar de escucharlo, su bote en la orilla oeste.
+- Nivel 5, el centro del salar: Lucía deja el bote y camina por el agua, que refleja el cielo del amanecer como un espejo, entre conos de sal. En el agua, y solo ahí, Javier camina delante de ella y la espera si se queda atrás. Hay una última apacheta a mitad de camino, y en el centro, un espejo parado en el agua que abre el final.
 - Música que sigue al Q'ispi: calma con una quena lejana, tensión cuando rastrea y bombo cuando caza, con su propio volumen en las opciones.
 
-Pendiente: el agua del salar y el nivel 5.
+Pendiente: pulir detalles antes de la versión 1.0.

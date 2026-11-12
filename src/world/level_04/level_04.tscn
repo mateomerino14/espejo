@@ -60,9 +60,9 @@ fog_density = 0.022
 [sub_resource type="BoxShape3D" id="Shape_flat"]
 size = Vector3(400, 1, 400)
 
-[sub_resource type="BoxMesh" id="Flat"]
+[sub_resource type="PlaneMesh" id="Flat"]
 material = ExtResource("salt")
-size = Vector3(400, 1, 400)
+size = Vector2(400, 400)
 
 [sub_resource type="BoxShape3D" id="Shape_wall"]
 size = Vector3(140, 6, 1)
@@ -221,6 +221,7 @@ transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.0
 shape = SubResource("Shape_flat")
 
 [node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Flat"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.500, 0.000)
 mesh = SubResource("Flat")
 
 [node name="Cacti" type="StaticBody3D" parent="NavigationRegion3D" groups=["navigation_source"]]
@@ -904,6 +905,7 @@ mesh = SubResource("Side")
 transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, -33.500, -0.150, -10.000)
 message = "Subes al bote y remas hacia el centro del salar. El agua está quieta, como un espejo."
 closed_message = "Un bote amarrado. Antes, alguien en la cima de la isla tiene algo que decirte."
+next_level_path = "res://src/world/level_05/level_05.tscn"
 
 [node name="Qispi" parent="." instance=ExtResource("qispi")]
 transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 2.807, -32.000)
