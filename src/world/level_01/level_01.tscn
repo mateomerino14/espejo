@@ -33,6 +33,7 @@
 [ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music_r"]
 [ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience_r"]
 
+[ext_resource type="PackedScene" path="res://src/world/hiding_spot/wardrobe.tscn" id="wardrobe_r"]
 [node name="Level01" type="Node3D" node_paths=PackedStringArray("qispi")]
 script = ExtResource("1_r")
 wake_note = ExtResource("27_r")
@@ -377,3 +378,12 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -3.2, 0.05, -12.8)
 qispi = NodePath("../Qispi")
 
 [node name="Ambience" parent="." instance=ExtResource("ambience_r")]
+
+[node name="R2Wardrobe" parent="." instance=ExtResource("wardrobe_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, -4.48)
+
+[node name="R3Wardrobe" parent="." instance=ExtResource("wardrobe_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 0, -9.68)
+
+[node name="R4Wardrobe" parent="." instance=ExtResource("wardrobe_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, -9.68)

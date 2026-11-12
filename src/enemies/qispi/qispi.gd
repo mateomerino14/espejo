@@ -41,6 +41,15 @@ const WORLD_MASK := 17
 @export_range(0.1, 1.0) var stun_resistance := 0.7
 @export var min_stun_seconds := 0.8
 
+@export_group("Escondites")
+## Revisa los escondites a esta distancia de donde perdió a Lucía.
+@export var search_radius := 3.5
+@export var search_seconds := 2.0
+## Si no la vio entrar, a veces igual la encuentra.
+@export_range(0.0, 1.0) var find_chance := 0.3
+## Si la perdió de vista hace menos que esto cuando se escondió, sabe dónde está.
+@export var seen_hiding_seconds := 1.2
+
 @export_group("Visor")
 ## Si Lucía lo mira por el visor a esta distancia o menos, se da cuenta.
 @export var watched_range := 10.0
@@ -59,6 +68,11 @@ var _last_known_position := Vector3.ZERO
 var _move_target := Vector3.ZERO
 var _move_speed := 0.0
 var _stun_duration := 0.0
+## El escondite donde la vio meterse.
+var _suspected_spot: HidingSpot
+## El escondite que está revisando ahora y los que ya revisó en esta búsqueda.
+var _search_spot: HidingSpot
+var _searched: Array[HidingSpot] = []
 
 @onready var _agent: NavigationAgent3D = $NavigationAgent3D
 @onready var _hearing: NoiseHearing = $NoiseHearing
@@ -77,6 +91,7 @@ func _ready() -> void:
 	_hearing.heard.connect(_on_heard)
 	EventBus.flash_fired.connect(_on_flash_fired)
 	EventBus.camera_raised.connect(_on_camera_raised)
+	EventBus.player_hiding_changed.connect(_on_player_hiding_changed)
 	_enter_state(State.STALK)
 
 
@@ -146,17 +161,35 @@ func _update_stalk(delta: float) -> void:
 		_move_speed = 0.0
 
 
-## Va hacia lo último que supo, mira alrededor y, si no encuentra nada, vuelve a acechar.
+## Va hacia lo último que supo, revisa los escondites cercanos y mira alrededor; si no encuentra
+## nada, vuelve a acechar.
 func _update_track(delta: float) -> void:
 	if _notices_player():
 		_enter_state(State.HUNT)
 		return
-	if _has_arrived():
-		_move_speed = 0.0
+	if not _has_arrived():
+		return
+	_move_speed = 0.0
+	if _search_spot == null:
+		var spot := _spot_to_search()
+		if spot:
+			_search_spot = spot
+			_searched.append(spot)
+			_state_timer = search_seconds
+			_go_to(spot.get_search_position(), track_speed)
+			return
 		rotation.y += LOOK_AROUND_SPEED * delta
-		_state_timer -= delta
-		if _state_timer <= 0.0:
-			_enter_state(State.STALK)
+	_state_timer -= delta
+	if _state_timer > 0.0:
+		return
+	if _search_spot == null:
+		_enter_state(State.STALK)
+		return
+	var checked := _search_spot
+	_search_spot = null
+	_state_timer = track_look_seconds
+	if _finds_player_in(checked):
+		_catch()
 
 
 ## Corre hacia Lucía; si la pierde un rato, va a rastrear donde la vio por última vez.
@@ -178,7 +211,8 @@ func _update_stunned(delta: float) -> void:
 	_state_timer -= delta
 	if _state_timer <= 0.0:
 		_animator.set_stunned(false)
-		_last_known_position = _player.global_position
+		if not _player.is_hidden():
+			_last_known_position = _player.global_position
 		_enter_state(State.TRACK)
 
 
@@ -190,8 +224,12 @@ func _enter_state(new_state: State) -> void:
 	match state:
 		State.STALK:
 			_is_waiting = false
+			_searched.clear()
+			_search_spot = null
+			_suspected_spot = null
 			_go_to(_random_point_near(_home.origin), stalk_speed)
 		State.TRACK:
+			_search_spot = null
 			_state_timer = track_look_seconds
 			_go_to(_last_known_position, track_speed)
 		State.HUNT:
@@ -263,19 +301,46 @@ func _apply_gravity(delta: float) -> void:
 		velocity.y -= _gravity * delta
 
 
-## Avisa una sola vez si alcanzó a Lucía; aturdido no atrapa.
+## Atrapa a Lucía si la alcanzó; aturdido no atrapa y escondida hay que encontrarla primero.
 func _check_catch() -> void:
-	if _has_caught or state == State.STUNNED or _player == null:
+	if _has_caught or state == State.STUNNED or _player == null or _player.is_hidden():
 		return
 	var offset := (_player.global_position - global_position) * HORIZONTAL_PLANE
 	if offset.length() <= CATCH_DISTANCE:
-		_has_caught = true
-		if offset != Vector3.ZERO:
-			rotation.y = atan2(-offset.x, -offset.z)
-		_animator.play_catch()
-		# Una luz fría solo en la embestida, para que su cara se vea en el susto.
-		_face_light.visible = true
-		EventBus.player_caught.emit()
+		_catch()
+
+
+## La atrapa una sola vez: la mira, embiste y avisa.
+func _catch() -> void:
+	_has_caught = true
+	var offset := (_player.global_position - global_position) * HORIZONTAL_PLANE
+	if offset != Vector3.ZERO:
+		rotation.y = atan2(-offset.x, -offset.z)
+	_animator.play_catch()
+	# Una luz fría solo en la embestida, para que su cara se vea en el susto.
+	_face_light.visible = true
+	EventBus.player_caught.emit()
+
+
+## El escondite más cercano a donde la perdió que todavía no revisó; primero el que la vio usar.
+func _spot_to_search() -> HidingSpot:
+	if _suspected_spot and _suspected_spot not in _searched:
+		return _suspected_spot
+	var nearest: HidingSpot
+	var nearest_distance := search_radius
+	for spot: HidingSpot in get_tree().get_nodes_in_group(HidingSpot.GROUP):
+		var distance := spot.global_position.distance_to(_last_known_position)
+		if spot not in _searched and distance <= nearest_distance:
+			nearest = spot
+			nearest_distance = distance
+	return nearest
+
+
+## Dice si la encuentra en [param spot]: siempre si la vio entrar, si no, a veces.
+func _finds_player_in(spot: HidingSpot) -> bool:
+	if spot.occupant == null:
+		return false
+	return spot == _suspected_spot or randf() < find_chance
 
 
 ## Devuelve un punto caminable al azar cerca del indicado; sin mapa listo, el mismo punto.
@@ -298,6 +363,15 @@ func _on_heard(origin: Vector3, _strength: float) -> void:
 			_enter_state(State.TRACK)
 		State.HUNT:
 			_last_known_position = origin
+
+
+## Si la estaba cazando y la perdió recién, sabe en qué escondite se metió.
+func _on_player_hiding_changed(spot: HidingSpot) -> void:
+	if spot == null or not can_process():
+		return
+	if state == State.HUNT and _unseen_time <= seen_hiding_seconds:
+		_suspected_spot = spot
+		_last_known_position = spot.get_search_position()
 
 
 ## Recuerda si Lucía mira por el visor.

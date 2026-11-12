@@ -1,0 +1,432 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/hiding_spot/hiding_spot.gd" id="1_spot"]
+[ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="cardon"]
+[ext_resource type="Script" path="res://src/interaction/interactable.gd" id="2_interactable"]
+[ext_resource type="AudioStream" path="res://assets/audio/door_creak.wav" id="3_creak"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_Back"]
+material = ExtResource("cardon")
+size = Vector3(1.000, 1.950, 0.030)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Left"]
+material = ExtResource("cardon")
+size = Vector3(0.030, 1.950, 0.600)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Right"]
+material = ExtResource("cardon")
+size = Vector3(0.030, 1.950, 0.600)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Top"]
+material = ExtResource("cardon")
+size = Vector3(1.000, 0.030, 0.600)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Bottom"]
+material = ExtResource("cardon")
+size = Vector3(1.000, 0.120, 0.600)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Crown"]
+material = ExtResource("cardon")
+size = Vector3(1.060, 0.060, 0.640)
+
+[sub_resource type="BoxMesh" id="BoxMesh_StileLO"]
+material = ExtResource("cardon")
+size = Vector3(0.040, 1.770, 0.030)
+
+[sub_resource type="BoxMesh" id="BoxMesh_StileLI"]
+material = ExtResource("cardon")
+size = Vector3(0.040, 1.770, 0.030)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL0"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL1"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL2"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL3"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL4"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL5"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL6"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL7"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL8"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL9"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL10"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL11"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL12"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL13"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL14"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL15"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL16"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL17"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatL18"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_StileRO"]
+material = ExtResource("cardon")
+size = Vector3(0.040, 1.770, 0.030)
+
+[sub_resource type="BoxMesh" id="BoxMesh_StileRI"]
+material = ExtResource("cardon")
+size = Vector3(0.040, 1.770, 0.030)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR0"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR1"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR2"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR3"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR4"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR5"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR6"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR7"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR8"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR9"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR10"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR11"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR12"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR13"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR14"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR15"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR16"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR17"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxMesh" id="BoxMesh_SlatR18"]
+material = ExtResource("cardon")
+size = Vector3(0.440, 0.060, 0.015)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_body"]
+size = Vector3(1.06, 1.95, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_front"]
+size = Vector3(1.0, 1.7, 0.25)
+
+[node name="Wardrobe" type="Node3D"]
+script = ExtResource("1_spot")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Back" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 0.975, -0.285)
+mesh = SubResource("BoxMesh_Back")
+
+[node name="Left" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.485, 0.975, 0.000)
+mesh = SubResource("BoxMesh_Left")
+
+[node name="Right" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.485, 0.975, 0.000)
+mesh = SubResource("BoxMesh_Right")
+
+[node name="Top" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 1.935, 0.000)
+mesh = SubResource("BoxMesh_Top")
+
+[node name="Bottom" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 0.060, 0.000)
+mesh = SubResource("BoxMesh_Bottom")
+
+[node name="Crown" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 1.980, 0.010)
+mesh = SubResource("BoxMesh_Crown")
+
+[node name="StileLO" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.480, 1.005, 0.285)
+mesh = SubResource("BoxMesh_StileLO")
+
+[node name="StileLI" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020, 1.005, 0.285)
+mesh = SubResource("BoxMesh_StileLI")
+
+[node name="SlatL0" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.180, 0.285)
+mesh = SubResource("BoxMesh_SlatL0")
+
+[node name="SlatL1" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.268, 0.285)
+mesh = SubResource("BoxMesh_SlatL1")
+
+[node name="SlatL2" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.356, 0.285)
+mesh = SubResource("BoxMesh_SlatL2")
+
+[node name="SlatL3" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.444, 0.285)
+mesh = SubResource("BoxMesh_SlatL3")
+
+[node name="SlatL4" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.532, 0.285)
+mesh = SubResource("BoxMesh_SlatL4")
+
+[node name="SlatL5" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.620, 0.285)
+mesh = SubResource("BoxMesh_SlatL5")
+
+[node name="SlatL6" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.708, 0.285)
+mesh = SubResource("BoxMesh_SlatL6")
+
+[node name="SlatL7" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.796, 0.285)
+mesh = SubResource("BoxMesh_SlatL7")
+
+[node name="SlatL8" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.884, 0.285)
+mesh = SubResource("BoxMesh_SlatL8")
+
+[node name="SlatL9" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 0.972, 0.285)
+mesh = SubResource("BoxMesh_SlatL9")
+
+[node name="SlatL10" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.060, 0.285)
+mesh = SubResource("BoxMesh_SlatL10")
+
+[node name="SlatL11" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.148, 0.285)
+mesh = SubResource("BoxMesh_SlatL11")
+
+[node name="SlatL12" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.236, 0.285)
+mesh = SubResource("BoxMesh_SlatL12")
+
+[node name="SlatL13" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.324, 0.285)
+mesh = SubResource("BoxMesh_SlatL13")
+
+[node name="SlatL14" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.412, 0.285)
+mesh = SubResource("BoxMesh_SlatL14")
+
+[node name="SlatL15" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.500, 0.285)
+mesh = SubResource("BoxMesh_SlatL15")
+
+[node name="SlatL16" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.588, 0.285)
+mesh = SubResource("BoxMesh_SlatL16")
+
+[node name="SlatL17" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.676, 0.285)
+mesh = SubResource("BoxMesh_SlatL17")
+
+[node name="SlatL18" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.250, 1.764, 0.285)
+mesh = SubResource("BoxMesh_SlatL18")
+
+[node name="StileRO" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.480, 1.005, 0.285)
+mesh = SubResource("BoxMesh_StileRO")
+
+[node name="StileRI" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.020, 1.005, 0.285)
+mesh = SubResource("BoxMesh_StileRI")
+
+[node name="SlatR0" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.180, 0.285)
+mesh = SubResource("BoxMesh_SlatR0")
+
+[node name="SlatR1" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.268, 0.285)
+mesh = SubResource("BoxMesh_SlatR1")
+
+[node name="SlatR2" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.356, 0.285)
+mesh = SubResource("BoxMesh_SlatR2")
+
+[node name="SlatR3" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.444, 0.285)
+mesh = SubResource("BoxMesh_SlatR3")
+
+[node name="SlatR4" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.532, 0.285)
+mesh = SubResource("BoxMesh_SlatR4")
+
+[node name="SlatR5" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.620, 0.285)
+mesh = SubResource("BoxMesh_SlatR5")
+
+[node name="SlatR6" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.708, 0.285)
+mesh = SubResource("BoxMesh_SlatR6")
+
+[node name="SlatR7" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.796, 0.285)
+mesh = SubResource("BoxMesh_SlatR7")
+
+[node name="SlatR8" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.884, 0.285)
+mesh = SubResource("BoxMesh_SlatR8")
+
+[node name="SlatR9" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 0.972, 0.285)
+mesh = SubResource("BoxMesh_SlatR9")
+
+[node name="SlatR10" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.060, 0.285)
+mesh = SubResource("BoxMesh_SlatR10")
+
+[node name="SlatR11" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.148, 0.285)
+mesh = SubResource("BoxMesh_SlatR11")
+
+[node name="SlatR12" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.236, 0.285)
+mesh = SubResource("BoxMesh_SlatR12")
+
+[node name="SlatR13" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.324, 0.285)
+mesh = SubResource("BoxMesh_SlatR13")
+
+[node name="SlatR14" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.412, 0.285)
+mesh = SubResource("BoxMesh_SlatR14")
+
+[node name="SlatR15" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.500, 0.285)
+mesh = SubResource("BoxMesh_SlatR15")
+
+[node name="SlatR16" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.588, 0.285)
+mesh = SubResource("BoxMesh_SlatR16")
+
+[node name="SlatR17" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.676, 0.285)
+mesh = SubResource("BoxMesh_SlatR17")
+
+[node name="SlatR18" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.250, 1.764, 0.285)
+mesh = SubResource("BoxMesh_SlatR18")
+
+[node name="Body" type="StaticBody3D" parent="." groups=["navigation_source"]]
+
+[node name="Shape" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.975, 0)
+shape = SubResource("BoxShape3D_body")
+
+[node name="Interactable" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_interactable")
+
+[node name="Shape" type="CollisionShape3D" parent="Interactable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0.4)
+shape = SubResource("BoxShape3D_front")
+
+[node name="Inside" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.12, -0.06)
+
+[node name="Exit" type="Marker3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0.85)
+
+[node name="Search" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.05)
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.3)
+stream = ExtResource("3_creak")
+volume_db = -6.0
+bus = &"Efectos"
