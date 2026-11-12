@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NoteData" format=3]
+
+[ext_resource type="Script" path="res://src/story/note_data.gd" id="1_note"]
+
+[resource]
+script = ExtResource("1_note")
+id = "nota_javier"
+title = "Hoja arrancada de una libreta"
+signature = "Javier, sin fecha"
+body = "Lucía, si lees esto es que ya no estoy en el cuarto. Me desperté con sed, fui al baño y el espejo estaba vacío. El cuarto sí, la puerta sí, la toalla colgada, todo. Yo no.
+
+Pensé que era el sueño y me eché agua en la cara. Cuando levanté la vista había alguien detrás de mí, en el espejo, con mi cara. Sonreía como yo no sé sonreír.
+
+Me voy a buscar a Doña Rosa. No te mires. Y si escuchas que te llamo desde el agua, no soy yo."

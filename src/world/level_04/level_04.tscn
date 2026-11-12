@@ -1,0 +1,917 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/level_04/level_04.gd" id="level"]
+[ext_resource type="PackedScene" path="res://src/player/player.tscn" id="player"]
+[ext_resource type="PackedScene" path="res://src/ui/hud/hud.tscn" id="hud"]
+[ext_resource type="PackedScene" path="res://src/ui/viewfinder/viewfinder.tscn" id="viewfinder"]
+[ext_resource type="PackedScene" path="res://src/ui/album/album.tscn" id="album"]
+[ext_resource type="PackedScene" path="res://src/ui/note_viewer/note_viewer.tscn" id="notes"]
+[ext_resource type="PackedScene" path="res://src/world/respawn/respawn_director.tscn" id="respawn"]
+[ext_resource type="PackedScene" path="res://src/enemies/qispi/qispi.tscn" id="qispi"]
+[ext_resource type="PackedScene" path="res://src/world/apacheta/apacheta.tscn" id="apacheta"]
+[ext_resource type="PackedScene" path="res://src/world/pickups/battery_pickup.tscn" id="battery"]
+[ext_resource type="PackedScene" path="res://src/world/hiding_spot/crevice.tscn" id="crevice"]
+[ext_resource type="PackedScene" path="res://src/story/celestino/celestino.tscn" id="celestino"]
+[ext_resource type="PackedScene" path="res://src/world/level_exit/level_exit.tscn" id="exit"]
+[ext_resource type="PackedScene" path="res://src/ui/pause_menu/pause_menu.tscn" id="pause"]
+[ext_resource type="PackedScene" path="res://src/ui/film_effects/film_effects.tscn" id="film"]
+[ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music"]
+[ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience"]
+[ext_resource type="PackedScene" path="res://src/world/water/water_surface.tscn" id="water"]
+[ext_resource type="PackedScene" path="res://src/world/footstep_surface/footstep_surface.tscn" id="surface"]
+[ext_resource type="ArrayMesh" path="res://assets/models/island/island.obj" id="island"]
+[ext_resource type="Shape3D" path="res://src/world/level_04/island_shape.tres" id="island_shape"]
+[ext_resource type="ArrayMesh" path="res://assets/models/island/cactus_0.obj" id="cactus0"]
+[ext_resource type="ArrayMesh" path="res://assets/models/island/cactus_1.obj" id="cactus1"]
+[ext_resource type="ArrayMesh" path="res://assets/models/island/cactus_2.obj" id="cactus2"]
+[ext_resource type="ArrayMesh" path="res://assets/models/island/boulder_0.obj" id="boulder0"]
+[ext_resource type="ArrayMesh" path="res://assets/models/island/boulder_1.obj" id="boulder1"]
+[ext_resource type="Material" path="res://src/world/materials/coral_rock.tres" id="rock"]
+[ext_resource type="Material" path="res://src/world/materials/coral_gravel.tres" id="gravel"]
+[ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="salt"]
+[ext_resource type="Material" path="res://src/world/materials/cactus.tres" id="cactus"]
+[ext_resource type="PackedScene" path="res://src/world/props/rowboat.tscn" id="rowboat"]
+[ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="flicker"]
+[ext_resource type="NavigationMesh" path="res://src/world/level_04/level_04_navmesh.tres" id="navmesh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
+sky_top_color = Color(0.01, 0.015, 0.035, 1)
+sky_horizon_color = Color(0.07, 0.08, 0.12, 1)
+ground_bottom_color = Color(0.02, 0.02, 0.025, 1)
+ground_horizon_color = Color(0.07, 0.08, 0.12, 1)
+
+[sub_resource type="Sky" id="Sky_night"]
+sky_material = SubResource("Sky_mat")
+
+[sub_resource type="Environment" id="Environment_night"]
+background_mode = 2
+sky = SubResource("Sky_night")
+ambient_light_source = 2
+ambient_light_color = Color(0.32, 0.37, 0.5, 1)
+ambient_light_energy = 0.65
+tonemap_mode = 3
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.7
+fog_enabled = true
+fog_light_color = Color(0.05, 0.06, 0.09, 1)
+fog_density = 0.022
+
+[sub_resource type="BoxShape3D" id="Shape_flat"]
+size = Vector3(400, 1, 400)
+
+[sub_resource type="PlaneMesh" id="Flat"]
+material = ExtResource("salt")
+size = Vector2(400, 400)
+
+[sub_resource type="BoxShape3D" id="Shape_wall"]
+size = Vector3(140, 6, 1)
+
+[sub_resource type="CylinderMesh" id="SummitGravel"]
+material = ExtResource("gravel")
+top_radius = 3.5
+bottom_radius = 3.7
+height = 0.06
+radial_segments = 32
+
+[sub_resource type="SphereShape3D" id="Shape_boulder"]
+radius = 0.8
+
+[sub_resource type="CylinderShape3D" id="Shape_cactus"]
+radius = 0.38
+height = 4.0
+
+[sub_resource type="SphereMesh" id="Seat"]
+material = ExtResource("rock")
+radial_segments = 12
+rings = 6
+
+[sub_resource type="BoxShape3D" id="Shape_seat"]
+size = Vector3(0.9, 0.5, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_clay"]
+albedo_color = Color(0.32, 0.18, 0.12, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="Brazier"]
+material = SubResource("Mat_clay")
+top_radius = 0.26
+bottom_radius = 0.16
+height = 0.28
+
+[sub_resource type="StandardMaterial3D" id="Mat_ember"]
+albedo_color = Color(0.2, 0.05, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.35, 0.05, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="CylinderMesh" id="Embers"]
+material = SubResource("Mat_ember")
+top_radius = 0.22
+bottom_radius = 0.22
+height = 0.02
+
+[sub_resource type="Gradient" id="Gradient_puff"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="Texture_puff"]
+gradient = SubResource("Gradient_puff")
+width = 64
+height = 64
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_smoke"]
+transparency = 1
+albedo_texture = SubResource("Texture_puff")
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.6, 0.62, 0.66, 0.16)
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+
+[sub_resource type="QuadMesh" id="SmokePuff"]
+material = SubResource("Mat_smoke")
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="Curve" id="Curve_smoke"]
+_data = [Vector2(0, 0.3), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_smoke"]
+offsets = PackedFloat32Array(0, 0.2, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="MultiMesh" id="Boulders0"]
+transform_format = 1
+instance_count = 39
+mesh = ExtResource("boulder0")
+buffer = PackedFloat32Array(-0.2473, 0.0000, -0.3155, 9.1653, 0.0000, 0.3015, 0.0000, 8.4542, 0.3786, 0.0000, -0.2061, -14.2185, 0.6906, 0.0000, 1.6178, -15.5111, 0.0000, 1.3737, 0.0000, 3.2912, -1.9414, 0.0000, 0.5755, -3.7949, 0.4586, 0.0000, 0.3047, -7.1886, 0.0000, 0.3910, 0.0000, 4.2952, -0.3656, 0.0000, 0.3822, 4.3383, 0.3747, 0.0000, 0.3895, -23.9823, 0.0000, 0.3994, 0.0000, 0.9572, -0.4674, 0.0000, 0.3123, -17.7225, 0.5103, 0.0000, 0.6946, 2.9644, 0.0000, 0.6515, 0.0000, 8.3489, -0.8335, 0.0000, 0.4252, -3.4598, -1.4700, 0.0000, 0.4403, -26.5962, 0.0000, 1.0414, 0.0000, 0.1141, -0.5284, 0.0000, -1.2250, 1.0074, -0.2645, 0.0000, -0.3014, 0.5502, 0.0000, 0.2987, 0.0000, 6.5815, 0.3617, 0.0000, -0.2204, 0.7212, -0.6785, 0.0000, 0.3370, -6.4398, 0.0000, 0.5265, 0.0000, 4.3872, -0.4044, 0.0000, -0.5654, 4.5355, 0.8571, 0.0000, -0.1805, -11.2662, 0.0000, 0.5894, 0.0000, 1.9943, 0.2165, 0.0000, 0.7143, 9.7275, -0.7628, 0.0000, -0.2383, -0.9178, 0.0000, 0.5431, 0.0000, 4.1307, 0.2860, 0.0000, -0.6357, -26.6156, -0.1584, 0.0000, -0.3247, 36.5923, 0.0000, 0.2804, 0.0000, 0.2164, 0.3896, 0.0000, -0.1320, -9.6626, -0.3869, 0.0000, -0.6980, -4.8870, 0.0000, 0.6151, 0.0000, 7.4942, 0.8376, 0.0000, -0.3224, -7.9783, -0.0735, 0.0000, 0.3538, -17.9885, 0.0000, 0.2873, 0.0000, 1.5762, -0.4246, 0.0000, -0.0612, -25.0208, 0.6401, 0.0000, -0.2503, -11.2687, 0.0000, 0.4714, 0.0000, 4.3938, 0.3004, 0.0000, 0.5335, -17.0399, 0.6988, 0.0000, -0.0438, 11.4659, 0.0000, 0.4672, 0.0000, 8.1253, 0.0526, 0.0000, 0.5823, -11.3306, 0.1225, 0.0000, -0.5336, 19.3042, 0.0000, 0.4346, 0.0000, 4.8578, 0.6404, 0.0000, 0.1021, -12.4877, 1.8081, 0.0000, -0.1322, -12.4313, 0.0000, 1.2100, 0.0000, 4.7185, 0.1586, 0.0000, 1.5067, -11.2136, 1.7062, 0.0000, 0.1715, 6.1632, 0.0000, 1.1457, 0.0000, 7.1549, -0.2058, 0.0000, 1.4219, -1.7926, 0.4955, 0.0000, -1.4241, -1.5948, 0.0000, 1.1862, 0.0000, 5.6684, 1.7089, 0.0000, 0.4129, 2.3316, 0.2379, 0.0000, 0.7792, -1.3666, 0.0000, 0.6433, 0.0000, 8.7775, -0.9351, 0.0000, 0.1982, -7.0045, -0.1878, 0.0000, 0.5234, 10.2173, 0.0000, 0.4370, 0.0000, 6.0625, -0.6281, 0.0000, -0.1565, -20.4179, -1.1719, 0.0000, 0.3855, -9.8717, 0.0000, 0.8400, 0.0000, 2.4798, -0.4626, 0.0000, -0.9766, 8.7302, 1.3046, 0.0000, 1.3086, -1.4920, 0.0000, 1.3610, 0.0000, 7.4055, -1.5703, 0.0000, 1.0872, -2.3234, 0.3136, 0.0000, -0.4952, -9.2215, 0.0000, 0.4480, 0.0000, 5.4823, 0.5943, 0.0000, 0.2613, -14.6155, 0.4519, 0.0000, -0.1038, -24.8997, 0.0000, 0.3125, 0.0000, 0.1677, 0.1246, 0.0000, 0.3765, 5.7177, -0.8950, 0.0000, -0.8478, 3.0534, 0.0000, 0.9034, 0.0000, 5.7891, 1.0174, 0.0000, -0.7459, -22.8552, 0.3118, 0.0000, 0.2827, -22.1046, 0.0000, 0.3072, 0.0000, 1.7088, -0.3392, 0.0000, 0.2599, -12.4731, 0.9945, 0.0000, 1.0759, -8.2980, 0.0000, 1.0864, 0.0000, 0.9186, -1.2911, 0.0000, 0.8287, -35.3120, 1.3925, 0.0000, -0.1785, 21.4218, 0.0000, 0.9392, 0.0000, 2.6654, 0.2142, 0.0000, 1.1604, -23.3181, -0.1413, 0.0000, -0.5797, -1.8699, 0.0000, 0.4732, 0.0000, 8.2374, 0.6956, 0.0000, -0.1178, -5.5395, 0.2528, 0.0000, 0.2540, -5.5867, 0.0000, 0.2640, 0.0000, 6.8701, -0.3049, 0.0000, 0.2106, -4.5463, 0.6007, 0.0000, 0.9286, -7.4094, 0.0000, 0.8439, 0.0000, 3.9006, -1.1143, 0.0000, 0.5005, -23.1513, -1.0589, 0.0000, -0.5168, -6.7761, 0.0000, 0.8181, 0.0000, 6.2078, 0.6202, 0.0000, -0.8825, -3.2419, -0.7672, 0.0000, 1.0762, 6.4234, 0.0000, 1.0014, 0.0000, 7.2100, -1.2914, 0.0000, -0.6394, -19.3161, -1.0688, 0.0000, 1.4488, 12.9148, 0.0000, 1.3605, 0.0000, 6.3518, -1.7385, 0.0000, -0.8907, -16.4069, 0.9325, 0.0000, -0.3958, -19.4826, 0.0000, 0.6977, 0.0000, 0.0761, 0.4750, 0.0000, 0.7771, -33.1086, -0.2122, 0.0000, -0.8162, -16.3534, 0.0000, 0.6681, 0.0000, 3.2655, 0.9794, 0.0000, -0.1768, -5.2072, 0.3073, 0.0000, 0.2295, -19.8423, 0.0000, 0.2751, 0.0000, 2.2849, -0.2753, 0.0000, 0.2561, -5.3713, 0.6592, 0.0000, -0.0647, 35.8544, 0.0000, 0.4425, 0.0000, 0.2946, 0.0776, 0.0000, 0.5493, -11.2070)
+
+[sub_resource type="MultiMesh" id="Boulders1"]
+transform_format = 1
+instance_count = 31
+mesh = ExtResource("boulder1")
+buffer = PackedFloat32Array(-0.1327, 0.0000, 0.2969, -10.7836, 0.0000, 0.2534, 0.0000, 0.2378, -0.3562, 0.0000, -0.1106, 18.9537, 0.5858, 0.0000, 0.0433, 2.3503, 0.0000, 0.3921, 0.0000, 7.4940, -0.0519, 0.0000, 0.4882, -18.6224, 1.8748, 0.0000, 0.1932, -0.6758, 0.0000, 1.2594, 0.0000, 7.8750, -0.2318, 0.0000, 1.5623, -3.4213, -0.1674, 0.0000, 0.7006, 1.1621, 0.0000, 0.5715, 0.0000, 4.9424, -0.8407, 0.0000, -0.1395, 5.2593, -0.5637, 0.0000, -0.3006, -8.6668, 0.0000, 0.4461, 0.0000, 0.9378, 0.3608, 0.0000, -0.4697, -35.6576, -0.4012, 0.0000, 0.6010, -9.3707, 0.0000, 0.5502, 0.0000, 0.2107, -0.7212, 0.0000, -0.3344, -39.3616, -0.3925, 0.0000, -0.1024, 11.4049, 0.0000, 0.2742, 0.0000, 6.6516, 0.1229, 0.0000, -0.3271, -17.5933, 1.6542, 0.0000, -0.3087, -3.2211, 0.0000, 1.1301, 0.0000, 7.8059, 0.3705, 0.0000, 1.3785, -6.2322, 1.0913, 0.0000, -0.0669, 25.1712, 0.0000, 0.7295, 0.0000, 2.8171, 0.0803, 0.0000, 0.9094, -8.0095, 0.3759, 0.0000, 0.1291, 1.7716, 0.0000, 0.2710, 0.0000, 5.5900, -0.1549, 0.0000, 0.3132, -23.4527, -0.1978, 0.0000, 0.9433, 3.8727, 0.0000, 0.7660, 0.0000, 7.8204, -1.1319, 0.0000, -0.1648, -18.2003, 0.4068, 0.0000, -0.0372, 4.2896, 0.0000, 0.2728, 0.0000, 8.6235, 0.0446, 0.0000, 0.3390, -3.9327, -0.5167, 0.0000, 0.2141, 9.7333, 0.0000, 0.3847, 0.0000, 7.5242, -0.2569, 0.0000, -0.4306, -4.8868, -1.0558, 0.0000, -1.2307, -12.7457, 0.0000, 1.2103, 0.0000, 0.1005, 1.4768, 0.0000, -0.8798, -37.5316, -1.2326, 0.0000, 0.9632, 10.5155, 0.0000, 1.1265, 0.0000, 1.9942, -1.1559, 0.0000, -1.0272, -33.2349, -0.0338, 0.0000, -0.3180, 20.2841, 0.0000, 0.2554, 0.0000, 4.1411, 0.3816, 0.0000, -0.0282, -5.8793, 0.4354, 0.0000, 0.0072, -10.8122, 0.0000, 0.2903, 0.0000, 4.1551, -0.0086, 0.0000, 0.3629, -19.2760, 0.9642, 0.0000, -0.1287, 30.3643, 0.0000, 0.6510, 0.0000, 1.4060, 0.1544, 0.0000, 0.8035, -10.7604, 0.1784, 0.0000, -0.3647, -4.9933, 0.0000, 0.3151, 0.0000, 7.4578, 0.4377, 0.0000, 0.1487, -11.7617, -0.1676, 0.0000, -0.3312, 1.7522, 0.0000, 0.2876, 0.0000, 7.5751, 0.3975, 0.0000, -0.1397, -18.2168, -1.5056, 0.0000, -0.3381, -12.7454, 0.0000, 1.0395, 0.0000, 4.2052, 0.4057, 0.0000, -1.2547, -15.0103, 0.5253, 0.0000, -0.2179, 5.8663, 0.0000, 0.3912, 0.0000, 1.4589, 0.2614, 0.0000, 0.4378, -36.2906, -0.4038, 0.0000, -0.0017, 15.5699, 0.0000, 0.2692, 0.0000, 3.8583, 0.0020, 0.0000, -0.3365, 3.0998, -0.3855, 0.0000, -0.3461, -3.8230, 0.0000, 0.3777, 0.0000, 8.1125, 0.4153, 0.0000, -0.3212, -9.0979, 0.5712, 0.0000, 0.7827, -16.4787, 0.0000, 0.7328, 0.0000, 1.3369, -0.9392, 0.0000, 0.4760, -27.6186, -0.2149, 0.0000, -0.3093, -25.7596, 0.0000, 0.2859, 0.0000, 0.4666, 0.3711, 0.0000, -0.1791, 0.0363, 0.2399, 0.0000, -0.2467, -5.5164, 0.0000, 0.2540, 0.0000, 2.0897, 0.2960, 0.0000, 0.1999, -31.8352, 0.7277, 0.0000, -0.1851, 8.6856, 0.0000, 0.5073, 0.0000, 7.4990, 0.2222, 0.0000, 0.6064, -17.3315, 1.6990, 0.0000, 0.0972, 29.8454, 0.0000, 1.1353, 0.0000, 1.3868, -0.1166, 0.0000, 1.4158, -13.0634, 0.2543, 0.0000, -0.4971, -4.9328, 0.0000, 0.4323, 0.0000, 5.2888, 0.5965, 0.0000, 0.2119, 2.7771, 1.0513, 0.0000, 0.2936, 12.3160, 0.0000, 0.7392, 0.0000, 6.2561, -0.3523, 0.0000, 0.8761, -17.8245)
+
+[sub_resource type="MultiMesh" id="Cacti0"]
+transform_format = 1
+instance_count = 32
+mesh = ExtResource("cactus0")
+buffer = PackedFloat32Array(-0.9029, 0.0000, -0.0677, -7.0000, 0.0000, 0.9054, 0.0000, 6.3662, 0.0677, 0.0000, -0.9029, -14.0000, -0.2892, 0.0000, 0.8293, 27.0000, 0.0000, 0.8782, 0.0000, 1.4418, -0.8293, 0.0000, -0.2892, 3.0000, -0.8371, 0.0000, 0.1930, -2.0000, 0.0000, 0.8590, 0.0000, 2.7508, -0.1930, 0.0000, -0.8371, 12.0000, 0.5389, 0.0000, -0.8211, -8.0000, 0.0000, 0.9822, 0.0000, 6.1841, 0.8211, 0.0000, 0.5389, -6.0000, -0.6397, 0.0000, -0.7761, 22.0000, 0.0000, 1.0057, 0.0000, 3.2355, 0.7761, 0.0000, -0.6397, -19.0000, -0.1738, 0.0000, 0.9718, -5.0000, 0.0000, 0.9872, 0.0000, 1.9321, -0.9718, 0.0000, -0.1738, 14.0000, -0.1343, 0.0000, 1.0752, 2.0000, 0.0000, 1.0836, 0.0000, 3.3894, -1.0752, 0.0000, -0.1343, 10.0000, -0.4345, 0.0000, 0.7608, 12.0000, 0.0000, 0.8761, 0.0000, 2.3291, -0.7608, 0.0000, -0.4345, 12.0000, -0.7775, 0.0000, 0.4226, -10.0000, 0.0000, 0.8850, 0.0000, 4.5576, -0.4226, 0.0000, -0.7775, 0.0000, -0.6953, 0.0000, -0.8605, -23.0000, 0.0000, 1.1063, 0.0000, 1.1178, 0.8605, 0.0000, -0.6953, -1.0000, -1.1318, 0.0000, 0.1161, 3.0000, 0.0000, 1.1377, 0.0000, 5.7249, -0.1161, 0.0000, -1.1318, 3.0000, 0.6834, 0.0000, -0.7604, 0.0000, 0.0000, 1.0224, 0.0000, 7.6848, 0.7604, 0.0000, 0.6834, -2.0000, 0.4639, 0.0000, -1.0222, -7.0000, 0.0000, 1.1225, 0.0000, 2.3676, 1.0222, 0.0000, 0.4639, -30.0000, 0.8380, 0.0000, -0.2002, -2.0000, 0.0000, 0.8616, 0.0000, 1.8385, 0.2002, 0.0000, 0.8380, -34.0000, -0.2773, 0.0000, 0.9909, -13.0000, 0.0000, 1.0289, 0.0000, 2.2554, -0.9909, 0.0000, -0.2773, -26.0000, -0.1672, 0.0000, -0.8870, -17.0000, 0.0000, 0.9026, 0.0000, 2.5703, 0.8870, 0.0000, -0.1672, 0.0000, 0.6106, 0.0000, -0.8143, -15.0000, 0.0000, 1.0178, 0.0000, 3.8794, 0.8143, 0.0000, 0.6106, -6.0000, -0.6130, 0.0000, 0.6629, -4.0000, 0.0000, 0.9029, 0.0000, 4.8152, -0.6629, 0.0000, -0.6130, -23.0000, 0.6919, 0.0000, 0.7517, 32.0000, 0.0000, 1.0217, 0.0000, 1.0955, -0.7517, 0.0000, 0.6919, -5.0000, -0.9120, 0.0000, -0.5350, 19.0000, 0.0000, 1.0574, 0.0000, 4.6961, 0.5350, 0.0000, -0.9120, -7.0000, 0.8705, 0.0000, 0.1950, 0.0000, 0.0000, 0.8921, 0.0000, 3.1720, -0.1950, 0.0000, 0.8705, -30.0000, 1.0314, 0.0000, -0.2458, 11.0000, 0.0000, 1.0603, 0.0000, 1.1077, 0.2458, 0.0000, 1.0314, -37.0000, -0.1216, 0.0000, -0.9872, 16.0000, 0.0000, 0.9947, 0.0000, 6.1712, 0.9872, 0.0000, -0.1216, -10.0000, -0.8362, 0.0000, -0.2492, 6.0000, 0.0000, 0.8726, 0.0000, 2.4151, 0.2492, 0.0000, -0.8362, 13.0000, 0.8673, 0.0000, -0.6285, 5.0000, 0.0000, 1.0711, 0.0000, 4.2528, 0.6285, 0.0000, 0.8673, 7.0000, -0.3073, 0.0000, -1.0261, -1.0000, 0.0000, 1.0711, 0.0000, 1.1488, 1.0261, 0.0000, -0.3073, 18.0000, -0.7943, 0.0000, -0.6476, -8.0000, 0.0000, 1.0248, 0.0000, 4.4522, 0.6476, 0.0000, -0.7943, -21.0000, -0.8165, 0.0000, 0.6891, -13.0000, 0.0000, 1.0685, 0.0000, 3.5737, -0.6891, 0.0000, -0.8165, 1.0000, -0.6908, 0.0000, -0.5105, -3.0000, 0.0000, 0.8589, 0.0000, 6.5235, 0.5105, 0.0000, -0.6908, 0.0000, 0.1232, 0.0000, 0.9866, -3.0000, 0.0000, 0.9943, 0.0000, 2.6003, -0.9866, 0.0000, 0.1232, -31.0000, -1.0593, 0.0000, 0.0183, 9.0000, 0.0000, 1.0595, 0.0000, 4.2822, -0.0183, 0.0000, -1.0593, 6.0000, 0.9079, 0.0000, -0.4957, 19.0000, 0.0000, 1.0344, 0.0000, 2.3389, 0.4957, 0.0000, 0.9079, -28.0000)
+
+[sub_resource type="MultiMesh" id="Cacti1"]
+transform_format = 1
+instance_count = 34
+mesh = ExtResource("cactus1")
+buffer = PackedFloat32Array(-1.1011, 0.0000, 0.2414, -17.0000, 0.0000, 1.1273, 0.0000, 2.0747, -0.2414, 0.0000, -1.1011, -23.0000, -0.8550, 0.0000, -0.5231, 32.0000, 0.0000, 1.0024, 0.0000, 1.0486, 0.5231, 0.0000, -0.8550, -13.0000, 0.2772, 0.0000, -1.0013, 23.0000, 0.0000, 1.0390, 0.0000, 1.5079, 1.0013, 0.0000, 0.2772, -28.0000, 0.3211, 0.0000, -0.8163, -18.0000, 0.0000, 0.8772, 0.0000, 2.7865, 0.8163, 0.0000, 0.3211, -14.0000, 1.1167, 0.0000, -0.2514, -19.0000, 0.0000, 1.1447, 0.0000, 0.7642, 0.2514, 0.0000, 1.1167, -29.0000, -0.7823, 0.0000, -0.6946, 32.0000, 0.0000, 1.0462, 0.0000, 0.9339, 0.6946, 0.0000, -0.7823, -2.0000, 0.9387, 0.0000, 0.3686, 3.0000, 0.0000, 1.0085, 0.0000, 2.6930, -0.3686, 0.0000, 0.9387, -32.0000, -0.5227, 0.0000, -0.8524, -21.0000, 0.0000, 0.9999, 0.0000, 1.5342, 0.8524, 0.0000, -0.5227, -19.0000, 1.1489, 0.0000, -0.0311, 0.0000, 0.0000, 1.1493, 0.0000, 1.9636, 0.0311, 0.0000, 1.1489, 15.0000, -0.2887, 0.0000, -1.0636, 20.0000, 0.0000, 1.1021, 0.0000, 4.6795, 1.0636, 0.0000, -0.2887, -10.0000, 0.8470, 0.0000, 0.4000, -14.0000, 0.0000, 0.9367, 0.0000, 4.2821, -0.4000, 0.0000, 0.8470, -12.0000, -0.8752, 0.0000, 0.6325, 12.0000, 0.0000, 1.0799, 0.0000, 5.8501, -0.6325, 0.0000, -0.8752, -20.0000, -0.8350, 0.0000, 0.7222, 22.0000, 0.0000, 1.1040, 0.0000, 2.4386, -0.7222, 0.0000, -0.8350, 3.0000, 0.2129, 0.0000, 0.8231, -15.0000, 0.0000, 0.8502, 0.0000, 2.2731, -0.8231, 0.0000, 0.2129, 5.0000, -1.1032, 0.0000, 0.2105, 0.0000, 0.0000, 1.1231, 0.0000, 7.2525, -0.2105, 0.0000, -1.1032, -18.0000, -0.9146, 0.0000, 0.6874, -20.0000, 0.0000, 1.1441, 0.0000, 1.2573, -0.6874, 0.0000, -0.9146, 4.0000, 0.7055, 0.0000, -0.6231, -4.0000, 0.0000, 0.9412, 0.0000, 0.7637, 0.6231, 0.0000, 0.7055, 19.0000, -0.7612, 0.0000, -0.4357, 11.0000, 0.0000, 0.8770, 0.0000, 7.4864, 0.4357, 0.0000, -0.7612, -6.0000, -0.7422, 0.0000, -0.5485, 26.0000, 0.0000, 0.9229, 0.0000, 2.1297, 0.5485, 0.0000, -0.7422, -18.0000, -0.9203, 0.0000, 0.2786, -8.0000, 0.0000, 0.9615, 0.0000, 3.6966, -0.2786, 0.0000, -0.9203, 6.0000, 0.3415, 0.0000, 0.8595, 9.0000, 0.0000, 0.9248, 0.0000, 3.1306, -0.8595, 0.0000, 0.3415, 10.0000, 0.8647, 0.0000, -0.2802, 29.0000, 0.0000, 0.9090, 0.0000, 1.8566, 0.2802, 0.0000, 0.8647, -9.0000, -0.8870, 0.0000, -0.6750, 24.0000, 0.0000, 1.1147, 0.0000, 3.1025, 0.6750, 0.0000, -0.8870, -5.0000, 0.7759, 0.0000, 0.5928, 5.0000, 0.0000, 0.9764, 0.0000, 5.1943, -0.5928, 0.0000, 0.7759, -25.0000, -0.1952, 0.0000, 1.0157, 24.0000, 0.0000, 1.0343, 0.0000, 2.2836, -1.0157, 0.0000, -0.1952, -22.0000, -0.6316, 0.0000, -0.9540, 4.0000, 0.0000, 1.1441, 0.0000, 6.7068, 0.9540, 0.0000, -0.6316, -21.0000, -0.5615, 0.0000, -0.6466, -12.0000, 0.0000, 0.8564, 0.0000, 1.1739, 0.6466, 0.0000, -0.5615, -33.0000, 0.9457, 0.0000, -0.0038, -3.0000, 0.0000, 0.9457, 0.0000, 0.8678, 0.0038, 0.0000, 0.9457, -38.0000, 0.9365, 0.0000, -0.5538, -9.0000, 0.0000, 1.0880, 0.0000, 1.1896, 0.5538, 0.0000, 0.9365, 15.0000, 0.2457, 0.0000, -0.9437, -26.0000, 0.0000, 0.9751, 0.0000, 0.7783, 0.9437, 0.0000, 0.2457, -9.0000, -0.7666, 0.0000, 0.6990, -15.0000, 0.0000, 1.0375, 0.0000, 0.7569, -0.6990, 0.0000, -0.7666, -33.0000, 0.8358, 0.0000, -0.7870, 12.0000, 0.0000, 1.1480, 0.0000, 1.6173, 0.7870, 0.0000, 0.8358, 15.0000, 0.9244, 0.0000, 0.0658, -24.0000, 0.0000, 0.9267, 0.0000, 1.2083, -0.0658, 0.0000, 0.9244, -12.0000, -0.4103, 0.0000, -0.8461, 18.0000, 0.0000, 0.9403, 0.0000, 4.0957, 0.8461, 0.0000, -0.4103, -21.0000)
+
+[sub_resource type="MultiMesh" id="Cacti2"]
+transform_format = 1
+instance_count = 38
+mesh = ExtResource("cactus2")
+buffer = PackedFloat32Array(-0.9170, 0.0000, -0.3616, 20.0000, 0.0000, 0.9857, 0.0000, 4.5358, 0.3616, 0.0000, -0.9170, -14.0000, 1.0216, 0.0000, 0.2752, 16.0000, 0.0000, 1.0580, 0.0000, 2.8854, -0.2752, 0.0000, 1.0216, -28.0000, 0.8933, 0.0000, 0.0844, 13.0000, 0.0000, 0.8972, 0.0000, 4.4952, -0.0844, 0.0000, 0.8933, -24.0000, 0.0459, 0.0000, 0.9059, -5.0000, 0.0000, 0.9071, 0.0000, 6.0931, -0.9059, 0.0000, 0.0459, -17.0000, 0.1204, 0.0000, 0.9369, 7.0000, 0.0000, 0.9446, 0.0000, 2.7012, -0.9369, 0.0000, 0.1204, -32.0000, 0.6529, 0.0000, -0.9314, -20.0000, 0.0000, 1.1374, 0.0000, 1.9381, 0.9314, 0.0000, 0.6529, -2.0000, -0.5990, 0.0000, -0.6335, 31.0000, 0.0000, 0.8719, 0.0000, 0.9638, 0.6335, 0.0000, -0.5990, -19.0000, 0.0575, 0.0000, -1.1378, 4.0000, 0.0000, 1.1392, 0.0000, 6.8752, 1.1378, 0.0000, 0.0575, 0.0000, 0.0201, 0.0000, 0.8852, -16.0000, 0.0000, 0.8854, 0.0000, 3.6491, -0.8852, 0.0000, 0.0201, -9.0000, 0.8187, 0.0000, 0.3235, 27.0000, 0.0000, 0.8803, 0.0000, 1.5324, -0.3235, 0.0000, 0.8187, -22.0000, 0.4780, 0.0000, 0.9786, 2.0000, 0.0000, 1.0891, 0.0000, 1.3064, -0.9786, 0.0000, 0.4780, -37.0000, -0.9628, 0.0000, 0.3301, 12.0000, 0.0000, 1.0178, 0.0000, 0.9502, -0.3301, 0.0000, -0.9628, 18.0000, -0.1030, 0.0000, -0.9013, -4.0000, 0.0000, 0.9072, 0.0000, 7.4399, 0.9013, 0.0000, -0.1030, -14.0000, -0.5507, 0.0000, -0.6983, 19.0000, 0.0000, 0.8893, 0.0000, 3.8798, 0.6983, 0.0000, -0.5507, -1.0000, -0.1134, 0.0000, 0.9068, -14.0000, 0.0000, 0.9139, 0.0000, 1.0886, -0.9068, 0.0000, -0.1134, 12.0000, 0.3759, 0.0000, -1.0776, -1.0000, 0.0000, 1.1413, 0.0000, 6.1218, 1.0776, 0.0000, 0.3759, -21.0000, -0.7190, 0.0000, 0.5630, 20.0000, 0.0000, 0.9132, 0.0000, 1.2748, -0.5630, 0.0000, -0.7190, -32.0000, 0.8781, 0.0000, -0.0591, 12.0000, 0.0000, 0.8801, 0.0000, 2.6409, 0.0591, 0.0000, 0.8781, -31.0000, -0.0475, 0.0000, 0.9127, -3.0000, 0.0000, 0.9140, 0.0000, 7.4529, -0.9127, 0.0000, -0.0475, -3.0000, -0.5149, 0.0000, 0.9514, 13.0000, 0.0000, 1.0818, 0.0000, 7.2894, -0.9514, 0.0000, -0.5149, -13.0000, 0.8408, 0.0000, 0.4178, -11.0000, 0.0000, 0.9389, 0.0000, 5.1023, -0.4178, 0.0000, 0.8408, -5.0000, 0.5127, 0.0000, 0.7456, 6.0000, 0.0000, 0.9048, 0.0000, 1.6856, -0.7456, 0.0000, 0.5127, 16.0000, 0.9976, 0.0000, -0.3920, -16.0000, 0.0000, 1.0718, 0.0000, 1.7924, 0.3920, 0.0000, 0.9976, -26.0000, -0.2594, 0.0000, -0.8842, -22.0000, 0.0000, 0.9215, 0.0000, 1.7569, 0.8842, 0.0000, -0.2594, -7.0000, 0.4142, 0.0000, -0.8294, -22.0000, 0.0000, 0.9271, 0.0000, 0.9441, 0.8294, 0.0000, 0.4142, -23.0000, 0.1178, 0.0000, 0.8626, 22.0000, 0.0000, 0.8706, 0.0000, 3.0694, -0.8626, 0.0000, 0.1178, -1.0000, 0.3208, 0.0000, 1.0785, 9.0000, 0.0000, 1.1252, 0.0000, 5.2185, -1.0785, 0.0000, 0.3208, -24.0000, -0.1029, 0.0000, 0.8488, 15.0000, 0.0000, 0.8550, 0.0000, 3.1387, -0.8488, 0.0000, -0.1029, 7.0000, 0.9136, 0.0000, 0.3647, 27.0000, 0.0000, 0.9837, 0.0000, 2.2508, -0.3647, 0.0000, 0.9136, -4.0000, 0.7422, 0.0000, -0.6067, 9.0000, 0.0000, 0.9586, 0.0000, 2.0312, 0.6067, 0.0000, 0.7422, 14.0000, 0.7228, 0.0000, -0.4574, -7.0000, 0.0000, 0.8554, 0.0000, 5.5498, 0.4574, 0.0000, 0.7228, 0.0000, -0.3787, 0.0000, -0.8773, 18.0000, 0.0000, 0.9556, 0.0000, 2.7517, 0.8773, 0.0000, -0.3787, 6.0000, 0.7725, 0.0000, -0.8113, -18.0000, 0.0000, 1.1203, 0.0000, 2.7983, 0.8113, 0.0000, 0.7725, -5.0000, -0.9950, 0.0000, -0.4898, -15.0000, 0.0000, 1.1090, 0.0000, 3.0676, 0.4898, 0.0000, -0.9950, -19.0000, -0.5597, 0.0000, -0.6714, -21.0000, 0.0000, 0.8741, 0.0000, 1.8907, 0.6714, 0.0000, -0.5597, -15.0000, -0.9350, 0.0000, -0.5213, 6.0000, 0.0000, 1.0705, 0.0000, 5.2273, 0.5213, 0.0000, -0.9350, 4.0000, 0.5177, 0.0000, -0.8346, 2.0000, 0.0000, 0.9822, 0.0000, 4.3811, 0.8346, 0.0000, 0.5177, 7.0000, 0.0012, 0.0000, -0.8751, 14.0000, 0.0000, 0.8751, 0.0000, 1.3501, 0.8751, 0.0000, 0.0012, -35.0000)
+
+[node name="Level04" type="Node3D" node_paths=PackedStringArray("celestino", "exit", "qispi")]
+script = ExtResource("level")
+celestino = NodePath("Celestino")
+exit = NodePath("Exit")
+qispi = NodePath("Qispi")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_night")
+
+[node name="Moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.85, -0.3, 0.43, 0, 0.82, 0.57, -0.52, -0.48, 0.7, 0, 40, 0)
+light_color = Color(0.6, 0.68, 0.9, 1)
+light_energy = 0.7
+shadow_enabled = true
+directional_shadow_max_distance = 70.0
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("navmesh")
+
+[node name="Island" type="StaticBody3D" parent="NavigationRegion3D" groups=["navigation_source"]]
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Island"]
+shape = ExtResource("island_shape")
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Island"]
+mesh = ExtResource("island")
+surface_material_override/0 = ExtResource("rock")
+
+[node name="SummitGravel" type="MeshInstance3D" parent="NavigationRegion3D/Island"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 10.508, -10.000)
+mesh = SubResource("SummitGravel")
+
+[node name="Flat" type="StaticBody3D" parent="NavigationRegion3D" groups=["navigation_source"]]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, -0.650, 0.000)
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Flat"]
+shape = SubResource("Shape_flat")
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Flat"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.500, 0.000)
+mesh = SubResource("Flat")
+
+[node name="Cacti" type="StaticBody3D" parent="NavigationRegion3D" groups=["navigation_source"]]
+
+[node name="Shape0" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 20.000, 6.486, -14.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape1" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -17.000, 4.025, -23.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape2" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 32.000, 2.999, -13.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape3" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -7.000, 8.316, -14.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape4" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 23.000, 3.458, -28.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape5" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 27.000, 3.392, 3.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape6" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -18.000, 4.737, -14.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape7" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 16.000, 4.835, -28.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape8" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -19.000, 2.714, -29.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape9" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 32.000, 2.884, -2.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape10" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 13.000, 6.445, -24.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape11" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 3.000, 4.643, -32.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape12" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -5.000, 8.043, -17.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape13" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -2.000, 4.701, 12.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape14" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -8.000, 8.134, -6.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape15" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 22.000, 5.186, -19.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape16" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -21.000, 3.484, -19.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape17" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -5.000, 3.882, 14.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape18" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 3.914, 15.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape19" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 20.000, 6.629, -10.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape20" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 7.000, 4.651, -32.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape21" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -14.000, 6.232, -12.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape22" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 12.000, 7.800, -20.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape23" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 22.000, 4.389, 3.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape24" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -20.000, 3.888, -2.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape25" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -15.000, 4.223, 5.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape26" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 9.202, -18.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape27" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -20.000, 3.207, 4.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape28" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 31.000, 2.914, -19.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape29" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 2.000, 5.339, 10.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape30" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 12.000, 4.279, 12.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape31" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 8.825, 0.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape32" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -16.000, 5.599, -9.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape33" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 27.000, 3.482, -22.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape34" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 2.000, 3.256, -37.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape35" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 12.000, 2.900, 18.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape36" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -4.000, 9.390, -14.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape37" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 19.000, 5.830, -1.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape38" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -10.000, 6.508, 0.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape39" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -14.000, 3.039, 12.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape40" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -1.000, 8.072, -21.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape41" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -4.000, 2.714, 19.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape42" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 20.000, 3.225, -32.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape43" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -23.000, 3.068, -1.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape44" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 12.000, 4.591, -31.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape45" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -3.000, 9.403, -3.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape46" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 13.000, 9.239, -13.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape47" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -11.000, 7.052, -5.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape48" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 11.000, 9.436, -6.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape49" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 26.000, 4.080, -18.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape50" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -8.000, 5.647, 6.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape51" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 3.000, 7.675, 3.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape52" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 9.635, -2.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape53" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 6.000, 3.636, 16.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape54" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -7.000, 4.318, -30.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape55" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 9.000, 5.081, 10.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape56" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -16.000, 3.742, -26.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape57" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 29.000, 3.807, -9.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape58" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 24.000, 5.053, -5.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape59" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 5.000, 7.144, -25.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape60" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -2.000, 3.789, -34.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape61" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -22.000, 3.707, -7.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape62" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -22.000, 2.894, -23.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape63" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -13.000, 4.205, -26.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape64" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -17.000, 4.520, 0.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape65" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 22.000, 5.019, -1.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape66" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -15.000, 5.829, -6.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape67" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 24.000, 4.234, -22.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape68" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 9.000, 7.168, -24.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape69" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 15.000, 5.089, 7.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape70" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 27.000, 4.201, -4.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape71" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -4.000, 6.765, -23.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape72" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 32.000, 3.046, -5.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape73" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 9.000, 3.981, 14.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape74" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 8.657, -21.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape75" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 19.000, 6.646, -7.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape76" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 5.122, -30.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape77" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -7.000, 7.500, 0.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape78" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 11.000, 3.058, -37.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape79" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -12.000, 3.124, -33.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape80" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 16.000, 8.121, -10.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape81" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -3.000, 2.818, -38.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape82" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 6.000, 4.365, 13.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape83" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 5.000, 6.203, 7.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape84" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -1.000, 3.099, 18.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape85" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -9.000, 3.140, 15.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape86" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 18.000, 4.702, 6.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape87" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -18.000, 4.748, -5.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape88" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -26.000, 2.728, -9.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape89" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -15.000, 5.018, -19.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape90" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -15.000, 2.707, -33.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape91" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -8.000, 6.402, -21.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape92" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -21.000, 3.841, -15.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape93" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 12.000, 3.567, 15.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape94" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -13.000, 5.524, 1.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape95" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 6.000, 7.177, 4.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape96" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 2.000, 6.331, 7.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape97" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 14.000, 3.300, -35.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape98" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -3.000, 8.474, 0.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape99" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -3.000, 4.550, -31.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape100" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 9.000, 6.232, 6.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape101" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 19.000, 4.289, -28.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape102" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -24.000, 3.158, -12.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Shape103" type="CollisionShape3D" parent="NavigationRegion3D/Cacti"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 18.000, 6.046, -21.000)
+shape = SubResource("Shape_cactus")
+
+[node name="Cacti0" type="MultiMeshInstance3D" parent="NavigationRegion3D/Cacti"]
+material_override = ExtResource("cactus")
+multimesh = SubResource("Cacti0")
+
+[node name="Cacti1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Cacti"]
+material_override = ExtResource("cactus")
+multimesh = SubResource("Cacti1")
+
+[node name="Cacti2" type="MultiMeshInstance3D" parent="NavigationRegion3D/Cacti"]
+material_override = ExtResource("cactus")
+multimesh = SubResource("Cacti2")
+
+[node name="Boulders" type="StaticBody3D" parent="NavigationRegion3D" groups=["navigation_source"]]
+
+[node name="Shape2" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.5742, 0, 0.0000, 0, 1.5742, 0, -0.0000, 0, 1.5742, -0.676, 8.269, -3.421)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape6" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.7171, 0, 0.0000, 0, 1.7171, 0, -0.0000, 0, 1.7171, -15.511, 3.720, -3.795)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape10" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.8144, 0, 0.0000, 0, 0.8144, 0, -0.0000, 0, 0.8144, 2.964, 8.553, -3.460)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape11" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.3017, 0, 0.0000, 0, 1.3017, 0, -0.0000, 0, 1.3017, -26.596, 0.440, 1.007)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape17" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.4126, 0, 0.0000, 0, 1.4126, 0, -0.0000, 0, 1.4126, -3.221, 8.159, -6.232)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape19" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.9119, 0, 0.0000, 0, 0.9119, 0, -0.0000, 0, 0.9119, 25.171, 3.045, -8.010)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape20" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.7689, 0, 0.0000, 0, 0.7689, 0, -0.0000, 0, 0.7689, -4.887, 7.686, -7.978)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape25" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.9575, 0, 0.0000, 0, 0.9575, 0, -0.0000, 0, 0.9575, 3.873, 8.060, -18.200)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape28" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.5125, 0, 0.0000, 0, 1.5125, 0, -0.0000, 0, 1.5125, -12.431, 5.097, -11.214)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape29" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.4322, 0, 0.0000, 0, 1.4322, 0, -0.0000, 0, 1.4322, 6.163, 7.513, -1.793)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape30" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.4828, 0, 0.0000, 0, 1.4828, 0, -0.0000, 0, 1.4828, -1.595, 6.039, 2.332)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape32" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.5129, 0, 0.0000, 0, 1.5129, 0, -0.0000, 0, 1.5129, -12.746, 0.479, -37.532)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape33" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.4081, 0, 0.0000, 0, 1.4081, 0, -0.0000, 0, 1.4081, 10.516, 2.346, -33.235)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape34" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.8041, 0, 0.0000, 0, 0.8041, 0, -0.0000, 0, 0.8041, -1.367, 8.978, -7.005)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape37" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.0500, 0, 0.0000, 0, 1.0500, 0, -0.0000, 0, 1.0500, -9.872, 2.742, 8.730)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape39" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.8137, 0, 0.0000, 0, 0.8137, 0, -0.0000, 0, 0.8137, 30.364, 1.609, -10.760)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape42" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.2994, 0, 0.0000, 0, 1.2994, 0, -0.0000, 0, 1.2994, -12.745, 4.530, -15.010)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape43" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.7013, 0, 0.0000, 0, 1.7013, 0, -0.0000, 0, 1.7013, -1.492, 7.831, -2.323)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape46" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.1292, 0, 0.0000, 0, 1.1292, 0, -0.0000, 0, 1.1292, 3.053, 6.071, -22.855)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape49" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.3581, 0, 0.0000, 0, 1.3581, 0, -0.0000, 0, 1.3581, -8.298, 1.258, -35.312)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape50" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.1741, 0, 0.0000, 0, 1.1741, 0, -0.0000, 0, 1.1741, 21.422, 2.959, -23.318)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape53" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.0549, 0, 0.0000, 0, 1.0549, 0, -0.0000, 0, 1.0549, -7.409, 4.164, -23.151)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape54" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.0227, 0, 0.0000, 0, 1.0227, 0, -0.0000, 0, 1.0227, -6.776, 6.463, -3.242)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape57" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.2518, 0, 0.0000, 0, 1.2518, 0, -0.0000, 0, 1.2518, 6.423, 7.523, -19.316)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape58" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.9161, 0, 0.0000, 0, 0.9161, 0, -0.0000, 0, 0.9161, -16.479, 1.566, -27.619)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape59" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.7006, 0, 0.0000, 0, 1.7006, 0, -0.0000, 0, 1.7006, 12.915, 6.777, -16.407)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape62" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.8721, 0, 0.0000, 0, 0.8721, 0, -0.0000, 0, 0.8721, -19.483, 0.294, -33.109)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape64" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(1.4192, 0, 0.0000, 0, 1.4192, 0, -0.0000, 0, 1.4192, 29.845, 1.742, -13.063)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape65" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.8351, 0, 0.0000, 0, 0.8351, 0, -0.0000, 0, 0.8351, -16.353, 3.474, -5.207)
+shape = SubResource("Shape_boulder")
+
+[node name="Shape69" type="CollisionShape3D" parent="NavigationRegion3D/Boulders"]
+transform = Transform3D(0.9240, 0, 0.0000, 0, 0.9240, 0, -0.0000, 0, 0.9240, 12.316, 6.487, -17.824)
+shape = SubResource("Shape_boulder")
+
+[node name="Boulders0" type="MultiMeshInstance3D" parent="NavigationRegion3D/Boulders"]
+material_override = ExtResource("rock")
+multimesh = SubResource("Boulders0")
+
+[node name="Boulders1" type="MultiMeshInstance3D" parent="NavigationRegion3D/Boulders"]
+material_override = ExtResource("rock")
+multimesh = SubResource("Boulders1")
+
+[node name="Crevice0" parent="NavigationRegion3D" instance=ExtResource("crevice")]
+transform = Transform3D(0.8192, 0, 0.5736, 0, 1.0000, 0, -0.5736, 0, 0.8192, 12.604, 4.289, 2.287)
+
+[node name="Crevice1" parent="NavigationRegion3D" instance=ExtResource("crevice")]
+transform = Transform3D(-0.9397, 0, 0.3420, 0, 1.0000, 0, -0.3420, 0, -0.9397, 10.156, 3.593, -26.914)
+
+[node name="Crevice2" parent="NavigationRegion3D" instance=ExtResource("crevice")]
+transform = Transform3D(0.0872, 0, -0.9962, 0, 1.0000, 0, 0.9962, 0, 0.0872, -9.947, 5.434, -8.780)
+
+[node name="Bounds" type="StaticBody3D" parent="."]
+
+[node name="Wall0" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 2.500, -70.000)
+shape = SubResource("Shape_wall")
+
+[node name="Wall1" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 2.500, 70.000)
+shape = SubResource("Shape_wall")
+
+[node name="Wall2" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, -70.000, 2.500, 0.000)
+shape = SubResource("Shape_wall")
+
+[node name="Wall3" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, 70.000, 2.500, 0.000)
+shape = SubResource("Shape_wall")
+
+[node name="Water" parent="." instance=ExtResource("water")]
+size = Vector2(300, 300)
+resolution_scale = 0.5
+bed_color = Color(0.13, 0.14, 0.16, 1)
+reflectivity = 0.85
+
+[node name="WaterSurface" parent="." instance=ExtResource("surface")]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+surface = "agua"
+surface_priority = 1
+
+[node name="IslandSurface" parent="." instance=ExtResource("surface")]
+transform = Transform3D(50, 0, 0, 0, 40, 0, 0, 0, 50, 0, 8, 0)
+surface = "tierra"
+
+[node name="Seat" type="StaticBody3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 10.528, -11.850)
+
+[node name="Mesh" type="MeshInstance3D" parent="Seat"]
+transform = Transform3D(0.5, 0, 0, 0, 0.26, 0, 0, 0, 0.4, 0, 0.2, 0)
+mesh = SubResource("Seat")
+
+[node name="Shape" type="CollisionShape3D" parent="Seat"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.200, 0.000)
+shape = SubResource("Shape_seat")
+
+[node name="Celestino" parent="." instance=ExtResource("celestino")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 10.528, -11.600)
+
+[node name="Qoa" type="Node3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 5.300, 10.528, -10.700)
+
+[node name="Brazier" type="MeshInstance3D" parent="Qoa"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.140, 0.000)
+mesh = SubResource("Brazier")
+
+[node name="Embers" type="MeshInstance3D" parent="Qoa"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.270, 0.000)
+mesh = SubResource("Embers")
+
+[node name="Fire" type="OmniLight3D" parent="Qoa"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.700, 0.000)
+light_color = Color(1, 0.55, 0.25, 1)
+light_energy = 2.2
+shadow_enabled = true
+omni_range = 8.0
+script = ExtResource("flicker")
+
+[node name="Smoke" type="CPUParticles3D" parent="Qoa"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.300, 0.000)
+amount = 24
+lifetime = 5.0
+mesh = SubResource("SmokePuff")
+emission_shape = 1
+emission_sphere_radius = 0.12
+direction = Vector3(0, 1, 0)
+spread = 12.0
+gravity = Vector3(0.12, 0.25, 0)
+initial_velocity_min = 0.25
+initial_velocity_max = 0.45
+scale_amount_min = 0.6
+scale_amount_max = 1.2
+scale_amount_curve = SubResource("Curve_smoke")
+color_ramp = SubResource("Gradient_smoke")
+
+[node name="Apacheta" parent="NavigationRegion3D" instance=ExtResource("apacheta")]
+transform = Transform3D(0.8660, 0, 0.5000, 0, 1.0000, 0, -0.5000, 0, 0.8660, 1.800, 10.528, -8.800)
+apacheta_id = "isla_cima"
+
+[node name="Batteries0" parent="." instance=ExtResource("battery")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -12.000, 4.528, -2.000)
+
+[node name="Batteries1" parent="." instance=ExtResource("battery")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 16.000, 4.076, -24.000)
+
+[node name="Boat" parent="." instance=ExtResource("rowboat")]
+transform = Transform3D(0.9903, 0, 0.1392, 0, 1.0000, 0, -0.1392, 0, 0.9903, -34.500, -0.120, -10.000)
+
+[node name="Exit" parent="." instance=ExtResource("exit")]
+transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, -33.500, -0.150, -10.000)
+message = "Subes al bote y remas hacia el centro del salar. El agua está quieta, como un espejo."
+closed_message = "Un bote amarrado. Antes, alguien en la cima de la isla tiene algo que decirte."
+next_level_path = "res://src/world/level_05/level_05.tscn"
+
+[node name="Qispi" parent="." instance=ExtResource("qispi")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 2.807, -32.000)
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, -0.100, 27.000)
+
+[node name="RespawnDirector" parent="." node_paths=PackedStringArray("spawn_point") instance=ExtResource("respawn")]
+spawn_point = NodePath("../SpawnPoint")
+
+[node name="Player" parent="." instance=ExtResource("player")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, -0.100, 27.000)
+
+[node name="Hud" parent="." instance=ExtResource("hud")]
+
+[node name="Viewfinder" parent="." instance=ExtResource("viewfinder")]
+
+[node name="Album" parent="." instance=ExtResource("album")]
+
+[node name="NoteViewer" parent="." instance=ExtResource("notes")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("pause")]
+
+[node name="FilmEffects" parent="." instance=ExtResource("film")]
+
+[node name="Ambience" parent="." instance=ExtResource("ambience")]
+
+[node name="MusicDirector" parent="." node_paths=PackedStringArray("qispi") instance=ExtResource("music")]
+qispi = NodePath("../Qispi")

@@ -1,0 +1,685 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/level/game_level.gd" id="level"]
+[ext_resource type="PackedScene" path="res://src/player/player.tscn" id="player"]
+[ext_resource type="PackedScene" path="res://src/ui/hud/hud.tscn" id="hud"]
+[ext_resource type="PackedScene" path="res://src/ui/viewfinder/viewfinder.tscn" id="viewfinder"]
+[ext_resource type="PackedScene" path="res://src/ui/album/album.tscn" id="album"]
+[ext_resource type="PackedScene" path="res://src/ui/note_viewer/note_viewer.tscn" id="notes"]
+[ext_resource type="PackedScene" path="res://src/world/respawn/respawn_director.tscn" id="respawn"]
+[ext_resource type="PackedScene" path="res://src/enemies/qispi/qispi.tscn" id="qispi"]
+[ext_resource type="PackedScene" path="res://src/world/apacheta/apacheta.tscn" id="apacheta"]
+[ext_resource type="PackedScene" path="res://src/world/pickups/battery_pickup.tscn" id="battery"]
+[ext_resource type="PackedScene" path="res://src/world/mirror/mirror.tscn" id="mirror"]
+[ext_resource type="PackedScene" path="res://src/world/level_exit/level_exit.tscn" id="exit"]
+[ext_resource type="PackedScene" path="res://src/ui/pause_menu/pause_menu.tscn" id="pause"]
+[ext_resource type="PackedScene" path="res://src/ui/film_effects/film_effects.tscn" id="film"]
+[ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music"]
+[ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience"]
+[ext_resource type="PackedScene" path="res://src/world/water/water_surface.tscn" id="water"]
+[ext_resource type="PackedScene" path="res://src/world/footstep_surface/footstep_surface.tscn" id="surface"]
+[ext_resource type="PackedScene" path="res://assets/models/characters/javier/javier.gltf" id="javier"]
+[ext_resource type="Script" path="res://src/story/reflection_guide/reflection_guide.gd" id="guide"]
+[ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="salt"]
+[ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="salt_block"]
+[ext_resource type="PackedScene" path="res://src/world/props/rowboat.tscn" id="rowboat"]
+[ext_resource type="Material" path="res://src/world/materials/planks.tres" id="planks"]
+[ext_resource type="NavigationMesh" path="res://src/world/level_05/level_05_navmesh.tres" id="navmesh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
+sky_top_color = Color(0.03, 0.045, 0.11, 1)
+sky_horizon_color = Color(0.42, 0.26, 0.3, 1)
+sky_curve = 0.12
+sky_energy_multiplier = 1.4
+ground_bottom_color = Color(0.02, 0.02, 0.03, 1)
+ground_horizon_color = Color(0.42, 0.26, 0.3, 1)
+
+[sub_resource type="Sky" id="Sky_dawn"]
+sky_material = SubResource("Sky_mat")
+
+[sub_resource type="Environment" id="Environment_dawn"]
+background_mode = 2
+sky = SubResource("Sky_dawn")
+ambient_light_source = 2
+ambient_light_color = Color(0.36, 0.38, 0.52, 1)
+ambient_light_energy = 1.0
+tonemap_mode = 3
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.6
+fog_enabled = true
+fog_light_color = Color(0.2, 0.15, 0.2, 1)
+fog_density = 0.018
+fog_sky_affect = 0.4
+
+[sub_resource type="BoxShape3D" id="Shape_flat"]
+size = Vector3(400, 1, 400)
+
+[sub_resource type="PlaneMesh" id="Flat"]
+material = ExtResource("salt")
+size = Vector2(400, 400)
+
+[sub_resource type="BoxShape3D" id="Shape_wall"]
+size = Vector3(160, 6, 1)
+
+[sub_resource type="CylinderMesh" id="Cone"]
+material = ExtResource("salt_block")
+top_radius = 0.06
+bottom_radius = 0.75
+height = 1.1
+radial_segments = 10
+rings = 2
+
+[sub_resource type="CylinderShape3D" id="Shape_cone"]
+radius = 0.6
+height = 1.1
+
+[sub_resource type="BoxMesh" id="Leg"]
+material = ExtResource("planks")
+size = Vector3(0.07, 0.25, 0.5)
+
+[node name="Level05" type="Node3D"]
+script = ExtResource("level")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dawn")
+
+[node name="Moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.85, -0.3, 0.43, 0, 0.82, 0.57, -0.52, -0.48, 0.7, 0, 40, 0)
+light_color = Color(0.62, 0.66, 0.9, 1)
+light_energy = 0.55
+shadow_enabled = true
+directional_shadow_max_distance = 60.0
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("navmesh")
+
+[node name="Flat" type="StaticBody3D" parent="NavigationRegion3D" groups=["navigation_source"]]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, -0.550, -50.000)
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Flat"]
+shape = SubResource("Shape_flat")
+
+[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Flat"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.500, 0.000)
+mesh = SubResource("Flat")
+
+[node name="Cones" type="StaticBody3D" parent="NavigationRegion3D" groups=["navigation_source"]]
+
+[node name="Cone0" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.2272, 0, -1.1759, 0, 1.1976, 0, 1.1759, 0, 0.2272, 11.061, 0.609, -21.150)
+mesh = SubResource("Cone")
+
+[node name="Shape0" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1976, 0, 0.0000, 0, 1.1976, 0, -0.0000, 0, 1.1976, 11.061, 0.609, -21.150)
+shape = SubResource("Shape_cone")
+
+[node name="Cone1" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-1.1019, 0, -0.6134, 0, 1.2612, 0, 0.6134, 0, -1.1019, 39.821, 0.644, -21.414)
+mesh = SubResource("Cone")
+
+[node name="Shape1" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2612, 0, 0.0000, 0, 1.2612, 0, -0.0000, 0, 1.2612, 39.821, 0.644, -21.414)
+shape = SubResource("Shape_cone")
+
+[node name="Cone2" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.6435, 0, -1.0968, 0, 1.2717, 0, 1.0968, 0, -0.6435, -42.390, 0.649, -59.813)
+mesh = SubResource("Cone")
+
+[node name="Shape2" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2717, 0, 0.0000, 0, 1.2717, 0, -0.0000, 0, 1.2717, -42.390, 0.649, -59.813)
+shape = SubResource("Shape_cone")
+
+[node name="Cone3" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.7527, 0, 0.4089, 0, 0.8566, 0, -0.4089, 0, -0.7527, 13.408, 0.421, 1.126)
+mesh = SubResource("Cone")
+
+[node name="Shape3" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8566, 0, 0.0000, 0, 0.8566, 0, -0.0000, 0, 0.8566, 13.408, 0.421, 1.126)
+shape = SubResource("Shape_cone")
+
+[node name="Cone4" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.7639, 0, -0.7519, 0, 1.0719, 0, 0.7519, 0, -0.7639, -2.784, 0.540, -90.480)
+mesh = SubResource("Cone")
+
+[node name="Shape4" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0719, 0, 0.0000, 0, 1.0719, 0, -0.0000, 0, 1.0719, -2.784, 0.540, -90.480)
+shape = SubResource("Shape_cone")
+
+[node name="Cone5" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.1404, 0, -0.8974, 0, 0.9084, 0, 0.8974, 0, 0.1404, 6.655, 0.450, -123.164)
+mesh = SubResource("Cone")
+
+[node name="Shape5" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9084, 0, 0.0000, 0, 0.9084, 0, -0.0000, 0, 0.9084, 6.655, 0.450, -123.164)
+shape = SubResource("Shape_cone")
+
+[node name="Cone6" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.7718, 0, -0.8964, 0, 1.1829, 0, 0.8964, 0, -0.7718, -19.847, 0.601, 3.288)
+mesh = SubResource("Cone")
+
+[node name="Shape6" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1829, 0, 0.0000, 0, 1.1829, 0, -0.0000, 0, 1.1829, -19.847, 0.601, 3.288)
+shape = SubResource("Shape_cone")
+
+[node name="Cone7" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.1607, 0, -0.8544, 0, 0.8694, 0, 0.8544, 0, -0.1607, -30.636, 0.428, -13.399)
+mesh = SubResource("Cone")
+
+[node name="Shape7" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8694, 0, 0.0000, 0, 0.8694, 0, -0.0000, 0, 0.8694, -30.636, 0.428, -13.399)
+shape = SubResource("Shape_cone")
+
+[node name="Cone8" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.7889, 0, 0.1383, 0, 0.8009, 0, -0.1383, 0, 0.7889, 10.571, 0.390, -107.262)
+mesh = SubResource("Cone")
+
+[node name="Shape8" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8009, 0, 0.0000, 0, 0.8009, 0, -0.0000, 0, 0.8009, 10.571, 0.390, -107.262)
+shape = SubResource("Shape_cone")
+
+[node name="Cone9" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.4863, 0, 0.7665, 0, 0.9077, 0, -0.7665, 0, 0.4863, 33.426, 0.449, -95.676)
+mesh = SubResource("Cone")
+
+[node name="Shape9" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9077, 0, 0.0000, 0, 0.9077, 0, -0.0000, 0, 0.9077, 33.426, 0.449, -95.676)
+shape = SubResource("Shape_cone")
+
+[node name="Cone10" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.8806, 0, 0.3418, 0, 0.9447, 0, -0.3418, 0, -0.8806, 43.418, 0.470, -2.863)
+mesh = SubResource("Cone")
+
+[node name="Shape10" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9447, 0, 0.0000, 0, 0.9447, 0, -0.0000, 0, 0.9447, 43.418, 0.470, -2.863)
+shape = SubResource("Shape_cone")
+
+[node name="Cone11" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.6688, 0, -0.9219, 0, 1.1389, 0, 0.9219, 0, -0.6688, 41.533, 0.576, -49.509)
+mesh = SubResource("Cone")
+
+[node name="Shape11" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1389, 0, 0.0000, 0, 1.1389, 0, -0.0000, 0, 1.1389, 41.533, 0.576, -49.509)
+shape = SubResource("Shape_cone")
+
+[node name="Cone12" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.2214, 0, 1.1237, 0, 1.1453, 0, -1.1237, 0, 0.2214, -26.570, 0.580, 6.737)
+mesh = SubResource("Cone")
+
+[node name="Shape12" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1453, 0, 0.0000, 0, 1.1453, 0, -0.0000, 0, 1.1453, -26.570, 0.580, 6.737)
+shape = SubResource("Shape_cone")
+
+[node name="Cone13" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.3718, 0, -0.8736, 0, 0.9494, 0, 0.8736, 0, -0.3718, 41.991, 0.472, 0.124)
+mesh = SubResource("Cone")
+
+[node name="Shape13" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9494, 0, 0.0000, 0, 0.9494, 0, -0.0000, 0, 0.9494, 41.991, 0.472, 0.124)
+shape = SubResource("Shape_cone")
+
+[node name="Cone14" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.5940, 0, -0.6395, 0, 0.8729, 0, 0.6395, 0, -0.5940, -12.493, 0.430, -101.766)
+mesh = SubResource("Cone")
+
+[node name="Shape14" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8729, 0, 0.0000, 0, 0.8729, 0, -0.0000, 0, 0.8729, -12.493, 0.430, -101.766)
+shape = SubResource("Shape_cone")
+
+[node name="Cone15" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0637, 0, 0.2864, 0, 1.1016, 0, -0.2864, 0, 1.0637, -39.137, 0.556, -82.810)
+mesh = SubResource("Cone")
+
+[node name="Shape15" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1016, 0, 0.0000, 0, 1.1016, 0, -0.0000, 0, 1.1016, -39.137, 0.556, -82.810)
+shape = SubResource("Shape_cone")
+
+[node name="Cone16" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.9535, 0, 0.1721, 0, 0.9689, 0, -0.1721, 0, -0.9535, -44.696, 0.483, -30.089)
+mesh = SubResource("Cone")
+
+[node name="Shape16" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9689, 0, 0.0000, 0, 0.9689, 0, -0.0000, 0, 0.9689, -44.696, 0.483, -30.089)
+shape = SubResource("Shape_cone")
+
+[node name="Cone17" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.1547, 0, 1.0288, 0, 1.0404, 0, -1.0288, 0, 0.1547, -17.104, 0.522, -10.407)
+mesh = SubResource("Cone")
+
+[node name="Shape17" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0404, 0, 0.0000, 0, 1.0404, 0, -0.0000, 0, 1.0404, -17.104, 0.522, -10.407)
+shape = SubResource("Shape_cone")
+
+[node name="Cone18" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0863, 0, 0.3845, 0, 1.1523, 0, -0.3845, 0, 1.0863, -16.579, 0.584, -57.629)
+mesh = SubResource("Cone")
+
+[node name="Shape18" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1523, 0, 0.0000, 0, 1.1523, 0, -0.0000, 0, 1.1523, -16.579, 0.584, -57.629)
+shape = SubResource("Shape_cone")
+
+[node name="Cone19" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.5422, 0, 0.6037, 0, 0.8114, 0, -0.6037, 0, 0.5422, -39.870, 0.396, 11.514)
+mesh = SubResource("Cone")
+
+[node name="Shape19" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8114, 0, 0.0000, 0, 0.8114, 0, -0.0000, 0, 0.8114, -39.870, 0.396, 11.514)
+shape = SubResource("Shape_cone")
+
+[node name="Cone20" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.3322, 0, 0.7377, 0, 0.8090, 0, -0.7377, 0, -0.3322, 22.482, 0.395, -6.717)
+mesh = SubResource("Cone")
+
+[node name="Shape20" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8090, 0, 0.0000, 0, 0.8090, 0, -0.0000, 0, 0.8090, 22.482, 0.395, -6.717)
+shape = SubResource("Shape_cone")
+
+[node name="Cone21" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.4542, 0, 0.9901, 0, 1.0893, 0, -0.9901, 0, 0.4542, 25.896, 0.549, -73.734)
+mesh = SubResource("Cone")
+
+[node name="Shape21" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0893, 0, 0.0000, 0, 1.0893, 0, -0.0000, 0, 1.0893, 25.896, 0.549, -73.734)
+shape = SubResource("Shape_cone")
+
+[node name="Cone22" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.3102, 0, 0.8347, 0, 0.8905, 0, -0.8347, 0, 0.3102, -44.183, 0.440, -118.458)
+mesh = SubResource("Cone")
+
+[node name="Shape22" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8905, 0, 0.0000, 0, 0.8905, 0, -0.0000, 0, 0.8905, -44.183, 0.440, -118.458)
+shape = SubResource("Shape_cone")
+
+[node name="Cone23" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1484, 0, 0.2617, 0, 1.1779, 0, -0.2617, 0, 1.1484, 40.966, 0.598, -97.487)
+mesh = SubResource("Cone")
+
+[node name="Shape23" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1779, 0, 0.0000, 0, 1.1779, 0, -0.0000, 0, 1.1779, 40.966, 0.598, -97.487)
+shape = SubResource("Shape_cone")
+
+[node name="Cone24" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.9492, 0, 0.2101, 0, 0.9722, 0, -0.2101, 0, -0.9492, 38.669, 0.485, 6.886)
+mesh = SubResource("Cone")
+
+[node name="Shape24" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9722, 0, 0.0000, 0, 0.9722, 0, -0.0000, 0, 0.9722, 38.669, 0.485, 6.886)
+shape = SubResource("Shape_cone")
+
+[node name="Cone25" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.8674, 0, 0.8115, 0, 1.1878, 0, -0.8115, 0, -0.8674, -13.069, 0.603, -51.542)
+mesh = SubResource("Cone")
+
+[node name="Shape25" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1878, 0, 0.0000, 0, 1.1878, 0, -0.0000, 0, 1.1878, -13.069, 0.603, -51.542)
+shape = SubResource("Shape_cone")
+
+[node name="Cone26" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.9149, 0, -0.7744, 0, 1.1986, 0, 0.7744, 0, -0.9149, -35.275, 0.609, -20.224)
+mesh = SubResource("Cone")
+
+[node name="Shape26" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1986, 0, 0.0000, 0, 1.1986, 0, -0.0000, 0, 1.1986, -35.275, 0.609, -20.224)
+shape = SubResource("Shape_cone")
+
+[node name="Cone27" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-1.0740, 0, -0.6832, 0, 1.2729, 0, 0.6832, 0, -1.0740, 32.372, 0.650, -119.872)
+mesh = SubResource("Cone")
+
+[node name="Shape27" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2729, 0, 0.0000, 0, 1.2729, 0, -0.0000, 0, 1.2729, 32.372, 0.650, -119.872)
+shape = SubResource("Shape_cone")
+
+[node name="Cone28" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.0843, 0, 1.1022, 0, 1.1054, 0, -1.1022, 0, 0.0843, -36.794, 0.558, -77.296)
+mesh = SubResource("Cone")
+
+[node name="Shape28" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1054, 0, 0.0000, 0, 1.1054, 0, -0.0000, 0, 1.1054, -36.794, 0.558, -77.296)
+shape = SubResource("Shape_cone")
+
+[node name="Cone29" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0357, 0, -0.7213, 0, 1.2621, 0, 0.7213, 0, 1.0357, 37.628, 0.644, -77.406)
+mesh = SubResource("Cone")
+
+[node name="Shape29" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2621, 0, 0.0000, 0, 1.2621, 0, -0.0000, 0, 1.2621, 37.628, 0.644, -77.406)
+shape = SubResource("Shape_cone")
+
+[node name="Cone30" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9584, 0, 0.0040, 0, 0.9584, 0, -0.0040, 0, 0.9584, 4.063, 0.477, -81.257)
+mesh = SubResource("Cone")
+
+[node name="Shape30" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9584, 0, 0.0000, 0, 0.9584, 0, -0.0000, 0, 0.9584, 4.063, 0.477, -81.257)
+shape = SubResource("Shape_cone")
+
+[node name="Cone31" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.7244, 0, 0.4898, 0, 0.8744, 0, -0.4898, 0, -0.7244, -29.027, 0.431, -114.053)
+mesh = SubResource("Cone")
+
+[node name="Shape31" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8744, 0, 0.0000, 0, 0.8744, 0, -0.0000, 0, 0.8744, -29.027, 0.431, -114.053)
+shape = SubResource("Shape_cone")
+
+[node name="Cone32" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.1570, 0, 0.8667, 0, 0.8808, 0, -0.8667, 0, -0.1570, 17.026, 0.434, 14.542)
+mesh = SubResource("Cone")
+
+[node name="Shape32" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8808, 0, 0.0000, 0, 0.8808, 0, -0.0000, 0, 0.8808, 17.026, 0.434, 14.542)
+shape = SubResource("Shape_cone")
+
+[node name="Cone33" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.7758, 0, 0.4920, 0, 0.9187, 0, -0.4920, 0, -0.7758, 3.018, 0.455, -68.176)
+mesh = SubResource("Cone")
+
+[node name="Shape33" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9187, 0, 0.0000, 0, 0.9187, 0, -0.0000, 0, 0.9187, 3.018, 0.455, -68.176)
+shape = SubResource("Shape_cone")
+
+[node name="Cone34" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.7707, 0, 0.6801, 0, 1.0278, 0, -0.6801, 0, 0.7707, 8.456, 0.515, -9.319)
+mesh = SubResource("Cone")
+
+[node name="Shape34" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0278, 0, 0.0000, 0, 1.0278, 0, -0.0000, 0, 1.0278, 8.456, 0.515, -9.319)
+shape = SubResource("Shape_cone")
+
+[node name="Cone35" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.6155, 0, -1.0972, 0, 1.2580, 0, 1.0972, 0, 0.6155, -7.042, 0.642, -117.201)
+mesh = SubResource("Cone")
+
+[node name="Shape35" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2580, 0, 0.0000, 0, 1.2580, 0, -0.0000, 0, 1.2580, -7.042, 0.642, -117.201)
+shape = SubResource("Shape_cone")
+
+[node name="Cone36" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.8560, 0, 0.8682, 0, 1.2192, 0, -0.8682, 0, -0.8560, -42.055, 0.621, -55.901)
+mesh = SubResource("Cone")
+
+[node name="Shape36" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2192, 0, 0.0000, 0, 1.2192, 0, -0.0000, 0, 1.2192, -42.055, 0.621, -55.901)
+shape = SubResource("Shape_cone")
+
+[node name="Cone37" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2423, 0, 0.2864, 0, 1.2749, 0, -0.2864, 0, 1.2423, -33.249, 0.651, -22.567)
+mesh = SubResource("Cone")
+
+[node name="Shape37" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2749, 0, 0.0000, 0, 1.2749, 0, -0.0000, 0, 1.2749, -33.249, 0.651, -22.567)
+shape = SubResource("Shape_cone")
+
+[node name="Cone38" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.6451, 0, -0.5585, 0, 0.8533, 0, 0.5585, 0, -0.6451, 11.736, 0.419, -14.679)
+mesh = SubResource("Cone")
+
+[node name="Shape38" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8533, 0, 0.0000, 0, 0.8533, 0, -0.0000, 0, 0.8533, 11.736, 0.419, -14.679)
+shape = SubResource("Shape_cone")
+
+[node name="Cone39" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8497, 0, 0.5761, 0, 1.0266, 0, -0.5761, 0, 0.8497, 31.026, 0.515, -83.726)
+mesh = SubResource("Cone")
+
+[node name="Shape39" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0266, 0, 0.0000, 0, 1.0266, 0, -0.0000, 0, 1.0266, 31.026, 0.515, -83.726)
+shape = SubResource("Shape_cone")
+
+[node name="Cone40" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-1.2364, 0, -0.3611, 0, 1.2880, 0, 0.3611, 0, -1.2364, 44.937, 0.658, -5.685)
+mesh = SubResource("Cone")
+
+[node name="Shape40" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2880, 0, 0.0000, 0, 1.2880, 0, -0.0000, 0, 1.2880, 44.937, 0.658, -5.685)
+shape = SubResource("Shape_cone")
+
+[node name="Cone41" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.6202, 0, 0.9859, 0, 1.1648, 0, -0.9859, 0, -0.6202, -4.181, 0.591, -56.658)
+mesh = SubResource("Cone")
+
+[node name="Shape41" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1648, 0, 0.0000, 0, 1.1648, 0, -0.0000, 0, 1.1648, -4.181, 0.591, -56.658)
+shape = SubResource("Shape_cone")
+
+[node name="Cone42" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.8752, 0, -0.4876, 0, 1.0019, 0, 0.4876, 0, -0.8752, -1.886, 0.501, -84.257)
+mesh = SubResource("Cone")
+
+[node name="Shape42" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0019, 0, 0.0000, 0, 1.0019, 0, -0.0000, 0, 1.0019, -1.886, 0.501, -84.257)
+shape = SubResource("Shape_cone")
+
+[node name="Cone43" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2500, 0, -0.3352, 0, 1.2942, 0, 0.3352, 0, 1.2500, -31.814, 0.662, -72.220)
+mesh = SubResource("Cone")
+
+[node name="Shape43" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2942, 0, 0.0000, 0, 1.2942, 0, -0.0000, 0, 1.2942, -31.814, 0.662, -72.220)
+shape = SubResource("Shape_cone")
+
+[node name="Cone44" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.4381, 0, -0.9539, 0, 1.0497, 0, 0.9539, 0, 0.4381, 41.383, 0.527, -37.225)
+mesh = SubResource("Cone")
+
+[node name="Shape44" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0497, 0, 0.0000, 0, 1.0497, 0, -0.0000, 0, 1.0497, 41.383, 0.527, -37.225)
+shape = SubResource("Shape_cone")
+
+[node name="Cone45" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.8178, 0, 0.4556, 0, 0.9362, 0, -0.4556, 0, -0.8178, -14.537, 0.465, -112.521)
+mesh = SubResource("Cone")
+
+[node name="Shape45" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9362, 0, 0.0000, 0, 0.9362, 0, -0.0000, 0, 0.9362, -14.537, 0.465, -112.521)
+shape = SubResource("Shape_cone")
+
+[node name="Cone46" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.3781, 0, -0.9049, 0, 0.9807, 0, 0.9049, 0, 0.3781, 25.382, 0.489, -3.566)
+mesh = SubResource("Cone")
+
+[node name="Shape46" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9807, 0, 0.0000, 0, 0.9807, 0, -0.0000, 0, 0.9807, 25.382, 0.489, -3.566)
+shape = SubResource("Shape_cone")
+
+[node name="Cone47" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.7185, 0, -0.8945, 0, 1.1473, 0, 0.8945, 0, -0.7185, 25.742, 0.581, -16.514)
+mesh = SubResource("Cone")
+
+[node name="Shape47" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1473, 0, 0.0000, 0, 1.1473, 0, -0.0000, 0, 1.1473, 25.742, 0.581, -16.514)
+shape = SubResource("Shape_cone")
+
+[node name="Cone48" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.6695, 0, 0.7180, 0, 0.9817, 0, -0.7180, 0, -0.6695, 14.762, 0.490, -18.651)
+mesh = SubResource("Cone")
+
+[node name="Shape48" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9817, 0, 0.0000, 0, 0.9817, 0, -0.0000, 0, 0.9817, 14.762, 0.490, -18.651)
+shape = SubResource("Shape_cone")
+
+[node name="Cone49" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.6540, 0, 0.8123, 0, 1.0428, 0, -0.8123, 0, 0.6540, 18.402, 0.524, -85.681)
+mesh = SubResource("Cone")
+
+[node name="Shape49" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0428, 0, 0.0000, 0, 1.0428, 0, -0.0000, 0, 1.0428, 18.402, 0.524, -85.681)
+shape = SubResource("Shape_cone")
+
+[node name="Cone50" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.7800, 0, -0.5369, 0, 0.9469, 0, 0.5369, 0, -0.7800, 24.277, 0.471, -28.276)
+mesh = SubResource("Cone")
+
+[node name="Shape50" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9469, 0, 0.0000, 0, 0.9469, 0, -0.0000, 0, 0.9469, 24.277, 0.471, -28.276)
+shape = SubResource("Shape_cone")
+
+[node name="Cone51" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-1.0037, 0, -0.4258, 0, 1.0903, 0, 0.4258, 0, -1.0037, 40.099, 0.550, -34.043)
+mesh = SubResource("Cone")
+
+[node name="Shape51" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0903, 0, 0.0000, 0, 1.0903, 0, -0.0000, 0, 1.0903, 40.099, 0.550, -34.043)
+shape = SubResource("Shape_cone")
+
+[node name="Cone52" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8921, 0, -0.2458, 0, 0.9253, 0, 0.2458, 0, 0.8921, -43.958, 0.459, -48.421)
+mesh = SubResource("Cone")
+
+[node name="Shape52" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9253, 0, 0.0000, 0, 0.9253, 0, -0.0000, 0, 0.9253, -43.958, 0.459, -48.421)
+shape = SubResource("Shape_cone")
+
+[node name="Cone53" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1840, 0, -0.2413, 0, 1.2083, 0, 0.2413, 0, 1.1840, 15.448, 0.615, -60.189)
+mesh = SubResource("Cone")
+
+[node name="Shape53" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2083, 0, 0.0000, 0, 1.2083, 0, -0.0000, 0, 1.2083, 15.448, 0.615, -60.189)
+shape = SubResource("Shape_cone")
+
+[node name="Cone54" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.9071, 0, -0.7372, 0, 1.1689, 0, 0.7372, 0, -0.9071, -13.690, 0.593, -34.831)
+mesh = SubResource("Cone")
+
+[node name="Shape54" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.1689, 0, 0.0000, 0, 1.1689, 0, -0.0000, 0, 1.1689, -13.690, 0.593, -34.831)
+shape = SubResource("Shape_cone")
+
+[node name="Cone55" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.7249, 0, 0.9831, 0, 1.2214, 0, -0.9831, 0, -0.7249, 29.537, 0.622, -75.994)
+mesh = SubResource("Cone")
+
+[node name="Shape55" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2214, 0, 0.0000, 0, 1.2214, 0, -0.0000, 0, 1.2214, 29.537, 0.622, -75.994)
+shape = SubResource("Shape_cone")
+
+[node name="Cone56" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0101, 0, -0.7992, 0, 1.2881, 0, 0.7992, 0, 1.0101, 33.292, 0.658, -28.633)
+mesh = SubResource("Cone")
+
+[node name="Shape56" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2881, 0, 0.0000, 0, 1.2881, 0, -0.0000, 0, 1.2881, 33.292, 0.658, -28.633)
+shape = SubResource("Shape_cone")
+
+[node name="Cone57" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0647, 0, 0.0063, 0, 1.0647, 0, -0.0063, 0, 1.0647, 41.086, 0.536, -52.460)
+mesh = SubResource("Cone")
+
+[node name="Shape57" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.0647, 0, 0.0000, 0, 1.0647, 0, -0.0000, 0, 1.0647, 41.086, 0.536, -52.460)
+shape = SubResource("Shape_cone")
+
+[node name="Cone58" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.9880, 0, 0.7958, 0, 1.2687, 0, -0.7958, 0, 0.9880, -30.044, 0.648, -7.873)
+mesh = SubResource("Cone")
+
+[node name="Shape58" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(1.2687, 0, 0.0000, 0, 1.2687, 0, -0.0000, 0, 1.2687, -30.044, 0.648, -7.873)
+shape = SubResource("Shape_cone")
+
+[node name="Cone59" type="MeshInstance3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(-0.8112, 0, -0.3560, 0, 0.8859, 0, 0.3560, 0, -0.8112, 19.772, 0.437, -22.751)
+mesh = SubResource("Cone")
+
+[node name="Shape59" type="CollisionShape3D" parent="NavigationRegion3D/Cones"]
+transform = Transform3D(0.8859, 0, 0.0000, 0, 0.8859, 0, -0.0000, 0, 0.8859, 19.772, 0.437, -22.751)
+shape = SubResource("Shape_cone")
+
+[node name="Apacheta" parent="NavigationRegion3D" instance=ExtResource("apacheta")]
+transform = Transform3D(0.9397, 0, -0.3420, 0, 1.0000, 0, 0.3420, 0, 0.9397, 7.000, -0.050, -52.000)
+apacheta_id = "salar_centro"
+
+[node name="Bounds" type="StaticBody3D" parent="."]
+
+[node name="Wall0" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 2.500, -140.000)
+shape = SubResource("Shape_wall")
+
+[node name="Wall1" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 2.500, 25.000)
+shape = SubResource("Shape_wall")
+
+[node name="Wall2" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, -60.000, 2.500, -55.000)
+shape = SubResource("Shape_wall")
+
+[node name="Wall3" type="CollisionShape3D" parent="Bounds"]
+transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, 60.000, 2.500, -55.000)
+shape = SubResource("Shape_wall")
+
+[node name="Water" parent="." instance=ExtResource("water")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.000, -50.000)
+size = Vector2(320, 320)
+resolution_scale = 0.6
+bed_color = Color(0.2, 0.2, 0.24, 1)
+reflectivity = 0.95
+
+[node name="WaterSurface" parent="." instance=ExtResource("surface")]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, -50)
+surface = "agua"
+
+[node name="Batteries0" parent="." instance=ExtResource("battery")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -9.000, 0.020, -34.000)
+
+[node name="Batteries1" parent="." instance=ExtResource("battery")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 8.000, 0.020, -82.000)
+
+[node name="Boat" parent="." instance=ExtResource("rowboat")]
+transform = Transform3D(0.9848, 0, -0.1736, 0, 1.0000, 0, 0.1736, 0, 0.9848, 1.600, -0.080, 13.500)
+
+[node name="JavierReflection" type="Node3D" parent="." node_paths=PackedStringArray("player", "animation_player")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, -0.020, -3.000)
+script = ExtResource("guide")
+waypoints = PackedVector3Array(1.5, 0, -6, -5, 0, -28, 3, 0, -50, -4, 0, -74, 1, 0, -96, 0, 0, -106.5)
+player = NodePath("../Player")
+animation_player = NodePath("Model/AnimationPlayer")
+
+[node name="Model" parent="JavierReflection" instance=ExtResource("javier")]
+
+[node name="CenterMirror" parent="." instance=ExtResource("mirror")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 1.050, -110.000)
+counts_stares = false
+far = 80.0
+
+[node name="Leg0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -0.450, 0.080, -110.000)
+mesh = SubResource("Leg")
+
+[node name="Leg1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.450, 0.080, -110.000)
+mesh = SubResource("Leg")
+
+[node name="Exit" parent="." instance=ExtResource("exit")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, -0.050, -107.800)
+message = "Te ves en el espejo. Detrás de ti, en el agua, amanece."
+next_level_path = "res://src/cinematics/endings/ending_router.tscn"
+
+[node name="Qispi" parent="." instance=ExtResource("qispi")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 10.000, 0.000, -66.000)
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, -0.020, 10.000)
+
+[node name="RespawnDirector" parent="." node_paths=PackedStringArray("spawn_point") instance=ExtResource("respawn")]
+spawn_point = NodePath("../SpawnPoint")
+
+[node name="Player" parent="." instance=ExtResource("player")]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, -0.020, 10.000)
+
+[node name="Hud" parent="." instance=ExtResource("hud")]
+
+[node name="Viewfinder" parent="." instance=ExtResource("viewfinder")]
+
+[node name="Album" parent="." instance=ExtResource("album")]
+
+[node name="NoteViewer" parent="." instance=ExtResource("notes")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("pause")]
+
+[node name="FilmEffects" parent="." instance=ExtResource("film")]
+
+[node name="Ambience" parent="." instance=ExtResource("ambience")]
+
+[node name="MusicDirector" parent="." node_paths=PackedStringArray("qispi") instance=ExtResource("music")]
+qispi = NodePath("../Qispi")

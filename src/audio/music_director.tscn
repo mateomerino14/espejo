@@ -1,0 +1,45 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/audio/music_director.gd" id="1_music"]
+[ext_resource type="AudioStream" path="res://assets/audio/music_calm.ogg" id="2_calm"]
+[ext_resource type="AudioStream" path="res://assets/audio/music_tension.ogg" id="3_tension"]
+[ext_resource type="AudioStream" path="res://assets/audio/music_chase.ogg" id="4_chase"]
+[ext_resource type="AudioStream" path="res://assets/audio/quena_1.ogg" id="5_q1"]
+[ext_resource type="AudioStream" path="res://assets/audio/quena_2.ogg" id="6_q2"]
+[ext_resource type="AudioStream" path="res://assets/audio/quena_3.ogg" id="7_q3"]
+[ext_resource type="AudioStream" path="res://assets/audio/quena_4.ogg" id="8_q4"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_quena"]
+playback_mode = 1
+streams_count = 4
+stream_0/stream = ExtResource("5_q1")
+stream_1/stream = ExtResource("6_q2")
+stream_2/stream = ExtResource("7_q3")
+stream_3/stream = ExtResource("8_q4")
+
+[node name="MusicDirector" type="Node"]
+process_mode = 3
+script = ExtResource("1_music")
+
+[node name="Calm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_calm")
+volume_db = -6.0
+bus = &"Musica"
+
+[node name="Tension" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_tension")
+volume_db = -4.0
+bus = &"Musica"
+
+[node name="Chase" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_chase")
+volume_db = -2.0
+bus = &"Musica"
+
+[node name="Quena" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_quena")
+volume_db = -10.0
+bus = &"Musica"
+
+[node name="QuenaTimer" type="Timer" parent="."]
+one_shot = true

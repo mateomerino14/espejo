@@ -1,0 +1,84 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/props/cardon_door.gd" id="1_door"]
+[ext_resource type="ArrayMesh" path="res://assets/models/props/cardon_door_frame.obj" id="2_frame"]
+[ext_resource type="ArrayMesh" path="res://assets/models/props/cardon_door.obj" id="3_door"]
+[ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="4_cardon"]
+[ext_resource type="Script" path="res://src/interaction/interactable.gd" id="5_interactable"]
+[ext_resource type="AudioStream" path="res://assets/audio/door_close.wav" id="7_shut"]
+[ext_resource type="AudioStream" path="res://assets/audio/door_locked.wav" id="8_rattle"]
+[ext_resource type="AudioStream" path="res://assets/audio/door_creak.wav" id="6_creak"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jamb"]
+size = Vector3(0.1, 2.2, 0.16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lintel"]
+size = Vector3(1.12, 0.12, 0.16)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_door"]
+size = Vector3(0.9, 2.05, 0.06)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_handle"]
+size = Vector3(0.9, 1.6, 0.5)
+
+[node name="CardonDoor" type="Node3D"]
+script = ExtResource("1_door")
+
+[node name="Frame" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_frame")
+surface_material_override/0 = ExtResource("4_cardon")
+
+[node name="FrameBody" type="StaticBody3D" parent="." groups=["navigation_source"]]
+
+[node name="LeftJamb" type="CollisionShape3D" parent="FrameBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 1.1, 0)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="RightJamb" type="CollisionShape3D" parent="FrameBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.96, 1.1, 0)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="FrameBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 2.16, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Hinge" type="Node3D" parent="."]
+
+[node name="Door" type="MeshInstance3D" parent="Hinge"]
+mesh = ExtResource("3_door")
+surface_material_override/0 = ExtResource("4_cardon")
+
+[node name="DoorBody" type="StaticBody3D" parent="Hinge"]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/DoorBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1.03, 0)
+shape = SubResource("BoxShape3D_door")
+
+[node name="Interactable" type="Area3D" parent="Hinge"]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("5_interactable")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/Interactable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1.0, 0)
+shape = SubResource("BoxShape3D_handle")
+
+[node name="Creak" type="AudioStreamPlayer3D" parent="Hinge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+stream = ExtResource("6_creak")
+bus = &"Efectos"
+
+[node name="Shut" type="AudioStreamPlayer3D" parent="Hinge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1.0, 0)
+stream = ExtResource("7_shut")
+volume_db = -4.0
+bus = &"Efectos"
+
+[node name="Rattle" type="AudioStreamPlayer3D" parent="Hinge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1.0, 0)
+stream = ExtResource("8_rattle")
+volume_db = -4.0
+bus = &"Efectos"

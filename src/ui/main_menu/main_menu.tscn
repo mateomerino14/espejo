@@ -1,0 +1,230 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/main_menu/main_menu.gd" id="1_menu"]
+[ext_resource type="Environment" path="res://src/world/materials/hotel_environment.tres" id="2_env"]
+[ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="3_salt"]
+[ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="4_crust"]
+[ext_resource type="Material" path="res://src/world/materials/planks.tres" id="planks_r"]
+[ext_resource type="PackedScene" path="res://src/world/mirror/mirror.tscn" id="6_mirror"]
+[ext_resource type="PackedScene" path="res://src/world/props/kerosene_lamp.tscn" id="7_lamp"]
+[ext_resource type="PackedScene" path="res://src/world/props/salt_bed.tscn" id="8_bed"]
+[ext_resource type="PackedScene" path="res://src/world/props/salt_stool.tscn" id="9_stool"]
+[ext_resource type="PackedScene" path="res://src/ui/film_effects/film_effects.tscn" id="10_film"]
+[ext_resource type="PackedScene" path="res://src/ui/options_panel/options_panel.tscn" id="11_options"]
+[ext_resource type="FontFile" path="res://assets/fonts/IMFellEnglishSC-Regular.ttf" id="12_fell"]
+[ext_resource type="LabelSettings" path="res://src/ui/theme/heading.tres" id="13_heading"]
+[ext_resource type="Script" path="res://src/enemies/components/qispi_animator.gd" id="14_animator"]
+[ext_resource type="PackedScene" path="res://assets/models/qispi/qispi.gltf" id="15_qispi"]
+[ext_resource type="Script" path="res://src/world/environment_quality.gd" id="quality_r"]
+[ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music_r"]
+[ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience_r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("12_fell")
+font_size = 120
+font_color = Color(0.88, 0.93, 0.98, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 0.8)
+
+[sub_resource type="LabelSettings" id="LabelSettings_subtitle"]
+font_size = 22
+font_color = Color(0.64, 0.7, 0.76, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_credits"]
+font_size = 16
+font_color = Color(0.74, 0.78, 0.83, 1)
+line_spacing = 4.0
+
+[node name="MainMenu" type="Node3D"]
+script = ExtResource("1_menu")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_env")
+script = ExtResource("quality_r")
+
+[node name="Room" type="CSGCombiner3D" parent="."]
+
+[node name="Shell" type="CSGBox3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+size = Vector3(5.4, 3.4, 6.4)
+material = ExtResource("3_salt")
+
+[node name="Inside" type="CSGBox3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+operation = 2
+size = Vector3(4.6, 2.8, 5.6)
+material = ExtResource("3_salt")
+
+[node name="Floor" type="CSGBox3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 0)
+size = Vector3(4.6, 0.1, 5.6)
+material = ExtResource("4_crust")
+
+[node name="Ceiling" type="CSGBox3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.76, 0)
+size = Vector3(4.6, 0.1, 5.6)
+material = ExtResource("planks_r")
+
+[node name="Mirror" parent="." instance=ExtResource("6_mirror")]
+counts_stares = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.45, -2.77)
+size = Vector2(1.1, 1.7)
+
+[node name="Bed" parent="." instance=ExtResource("8_bed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 0, -1.4)
+
+[node name="Stool" parent="." instance=ExtResource("9_stool")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0, -2.3)
+
+[node name="Lamp" parent="." instance=ExtResource("7_lamp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.46, -2.3)
+
+[node name="Qispi" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.9, 0, 2.3)
+script = ExtResource("14_animator")
+
+[node name="Salt" parent="Qispi" instance=ExtResource("15_qispi")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.985, 0, 0.174, 0, 1, 0, -0.174, 0, 0.985, 0.2, 1.55, 1.3)
+fov = 60.0
+
+[node name="FilmEffects" parent="." instance=ExtResource("10_film")]
+
+[node name="Ui" type="CanvasLayer" parent="."]
+
+[node name="Shade" type="ColorRect" parent="Ui"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 620.0
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Column" type="VBoxContainer" parent="Ui"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 80.0
+offset_top = -300.0
+offset_right = 560.0
+offset_bottom = 300.0
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Ui/Column"]
+layout_mode = 2
+text = "Espejo"
+label_settings = SubResource("LabelSettings_title")
+
+[node name="Subtitle" type="Label" parent="Ui/Column"]
+layout_mode = 2
+text = "Una historia del Manqha Pacha"
+label_settings = SubResource("LabelSettings_subtitle")
+
+[node name="Gap" type="Control" parent="Ui/Column"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MainPanel" type="VBoxContainer" parent="Ui/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ContinueButton" type="Button" parent="Ui/Column/MainPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Continuar"
+alignment = 0
+
+[node name="NewGameButton" type="Button" parent="Ui/Column/MainPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Nueva partida"
+alignment = 0
+
+[node name="OptionsButton" type="Button" parent="Ui/Column/MainPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Opciones"
+alignment = 0
+
+[node name="CreditsButton" type="Button" parent="Ui/Column/MainPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Créditos"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="Ui/Column/MainPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Salir"
+alignment = 0
+
+[node name="OptionsPanel" parent="Ui/Column" instance=ExtResource("11_options")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="CreditsPanel" type="VBoxContainer" parent="Ui/Column"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="CreditsTitle" type="Label" parent="Ui/Column/CreditsPanel"]
+layout_mode = 2
+text = "Créditos"
+label_settings = ExtResource("13_heading")
+
+[node name="CreditsScroll" type="ScrollContainer" parent="Ui/Column/CreditsPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CreditsText" type="Label" parent="Ui/Column/CreditsPanel/CreditsScroll"]
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Idea, dirección y código: mateomerino14
+
+Hecho en Godot 4.7. El Q'ispi, los objetos del hostal, los trenes, la isla con sus cardones y las texturas del salar se modelaron y pintaron por código en Blender.
+
+Texturas escaneadas de Poly Haven (CC0): Charlotte Baglioni, Rob Tuytel, Amal Kumar y Dimitrios Savva.
+
+Movimientos del Q'ispi tomados de la base de captura de movimiento de Carnegie Mellon (mocap.cs.cmu.edu).
+
+Lucía, Javier, Mateo y Don Celestino se armaron con MakeHuman (CC0) y se mueven con la Universal Animation Library de Quaternius (CC0).
+
+Voces sintetizadas con Piper: ald (español de México, dominio público), claude (español de México, de HirCoir, Apache 2.0) y daniela (español de Argentina, entrenada con el corpus de Google publicado en OpenSLR 61, CC BY-SA 4.0).
+
+Sonidos y música armados con grabaciones de Freesound (CC0) de aglinder, BenjaminNelan, cms4f, craigsmith, davidbain, felix.blume, j1987, janbezouska, jaredpass24, khenshom, lisaisanut, MarleneAyni, mshahen, OwlStorm, Patitodilluvio_, PLukx, Proxima4, ralph.whitehead, razrox, Sclolex, timbreknight y wjtaylor. El Q'ispi y las puertas se sintetizaron por código.
+
+Tipografías IM Fell English SC (Igino Marini) y Lora, bajo licencia SIL Open Font.
+
+Desarrollado con la ayuda de Claude, de Anthropic.
+
+Para quienes viven junto al salar, que en enero no se quedan mirando el agua."
+label_settings = SubResource("LabelSettings_credits")
+autowrap_mode = 3
+
+[node name="CreditsBackButton" type="Button" parent="Ui/Column/CreditsPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Volver"
+alignment = 0
+
+[node name="Curtain" type="ColorRect" parent="Ui"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MusicDirector" parent="." instance=ExtResource("music_r")]
+
+[node name="Ambience" parent="." instance=ExtResource("ambience_r")]

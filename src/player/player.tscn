@@ -1,0 +1,138 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://src/player/first_person_camera.gd" id="2_camera"]
+[ext_resource type="Script" path="res://src/player/components/stamina_component.gd" id="3_stamina"]
+[ext_resource type="Script" path="res://src/player/components/footstep_component.gd" id="4_footsteps"]
+[ext_resource type="PackedScene" path="res://src/player/components/first_person_body.tscn" id="13_body"]
+[ext_resource type="PackedScene" path="res://src/player/components/photo_camera.tscn" id="9_photo"]
+[ext_resource type="Script" path="res://src/player/components/caught_reaction.gd" id="10_caught"]
+[ext_resource type="Script" path="res://src/player/components/interactor.gd" id="12_interactor"]
+[ext_resource type="AudioStream" path="res://assets/audio/qispi_scream.wav" id="11_scream"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_1.wav" id="step_salt_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_2.wav" id="step_salt_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_3.wav" id="step_salt_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_salt_4.wav" id="step_salt_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_1.wav" id="step_dirt_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_2.wav" id="step_dirt_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_3.wav" id="step_dirt_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_4.wav" id="step_dirt_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_wood_1.wav" id="step_wood_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_wood_2.wav" id="step_wood_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_wood_3.wav" id="step_wood_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_wood_4.wav" id="step_wood_4"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_1.wav" id="step_water_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_2.wav" id="step_water_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_3.wav" id="step_water_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_4.wav" id="step_water_4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
+resource_local_to_scene = true
+radius = 0.32
+height = 1.7
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_salt"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("step_salt_1")
+stream_1/stream = ExtResource("step_salt_2")
+stream_2/stream = ExtResource("step_salt_3")
+stream_3/stream = ExtResource("step_salt_4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dirt"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("step_dirt_1")
+stream_1/stream = ExtResource("step_dirt_2")
+stream_2/stream = ExtResource("step_dirt_3")
+stream_3/stream = ExtResource("step_dirt_4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wood"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("step_wood_1")
+stream_1/stream = ExtResource("step_wood_2")
+stream_2/stream = ExtResource("step_wood_3")
+stream_3/stream = ExtResource("step_wood_4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_water"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("step_water_1")
+stream_1/stream = ExtResource("step_water_2")
+stream_2/stream = ExtResource("step_water_3")
+stream_3/stream = ExtResource("step_water_4")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ceiling"]
+radius = 0.28
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 17
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_body")
+
+[node name="CeilingCheck" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("SphereShape3D_ceiling")
+target_position = Vector3(0, 0.65, 0)
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58, 0)
+script = ExtResource("2_camera")
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+cull_mask = 1047551
+current = true
+fov = 75.0
+near = 0.05
+
+[node name="Interactor" type="RayCast3D" parent="Head/Camera3D"]
+target_position = Vector3(0, 0, -2.2)
+collision_mask = 21
+collide_with_areas = true
+script = ExtResource("12_interactor")
+
+[node name="PhotoCamera" parent="Head/Camera3D" node_paths=PackedStringArray("camera") instance=ExtResource("9_photo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -0.1)
+camera = NodePath("..")
+
+[node name="StaminaComponent" type="Node" parent="."]
+script = ExtResource("3_stamina")
+
+[node name="FootstepComponent" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+script = ExtResource("4_footsteps")
+surface_sounds = Dictionary[StringName, AudioStream]({&"sal": SubResource("AudioStreamRandomizer_salt"), &"tierra": SubResource("AudioStreamRandomizer_dirt"), &"madera": SubResource("AudioStreamRandomizer_wood"), &"agua": SubResource("AudioStreamRandomizer_water")})
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="FootstepComponent"]
+stream = SubResource("AudioStreamRandomizer_salt")
+max_polyphony = 2
+bus = &"Efectos"
+
+[node name="LeanCheck" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58, 0)
+enabled = false
+target_position = Vector3(0.6, 0, 0)
+
+[node name="CaughtReaction" type="Node" parent="." node_paths=PackedStringArray("body", "head", "camera")]
+script = ExtResource("10_caught")
+body = NodePath("..")
+head = NodePath("../Head")
+camera = NodePath("../Head/Camera3D")
+
+[node name="Scream" type="AudioStreamPlayer" parent="CaughtReaction"]
+stream = ExtResource("11_scream")
+volume_db = -2.0
+bus = &"Efectos"
+
+[node name="FirstPersonBody" parent="Head/Camera3D" node_paths=PackedStringArray("photo_camera", "interactor") instance=ExtResource("13_body")]
+photo_camera = NodePath("../PhotoCamera")
+interactor = NodePath("../Interactor")

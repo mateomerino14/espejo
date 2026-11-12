@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/island/boat.obj" id="1_boat"]
+[ext_resource type="Material" path="res://src/world/materials/planks.tres" id="2_planks"]
+
+[sub_resource type="BoxShape3D" id="Shape_hull"]
+size = Vector3(1.1, 0.5, 3.1)
+
+[node name="Rowboat" type="Node3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_boat")
+surface_material_override/0 = ExtResource("2_planks")
+
+[node name="Body" type="StaticBody3D" parent="." groups=["navigation_source"]]
+
+[node name="Shape" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("Shape_hull")

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/props/suitcase.obj" id="1_r"]
+[ext_resource type="Material" path="res://src/world/materials/leather.tres" id="2_r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_shape"]
+size = Vector3(0.62, 0.42, 0.2)
+
+[node name="Suitcase" type="Node3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_r")
+surface_material_override/0 = ExtResource("2_r")
+
+[node name="Body" type="StaticBody3D" parent="."]
+
+[node name="Shape" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21, 0)
+shape = SubResource("BoxShape3D_shape")

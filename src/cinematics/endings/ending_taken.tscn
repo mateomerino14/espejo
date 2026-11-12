@@ -1,0 +1,256 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/cinematics/endings/ending_taken.gd" id="scene"]
+[ext_resource type="PackedScene" path="res://src/cinematics/cinematic_director.tscn" id="director"]
+[ext_resource type="Script" path="res://src/cinematics/cinematic_shot.gd" id="shot"]
+[ext_resource type="PackedScene" path="res://src/world/water/water_surface.tscn" id="water"]
+[ext_resource type="PackedScene" path="res://assets/models/characters/lucia/lucia.gltf" id="lucia"]
+[ext_resource type="PackedScene" path="res://assets/models/characters/javier/javier.gltf" id="javier"]
+[ext_resource type="PackedScene" path="res://assets/models/qispi/qispi.gltf" id="qispi"]
+[ext_resource type="Script" path="res://src/enemies/components/qispi_animator.gd" id="animator"]
+[ext_resource type="PackedScene" path="res://assets/models/car/car.gltf" id="car"]
+[ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="salt"]
+[ext_resource type="PackedScene" path="res://src/world/props/cardon_door.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music"]
+[ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience"]
+[ext_resource type="PackedScene" path="res://src/player/components/film_camera_prop.tscn" id="prop"]
+[ext_resource type="AudioStream" path="res://assets/audio/camera_shutter.wav" id="shutter"]
+[ext_resource type="PackedScene" path="res://src/world/weather/lightning.tscn" id="lightning"]
+[ext_resource type="Shader" path="res://src/world/water/underwater.gdshader" id="under_shader"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/final3_javier_1.ogg" id="v_final3_javier_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/final3_lucia_1.ogg" id="v_final3_lucia_1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
+sky_top_color = Color(0.18, 0.2, 0.24, 1)
+sky_horizon_color = Color(0.55, 0.55, 0.58, 1)
+sky_curve = 0.12
+ground_bottom_color = Color(0.08, 0.08, 0.1, 1)
+ground_horizon_color = Color(0.55, 0.55, 0.58, 1)
+sun_angle_max = 8.0
+
+[sub_resource type="Sky" id="Sky_dawn"]
+sky_material = SubResource("Sky_mat")
+
+[sub_resource type="Environment" id="Environment_dawn"]
+background_mode = 2
+sky = SubResource("Sky_dawn")
+ambient_light_source = 3
+ambient_light_energy = 0.8
+tonemap_mode = 3
+tonemap_white = 6.0
+glow_enabled = true
+glow_intensity = 0.6
+fog_enabled = true
+fog_light_color = Color(0.330, 0.330, 0.348, 1)
+fog_density = 0.006
+fog_sky_affect = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_under"]
+render_priority = 0
+shader = ExtResource("under_shader")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_under"]
+size = Vector2(200, 200)
+
+[node name="Ending" type="Node3D" node_paths=PackedStringArray("lucia", "javier", "qispi", "underwater", "underside", "music", "lightning", "car", "car_start", "car_stop", "lucia_car")]
+script = ExtResource("scene")
+lucia = NodePath("Lucia")
+javier = NodePath("Javier")
+qispi = NodePath("Qispi")
+underwater = [NodePath("Underwater/Tint")]
+underside = NodePath("Underside")
+music = NodePath("Music")
+lightning = NodePath("Lightning")
+car = NodePath("Car")
+car_start = NodePath("Marks/CarStart")
+car_stop = NodePath("Marks/CarStop")
+lucia_car = NodePath("Marks/LuciaCar")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dawn")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 0.9925, 0.1219, -0.0000, -0.1219, 0.9925, 0, 10, 0)
+light_color = Color(0.7, 0.72, 0.78, 1)
+light_energy = 0.6
+shadow_enabled = true
+
+[node name="Water" parent="." instance=ExtResource("water")]
+
+[node name="Music" parent="." instance=ExtResource("music")]
+
+[node name="Ambience" parent="." instance=ExtResource("ambience")]
+
+[node name="Hostal" type="CSGCombiner3D" parent="."]
+
+[node name="Walls" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 1.6, -30)
+size = Vector3(16, 3.2, 8)
+material = ExtResource("salt")
+
+[node name="Doorway" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 1.075, -26)
+operation = 2
+size = Vector3(1.0, 2.15, 0.6)
+material = ExtResource("salt")
+
+[node name="Door" parent="." instance=ExtResource("door")]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, -0.45, 0, -26)
+
+[node name="Car" parent="." instance=ExtResource("car")]
+transform = Transform3D(0.0000, 0.0000, 1.0000, 0.0000, 1.0000, -0.0000, -1.0000, 0.0000, 0.0000, -6, 0, -6)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+cull_mask = 1047551
+current = true
+
+[node name="Lightning" parent="." instance=ExtResource("lightning")]
+auto_strikes = false
+
+[node name="Lucia" parent="." instance=ExtResource("lucia")]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 0, 0)
+
+[node name="HeadMark" type="BoneAttachment3D" parent="Lucia/LuciaRig/Skeleton3D"]
+bone_name = "head"
+
+[node name="Hand" type="BoneAttachment3D" parent="Lucia/LuciaRig/Skeleton3D"]
+bone_name = "wrist.R"
+
+[node name="Javier" parent="." instance=ExtResource("javier")]
+transform = Transform3D(0.7385, 0.0000, 0.6743, 0.0000, 1.0000, -0.0000, -0.6743, 0.0000, 0.7385, -4.2, 0, -4.6)
+
+[node name="HeadMark" type="BoneAttachment3D" parent="Javier/JavierRig/Skeleton3D"]
+bone_name = "head"
+
+[node name="Hand" type="BoneAttachment3D" parent="Javier/JavierRig/Skeleton3D"]
+bone_name = "wrist.R"
+
+[node name="Qispi" type="Node3D" parent="."]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 0, -0.7)
+script = ExtResource("animator")
+
+[node name="Salt" parent="Qispi" instance=ExtResource("qispi")]
+
+[node name="Underside" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 0.005, 0)
+mesh = SubResource("PlaneMesh_under")
+material_override = SubResource("ShaderMaterial_under")
+cast_shadow = 0
+
+[node name="Underwater" type="CanvasLayer" parent="."]
+
+[node name="Tint" type="ColorRect" parent="Underwater"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.05, 0.16, 0.18, 0.35)
+
+[node name="Marks" type="Node3D" parent="."]
+
+[node name="CarStart" type="Marker3D" parent="Marks"]
+transform = Transform3D(0.0000, 0.0000, 1.0000, 0.0000, 1.0000, -0.0000, -1.0000, 0.0000, 0.0000, -6, 0, -6)
+
+[node name="CarStop" type="Marker3D" parent="Marks"]
+transform = Transform3D(0.0000, 0.0000, 1.0000, 0.0000, 1.0000, -0.0000, -1.0000, 0.0000, 0.0000, 30, 0, -6)
+
+[node name="LuciaCar" type="Marker3D" parent="Marks"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, -3.3, 0, -4.8)
+
+[node name="Shots" type="Node3D" parent="."]
+
+[node name="Orilla" type="Node3D" parent="Shots" node_paths=PackedStringArray("look_target")]
+script = ExtResource("shot")
+duration = 6.0
+fov = 45.0
+look_target = NodePath("Look")
+subtitle = "Centro del salar. Amanece."
+cue = &"orilla"
+
+[node name="From" type="Marker3D" parent="Shots/Orilla"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 3.4, 1.1, 0.8)
+
+[node name="To" type="Marker3D" parent="Shots/Orilla"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 3.2, 1.05, 0.7)
+
+[node name="Look" type="Marker3D" parent="Shots/Orilla"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 0.4, 0.0)
+
+[node name="Agarra" type="Node3D" parent="Shots" node_paths=PackedStringArray("look_target")]
+script = ExtResource("shot")
+duration = 3.0
+fov = 40.0
+look_target = NodePath("Look")
+cue = &"agarra"
+
+[node name="From" type="Marker3D" parent="Shots/Agarra"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 2.3, 0.85, 0.9)
+
+[node name="To" type="Marker3D" parent="Shots/Agarra"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 2.2, 0.82, 0.85)
+
+[node name="Look" type="Marker3D" parent="Shots/Agarra"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 0.3, 0.1)
+
+[node name="Abajo" type="Node3D" parent="Shots" node_paths=PackedStringArray("look_target")]
+script = ExtResource("shot")
+duration = 6.5
+fov = 60.0
+look_target = NodePath("../../Lucia/LuciaRig/Skeleton3D/HeadMark")
+cue = &"abajo"
+
+[node name="From" type="Marker3D" parent="Shots/Abajo"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0.4, -0.7, 1.0)
+
+[node name="To" type="Marker3D" parent="Shots/Abajo"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0.35, -0.7, 0.9)
+
+[node name="Javier" type="Node3D" parent="Shots" node_paths=PackedStringArray("look_target")]
+script = ExtResource("shot")
+duration = 3.5
+fov = 55.0
+look_target = NodePath("../../Javier/JavierRig/Skeleton3D/HeadMark")
+subtitle = "Javier: ¿Nos vamos, Lucía?"
+cue = &"javier"
+voice = ExtResource("v_final3_javier_1")
+
+[node name="From" type="Marker3D" parent="Shots/Javier"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, -1.5, -0.6, -1.5)
+
+[node name="To" type="Marker3D" parent="Shots/Javier"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, -1.6, -0.6, -1.6)
+
+[node name="Vamos" type="Node3D" parent="Shots" node_paths=PackedStringArray("look_target")]
+script = ExtResource("shot")
+duration = 3.0
+fov = 55.0
+look_target = NodePath("../../Lucia/LuciaRig/Skeleton3D/HeadMark")
+subtitle = "Lucía: Vamos."
+cue = &"vamos"
+voice = ExtResource("v_final3_lucia_1")
+
+[node name="From" type="Marker3D" parent="Shots/Vamos"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, -1.6, -0.6, -1.6)
+
+[node name="To" type="Marker3D" parent="Shots/Vamos"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, -1.65, -0.6, -1.65)
+
+[node name="SeVan" type="Node3D" parent="Shots" node_paths=PackedStringArray("look_target")]
+script = ExtResource("shot")
+duration = 6.5
+fov = 60.0
+look_target = NodePath("../../Car")
+cue = &"se_van"
+
+[node name="From" type="Marker3D" parent="Shots/SeVan"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 2, -0.8, 0)
+
+[node name="To" type="Marker3D" parent="Shots/SeVan"]
+transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 2.2, -0.8, 0.2)
+
+[node name="CinematicDirector" parent="." node_paths=PackedStringArray("camera", "shots_root") instance=ExtResource("director")]
+camera = NodePath("../Camera3D")
+shots_root = NodePath("../Shots")
+next_scene = "res://src/ui/main_menu/main_menu.tscn"
+closing_text = "Final: El salar mira de vuelta.\n\nEn enero el salar se pone a mirar de vuelta. Esa vez no devolvió a Lucía."
+closing_seconds = 6.0

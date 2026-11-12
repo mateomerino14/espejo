@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/mirror/mirror.gd" id="1_mirror"]
+[ext_resource type="Shader" path="res://src/world/mirror/mirror.gdshader" id="2_shader"]
+[ext_resource type="Material" path="res://src/world/materials/linen.tres" id="3_linen"]
+[ext_resource type="Script" path="res://src/interaction/interactable.gd" id="4_interactable"]
+[ext_resource type="AudioStream" path="res://assets/audio/camera_lower.wav" id="5_cloth"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_glass"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_shader")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frame"]
+albedo_color = Color(0.3, 0.19, 0.11, 1)
+roughness = 0.6
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_reach"]
+resource_local_to_scene = true
+
+[node name="Mirror" type="Node3D"]
+script = ExtResource("1_mirror")
+
+[node name="Surface" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_glass")
+
+[node name="Frame" type="CSGBox3D" parent="."]
+material = SubResource("StandardMaterial3D_frame")
+
+[node name="Reflection" type="SubViewport" parent="."]
+size = Vector2i(450, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Reflection"]
+cull_mask = 1046527
+projection = 2
+
+[node name="Cover" type="MeshInstance3D" parent="."]
+visible = false
+material_override = ExtResource("3_linen")
+
+[node name="Interactable" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_interactable")
+
+[node name="Shape" type="CollisionShape3D" parent="Interactable"]
+shape = SubResource("BoxShape3D_reach")
+
+[node name="CoverSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_cloth")
+bus = &"Efectos"

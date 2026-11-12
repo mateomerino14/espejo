@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/world/footstep_surface/footstep_surface.gd" id="1_surface"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_zone"]
+size = Vector3(2, 0.4, 2)
+
+[node name="FootstepSurface" type="Area3D"]
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_surface")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_zone")

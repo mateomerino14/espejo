@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NoteData" format=3]
+
+[ext_resource type="Script" path="res://src/story/note_data.gd" id="1_note"]
+
+[resource]
+script = ExtResource("1_note")
+id = "sombrero_javier"
+title = "El sombrero de Javier"
+signature = "Tirado junto al agua, boca arriba, lleno de agua de lluvia."
+body = "Es el sombrero de Javier, no hay duda: tiene la cinta con el aguayo que le cosió su hija.
+
+En el agua que quedó adentro no se ve el cielo. Se ve una orilla de piedra, cactus altos y alguien sentado, de espaldas, como esperando.
+
+La isla. Doña Rosa dijo que se iba a la isla."

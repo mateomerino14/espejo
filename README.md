@@ -10,14 +10,31 @@ En desarrollo. La hoja de ruta está en el documento de diseño.
 
 | Fase | Entrega | Estado |
 |---|---|---|
-| 0. Base | Proyecto, jugador, sala de prueba, CI | En curso |
-| 1. Cámara | Visor, flash, fotos y álbum | Pendiente |
-| 2. Ente | El Q'ispi, visible solo en reflejos | Pendiente |
-| 3. Nivel 1 | Hotel de sal | Pendiente |
+| 0. Base | Proyecto, jugador, sala de prueba, CI | Lista |
+| 1. Cámara | Visor, flash, fotos y álbum | Lista |
+| 2. Ente | El Q'ispi, visible solo en reflejos | Lista |
+| 3. Nivel 1 | Hostal de sal | Jugable |
 | 4. Niveles 2 a 5 | El resto del salar | Pendiente |
-| 5. Pulido | Menú, cinemáticas, finales y versión para Windows | Pendiente |
+| 5. Pulido | Menú, cinemáticas, finales y versión para Windows | En curso: menú, pausa y exe listos |
+
+## Controles
+
+| Acción | Teclado y ratón | Mando |
+|---|---|---|
+| Moverse | WASD | Stick izquierdo |
+| Correr | Shift | RB |
+| Agacharse | Ctrl o C | B |
+| Usar, abrir, leer | E | A |
+| Asomarse | Q y Z | Sticks presionados |
+| Levantar la cámara | Clic derecho | LT |
+| Tomar foto | Clic izquierdo | RT |
+| Álbum | Tab | Back |
+| Pausa | Escape | Start |
 
 ## Desarrollo
 
 - Motor: Godot 4.7.2 (Forward+, física Jolt).
+- Modelos: scripts de Blender en `tools/blender/` (ver su README).
+- Sonidos: grabaciones CC0 de Freesound armadas con `tools/audio/build_sounds.py` (ver su README); el ente y el crujido de las puertas, con `python3 tools/generate_sounds.py assets/audio`.
+- Pruebas: `godot --headless --path . --script res://tests/run_tests.gd`.
 - Convenciones de ramas, commits, código y arquitectura: [reglas.md](reglas.md).

@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/enemies/components/mirror_passage.gd" id="1_passage"]
+[ext_resource type="AudioStream" path="res://assets/audio/salt_crack_2.wav" id="2_crack"]
+
+[node name="MirrorPassage" type="Node"]
+script = ExtResource("1_passage")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="."]
+top_level = true
+stream = ExtResource("2_crack")
+volume_db = 4.0
+unit_size = 6.0
+bus = &"Efectos"

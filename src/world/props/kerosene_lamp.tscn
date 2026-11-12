@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/props/kerosene_lamp_metal.obj" id="1_r"]
+[ext_resource type="Material" path="res://src/world/materials/tin.tres" id="2_r"]
+[ext_resource type="ArrayMesh" path="res://assets/models/props/kerosene_lamp_glass.obj" id="3_r"]
+[ext_resource type="Material" path="res://src/world/materials/glass.tres" id="4_r"]
+[ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="lamp_script"]
+[ext_resource type="AudioStream" path="res://assets/audio/amb_lamp.ogg" id="lamp_sound"]
+
+[node name="KeroseneLamp" type="Node3D"]
+
+[node name="Metal" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_r")
+surface_material_override/0 = ExtResource("2_r")
+cast_shadow = 0
+
+[node name="Glass" type="MeshInstance3D" parent="."]
+mesh = ExtResource("3_r")
+surface_material_override/0 = ExtResource("4_r")
+cast_shadow = 0
+
+[node name="Flame" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+light_color = Color(1, 0.66, 0.34, 1)
+light_energy = 1.6
+shadow_enabled = true
+omni_range = 6.0
+script = ExtResource("lamp_script")
+
+[node name="Burn" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+stream = ExtResource("lamp_sound")
+volume_db = -14.0
+unit_size = 1.5
+max_distance = 7.0
+autoplay = true
+bus = &"Ambiente"
