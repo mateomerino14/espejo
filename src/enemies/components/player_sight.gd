@@ -1,6 +1,6 @@
 class_name PlayerSight
 extends Node3D
-## Vista del ente: ve a Lucía dentro del cono y del alcance, sin nada en medio.
+## Vista del ente: ve a Lucía dentro del cono y del alcance, sin nada en medio y sin esconderse.
 
 ## Mundo y puertas: lo que tapa la vista.
 const WORLD_MASK := 17
@@ -15,7 +15,7 @@ var enabled := true
 
 ## Dice si ve a Lucía en este momento.
 func can_see(player: Player) -> bool:
-	if not enabled or player == null:
+	if not enabled or player == null or player.is_hidden():
 		return false
 	var target := player.get_eye_position()
 	var distance := global_position.distance_to(target)

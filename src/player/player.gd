@@ -10,6 +10,7 @@ const HORIZONTAL_PLANE := Vector3(1.0, 0.0, 1.0)
 const CROUCH_HEIGHT_TOLERANCE := 0.05
 ## Distancia que se deja entre la cabeza y la pared al asomarse.
 const LEAN_WALL_MARGIN := 0.2
+const LEAVE_PROMPT := "Salir del escondite"
 
 @export_group("Velocidades (m/s)")
 @export var walk_speed := 2.4
@@ -34,11 +35,15 @@ const LEAN_WALL_MARGIN := 0.2
 ## Falso: hay que mantener la tecla. Verdadero: se alterna con cada pulsación. Viene de Settings.
 var crouch_toggles := false
 var move_state := MoveState.IDLE
+## Dónde está escondida, si lo está.
+var hiding_spot: HidingSpot
 
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _capsule: CapsuleShape3D
 var _is_crouch_requested := false
 var _controls_enabled := true
+## Mientras entra o sale del escondite no responde a nada.
+var _is_moving_to_hide := false
 
 @onready var _collision: CollisionShape3D = $CollisionShape3D
 @onready var _ceiling_check: ShapeCast3D = $CeilingCheck
@@ -63,7 +68,11 @@ func _ready() -> void:
 
 ## Atiende las acciones de una sola pulsación: usar lo que hay al frente y disparar la cámara.
 func _unhandled_input(event: InputEvent) -> void:
-	if not _controls_enabled:
+	if not _controls_enabled or _is_moving_to_hide:
+		return
+	if hiding_spot:
+		if event.is_action_pressed("interact"):
+			leave_hiding()
 		return
 	if crouch_toggles and event.is_action_pressed("crouch"):
 		_is_crouch_requested = not _is_crouch_requested
@@ -75,6 +84,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 ## Mueve a Lucía y alimenta a la cabeza, el aliento y los pasos.
 func _physics_process(delta: float) -> void:
+	if hiding_spot or _is_moving_to_hide:
+		_keep_look_inside()
+		return
 	var input_dir := Vector2.ZERO
 	var lean := 0.0
 	if _controls_enabled:
@@ -107,8 +119,37 @@ func set_controls_enabled(enabled: bool) -> void:
 	_head.look_enabled = enabled
 
 
+## Se mete en [param spot]: baja la cámara, entra despacio y desde ahí solo mira hacia afuera.
+func hide_in(spot: HidingSpot) -> void:
+	if hiding_spot or _is_moving_to_hide:
+		return
+	hiding_spot = spot
+	spot.enter(self)
+	_photo_camera.set_raised(false)
+	_set_body_solid(false)
+	velocity = Vector3.ZERO
+	EventBus.player_hiding_changed.emit(spot)
+	EventBus.interaction_prompt_changed.emit(LEAVE_PROMPT)
+	_move_to(spot.get_inside_transform(), spot.move_seconds, Callable())
+
+
+## Sale del escondite y vuelve a moverse.
+func leave_hiding() -> void:
+	if hiding_spot == null:
+		return
+	var spot := hiding_spot
+	_move_to(spot.get_exit_transform(), spot.move_seconds, _finish_leaving.bind(spot))
+
+
+## Dice si está escondida.
+func is_hidden() -> bool:
+	return hiding_spot != null
+
+
 ## Lleva a Lucía al punto indicado, de pie, quieta, con aliento lleno y la cámara abajo.
 func respawn_at(spawn: Transform3D) -> void:
+	if hiding_spot:
+		_finish_leaving(hiding_spot)
 	_caught_reaction.reset()
 	_photo_camera.reset()
 	global_transform = spawn
@@ -127,6 +168,53 @@ func get_eye_position() -> Vector3:
 ## Dice si la cápsula está por debajo de la altura de pie.
 func is_crouching() -> bool:
 	return _capsule.height < stand_height - CROUCH_HEIGHT_TOLERANCE
+
+
+## Camina hasta [param target] en [param seconds] mirando hacia su −Z y al final llama a
+## [param arrived], si hay.
+func _move_to(target: Transform3D, seconds: float, arrived: Callable) -> void:
+	_is_moving_to_hide = true
+	_head.reset_look()
+	var move := create_tween().set_parallel().set_trans(Tween.TRANS_SINE)
+	move.tween_property(self, "global_position", target.origin, seconds)
+	move.tween_property(self, "rotation:y", _yaw_toward(target), seconds)
+	move.chain().tween_callback(_on_moved.bind(arrived))
+
+
+## Termina de entrar o salir.
+func _on_moved(arrived: Callable) -> void:
+	_is_moving_to_hide = false
+	if arrived.is_valid():
+		arrived.call()
+
+
+## Ya afuera: vuelve a ser sólida y avisa que dejó el escondite.
+func _finish_leaving(spot: HidingSpot) -> void:
+	spot.leave()
+	hiding_spot = null
+	_set_body_solid(true)
+	EventBus.player_hiding_changed.emit(null)
+	EventBus.interaction_prompt_changed.emit("")
+
+
+## Giro del cuerpo más cercano al actual que mira hacia el −Z de [param target].
+func _yaw_toward(target: Transform3D) -> float:
+	var wanted := target.basis.get_euler().y
+	return rotation.y + angle_difference(rotation.y, wanted)
+
+
+## Adentro solo mira hacia afuera: no gira más allá del límite del escondite.
+func _keep_look_inside() -> void:
+	if hiding_spot == null or _is_moving_to_hide:
+		return
+	var center := hiding_spot.get_inside_transform().basis.get_euler().y
+	var limit := deg_to_rad(hiding_spot.look_limit_degrees)
+	rotation.y = center + clampf(angle_difference(center, rotation.y), -limit, limit)
+
+
+## Escondida no choca con nada ni la empuja la gravedad.
+func _set_body_solid(solid: bool) -> void:
+	_collision.disabled = not solid
 
 
 ## Reenvía las señales de los componentes al bus y publica su estado inicial.

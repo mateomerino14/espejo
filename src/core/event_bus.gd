@@ -28,6 +28,9 @@ signal photo_taken(photo: Photo)
 ## El flash se disparó desde [param origin] hacia [param direction]; el ente puede quedar aturdido.
 signal flash_fired(origin: Vector3, direction: Vector3)
 
+## Lucía se escondió en [param spot], o salió si es null.
+signal player_hiding_changed(spot: HidingSpot)
+
 ## El ente alcanzó a Lucía.
 signal player_caught
 
