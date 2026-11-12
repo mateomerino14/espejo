@@ -15,16 +15,41 @@ VOICES = {
     "javier": ("es_MX-ald-medium", -2.0, 1.12),
     "lucia": ("es_AR-daniela-high", 0.0, 1.08),
 }
-# Cada línea: archivo, personaje y texto
+# Efectos extra: la voz desde el agua tiene eco, y la otra Lucía habla más grave y lenta
+EFFECTS = {
+    "": "",
+    "agua": ",aecho=0.8:0.7:180|420:0.45|0.3,lowpass=f=3200",
+    "otra": ",asetrate=44100*0.9,aresample=44100,atempo=1.05",
+}
+# Cada línea: archivo, personaje, texto y efecto
 LINES = [
     (
         "intro_javier_1",
         "javier",
         "Llegamos. Doña Rosa ya debe estar dormida, pero nos dejó la luz prendida.",
+        "",
     ),
-    ("intro_javier_2", "javier", "Mañana salimos al amanecer, si la lluvia nos deja."),
-    ("intro_lucia_1", "lucia", "Voy a sacar unas fotos. Con el agua, el cielo se ve dos veces."),
-    ("intro_javier_3", "javier", "No te alejes. Con esta agua no se sabe dónde termina el salar."),
+    ("intro_javier_2", "javier", "Mañana salimos al amanecer, si la lluvia nos deja.", ""),
+    (
+        "intro_lucia_1",
+        "lucia",
+        "Voy a sacar unas fotos. Con el agua, el cielo se ve dos veces.",
+        "",
+    ),
+    (
+        "intro_javier_3",
+        "javier",
+        "No te alejes. Con esta agua no se sabe dónde termina el salar.",
+        "",
+    ),
+    ("final1_lucia_1", "lucia", "Última foto.", ""),
+    ("final1_javier_1", "javier", "¿Lucía? ¿Qué hago acá? Estaba en el baño, y el espejo...", ""),
+    ("final1_lucia_2", "lucia", "Ya pasó. Vámonos, Javier.", ""),
+    ("final2_lucia_1", "lucia", "Llévate el mío. Pero devuélvemelo a él.", ""),
+    ("final2_javier_1", "javier", "Una foto para el recuerdo, antes de irnos.", ""),
+    ("final2_lucia_2", "lucia", "Javier. No te quedes mirando el agua.", "agua"),
+    ("final3_javier_1", "javier", "¿Nos vamos, Lucía?", ""),
+    ("final3_lucia_1", "lucia", "Vamos.", "otra"),
 ]
 
 
@@ -32,7 +57,7 @@ def main():
     """Sintetiza cada línea, le baja el tono si hace falta y la guarda en Ogg."""
     voices_dir, out_dir = sys.argv[-2], sys.argv[-1]
     os.makedirs(out_dir, exist_ok=True)
-    for name, who, text in LINES:
+    for name, who, text, effect in LINES:
         model, semitones, length = VOICES[who]
         with tempfile.TemporaryDirectory() as tmp:
             raw = os.path.join(tmp, "raw.wav")
@@ -54,7 +79,7 @@ def main():
             )
             ratio = 2 ** (semitones / 12)
             filters = f"asetrate=22050*{ratio},aresample=44100,atempo={1 / ratio},highpass=f=90,"
-            filters += "apad=pad_dur=0.3"
+            filters += "apad=pad_dur=0.3" + EFFECTS[effect]
             subprocess.run(
                 [
                     "ffmpeg",

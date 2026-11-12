@@ -66,6 +66,7 @@ size = Vector3(4.6, 0.1, 5.6)
 material = ExtResource("planks_r")
 
 [node name="Mirror" parent="." instance=ExtResource("6_mirror")]
+counts_stares = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.45, -2.77)
 size = Vector2(1.1, 1.7)
 

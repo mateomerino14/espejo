@@ -19,6 +19,17 @@ const GLASS_GAP := 0.005
 @export var resolution := 720
 @export var far := 40.0
 
+@export_group("Mirarse")
+## Si cuenta cuando Lucía se queda mirándose; el espejo del menú no cuenta.
+@export var counts_stares := true
+## Quedarse este tiempo mirándolo de cerca cuenta como mirarse.
+@export var stare_seconds := 3.0
+@export var stare_distance := 2.2
+@export_range(5.0, 60.0) var stare_angle_degrees := 22.0
+
+var _stare_time := 0.0
+var _has_counted_stare := false
+
 @onready var _surface: MeshInstance3D = $Surface
 @onready var _frame: CSGBox3D = $Frame
 @onready var _viewport: SubViewport = $Reflection
@@ -37,11 +48,35 @@ func _ready() -> void:
 	material.set_shader_parameter("reflection", _viewport.get_texture())
 
 
-## Sigue al ojo de quien mira.
-func _process(_delta: float) -> void:
+## Sigue al ojo de quien mira y cuenta si se queda mirándose.
+func _process(delta: float) -> void:
 	var eye := get_viewport().get_camera_3d()
 	if eye:
 		update_reflection(eye.global_position)
+		if counts_stares:
+			_update_stare(eye, delta)
+
+
+## Dice si [param eye] mira el espejo de frente y de cerca.
+func is_stared_at(eye: Camera3D) -> bool:
+	var to_glass := global_position - eye.global_position
+	if to_glass.length() > stare_distance:
+		return false
+	if (global_transform.affine_inverse() * eye.global_position).z <= MIN_EYE_DISTANCE:
+		return false
+	return (-eye.global_basis.z).angle_to(to_glass) <= deg_to_rad(stare_angle_degrees)
+
+
+## Acumula el tiempo mirándolo; al pasar el límite cuenta una vez, hasta que mire a otro lado.
+func _update_stare(eye: Camera3D, delta: float) -> void:
+	if not is_stared_at(eye):
+		_stare_time = 0.0
+		_has_counted_stare = false
+		return
+	_stare_time += delta
+	if _stare_time >= stare_seconds and not _has_counted_stare:
+		_has_counted_stare = true
+		GameState.add_mirror_stare()
 
 
 ## Pone la cámara del reflejo en el ojo reflejado, con el vidrio como plano cercano.

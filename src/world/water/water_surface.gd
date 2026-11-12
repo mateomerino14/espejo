@@ -3,14 +3,13 @@ extends Node3D
 ## Agua quieta sobre el salar: refleja el cielo, las luces y también la capa del reflejo, donde vive
 ## el ente. Una cámara en el reflejo de la cámara activa dibuja lo que el agua devuelve.
 
-## Lo que se ve reflejado: todo, incluida la capa del reflejo.
-const ALL_LAYERS := 0xFFFFF
-
 ## Ancho y largo del agua en metros.
 @export var size := Vector2(400.0, 400.0)
 ## Fracción de la resolución de la pantalla con la que se dibuja el reflejo.
 @export_range(0.25, 1.0) var resolution_scale := 0.5
 @export var far := 300.0
+## Lo que el agua devuelve: por defecto todo, incluida la capa del reflejo.
+@export_flags_3d_render var reflected_layers := 0xFFFFF
 
 @onready var _surface: MeshInstance3D = $Surface
 @onready var _viewport: SubViewport = $Reflection
@@ -22,10 +21,16 @@ func _ready() -> void:
 	var plane := PlaneMesh.new()
 	plane.size = size
 	_surface.mesh = plane
-	_camera.cull_mask = ALL_LAYERS
+	_camera.cull_mask = reflected_layers
 	_camera.far = far
 	var material := _surface.material_override as ShaderMaterial
 	material.set_shader_parameter("reflection", _viewport.get_texture())
+
+
+## Cambia lo que el agua devuelve.
+func set_reflected_layers(layers: int) -> void:
+	reflected_layers = layers
+	_camera.cull_mask = layers
 
 
 ## Sigue a la cámara activa.

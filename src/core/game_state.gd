@@ -1,7 +1,23 @@
 extends Node
-## Estado de la partida (autoload "GameState"): las notas que Lucía ya leyó.
+## Estado de la partida (autoload "GameState"): las notas que Lucía ya leyó y lo que decide el
+## final: las ofrendas que dejó, las fotos que guardan pistas y cuánto se quedó mirando espejos.
+
+## Cómo termina la historia.
+enum Ending { RETURNED, DEAL, TAKEN }
+
+## Apachetas en todo el juego; con todas sus ofrendas el ente puede devolver lo que se llevó.
+const TOTAL_OFFERINGS := 4
+## Fotos de pistas que hacen falta para entender qué es el Q'ispi.
+const REQUIRED_CLUES := 3
+## Con menos ofrendas que esto el salar no la deja ir.
+const MIN_OFFERINGS := 2
+## Veces que puede quedarse mirando un espejo antes de que el ente aprenda su cara.
+const MAX_MIRROR_STARES := 3
 
 var read_notes := PackedStringArray()
+var offerings := 0
+var clue_photos := PackedStringArray()
+var mirror_stares := 0
 
 
 ## Recuerda que Lucía leyó una nota.
@@ -15,6 +31,34 @@ func has_read_note(note_id: String) -> bool:
 	return read_notes.has(note_id)
 
 
+## Suma una ofrenda dejada en una apacheta.
+func add_offering() -> void:
+	offerings += 1
+
+
+## Guarda que una foto mostró la pista [param clue_id].
+func add_clue_photo(clue_id: String) -> void:
+	if not clue_photos.has(clue_id):
+		clue_photos.append(clue_id)
+
+
+## Cuenta que Lucía se quedó mirando un espejo.
+func add_mirror_stare() -> void:
+	mirror_stares += 1
+
+
+## Elige el final según lo que hizo Lucía en toda la noche.
+func choose_ending() -> Ending:
+	if offerings < MIN_OFFERINGS or mirror_stares >= MAX_MIRROR_STARES:
+		return Ending.TAKEN
+	if offerings >= TOTAL_OFFERINGS and clue_photos.size() >= REQUIRED_CLUES:
+		return Ending.RETURNED
+	return Ending.DEAL
+
+
 ## Vuelve al estado de una partida nueva.
 func reset() -> void:
 	read_notes.clear()
+	offerings = 0
+	clue_photos.clear()
+	mirror_stares = 0
