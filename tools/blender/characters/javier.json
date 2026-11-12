@@ -76,6 +76,8 @@
     "Driving_Loop": "drive",
     "Idle_Talking_Loop": "talk",
     "Sitting_Idle_Loop": "sit",
-    "Interact": "interact"
+    "Interact": "interact",
+    "Pistol_Idle_Loop": "camera_idle",
+    "Pistol_Aim_Neutral": "camera_aim"
   }
 }

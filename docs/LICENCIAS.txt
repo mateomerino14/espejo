@@ -1,0 +1,25 @@
+ESPEJO: licencias de material de otros autores
+
+Espejo fue creado por Mateo Alejandro Merino Vidal. Además del código y los modelos hechos para el juego, usa material de otros autores, con estas licencias:
+
+Texturas
+Texturas escaneadas de Poly Haven (polyhaven.com), dominio público (CC0): Charlotte Baglioni, Rob Tuytel, Amal Kumar y Dimitrios Savva.
+
+Personajes y animaciones
+Lucía, Javier, Mateo y Don Celestino se armaron con MakeHuman (makehumancommunity.org), con recursos CC0. Se mueven con la Universal Animation Library de Quaternius (quaternius.com), CC0.
+Los movimientos del Q'ispi se tomaron de la base de captura de movimiento de Carnegie Mellon (mocap.cs.cmu.edu).
+
+Voces
+Sintetizadas con Piper (github.com/rhasspy/piper):
+- ald, español de México, dominio público.
+- claude, español de México, de HirCoir, licencia Apache 2.0.
+- daniela, español de Argentina, entrenada con el corpus de Google publicado en OpenSLR 61, licencia CC BY-SA 4.0 (creativecommons.org/licenses/by-sa/4.0). Las voces de Lucía y Rosa salen de este modelo y se comparten con la misma licencia.
+
+Sonidos y música
+Armados con grabaciones de Freesound (freesound.org), dominio público (CC0), de aglinder, BenjaminNelan, cms4f, craigsmith, davidbain, felix.blume, j1987, janbezouska, jaredpass24, khenshom, lisaisanut, MarleneAyni, mshahen, OwlStorm, Patitodilluvio_, PLukx, Proxima4, ralph.whitehead, razrox, Sclolex, timbreknight y wjtaylor.
+
+Tipografías
+IM Fell English SC (Igino Marini) y Lora, bajo la licencia SIL Open Font (openfontlicense.org).
+
+Motor
+Godot Engine (godotengine.org), licencia MIT.

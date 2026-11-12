@@ -32,7 +32,7 @@ jobs:
           ./godot --headless --path . --import
           mkdir -p build/Espejo
           ./godot --headless --path . --export-release "Windows Desktop" build/Espejo/Espejo.exe
-          cp docs/LEEME.txt build/Espejo/
+          cp docs/LEEME.txt docs/LICENCIAS.txt build/Espejo/
       - name: Lee la versión del proyecto
         run: |
           version=$(sed -n 's/^config\/version="\(.*\)"/\1/p' project.godot)

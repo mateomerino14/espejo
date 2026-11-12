@@ -48,9 +48,9 @@ func _on_cue(cue: StringName) -> void:
 			lucia.global_transform = lucia_hostel.global_transform
 			javier.global_transform = javier_hostel.global_transform
 			play(lucia, IDLE)
-			play(javier, TALK)
+			play(javier, HOLD)
 		PHOTO:
-			play(javier, IDLE)
+			play(javier, AIM)
 			director.flash_screen(BLIND_SECONDS)
 			shutter.play()
 		DEVELOPED:

@@ -126,7 +126,7 @@ bone_name = "head"
 bone_name = "wrist.R"
 
 [node name="Prop" type="Node3D" parent="Javier/JavierRig/Skeleton3D/Hand" instance=ExtResource("prop")]
-transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 0.08, 0)
+transform = Transform3D(0.2439, 0.9539, 0.1749, -0.0217, 0.1856, -0.9824, -0.9695, 0.2358, 0.0660, 0.0018, 0.0095, -0.0383)
 
 [node name="Qispi" type="Node3D" parent="."]
 transform = Transform3D(1.0000, 0.0000, 0.0000, 0.0000, 1.0000, -0.0000, -0.0000, 0.0000, 1.0000, 0, 0, -0.9)
