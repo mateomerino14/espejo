@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="NoteData" format=3]
+
+[ext_resource type="Script" path="res://src/story/note_data.gd" id="1_note"]
+
+[resource]
+script = ExtResource("1_note")
+id = "lista_mateo"
+title = "Hoja de cuaderno a los pies del Tío"
+signature = "Mateo, Potosí. Escrita a lápiz, hace un año."
+body = "Tío, te dejo coca, te dejo un cigarro y te dejo esta lista para que no te olvides de devolverlos:
+
+Mi papá.
+Don Faustino.
+El Huevo.
+Yo, si no vuelvo.
+
+Abajo, con otra letra, en tinta todavía húmeda y con los trazos de alguien que nunca aprendió a escribir:
+
+Javier Choque."

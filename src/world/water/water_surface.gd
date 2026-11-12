@@ -8,6 +8,9 @@ extends Node3D
 ## Fracción de la resolución de la pantalla con la que se dibuja el reflejo.
 @export_range(0.25, 1.0) var resolution_scale := 0.5
 @export var far := 300.0
+## Color del fondo bajo el agua y cuánto refleja: el salar es claro, un charco de barro no.
+@export var bed_color := Color(0.05, 0.055, 0.06)
+@export_range(0.0, 1.0) var reflectivity := 0.9
 ## Lo que el agua devuelve: por defecto todo, incluida la capa del reflejo.
 @export_flags_3d_render var reflected_layers := 0xFFFFF
 
@@ -25,6 +28,8 @@ func _ready() -> void:
 	_camera.far = far
 	var material := _surface.material_override as ShaderMaterial
 	material.set_shader_parameter("reflection", _viewport.get_texture())
+	material.set_shader_parameter("bed_color", bed_color)
+	material.set_shader_parameter("reflectivity", reflectivity)
 
 
 ## Cambia lo que el agua devuelve.

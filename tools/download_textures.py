@@ -4,7 +4,7 @@ Cada textura trae color, normales (convención OpenGL, la de Godot) y ARM (oclus
 metal), que en Godot se usa como ORM. Las que llevan paleta se recolorean por luminancia: se
 conserva todo el detalle real de la foto, pero con los tonos de la sal.
 
-Uso: python3 tools/download_textures.py assets/textures/salar 2k
+Uso: python3 tools/download_textures.py assets/textures/salar 2k [nombres...]
 """
 
 import io
@@ -25,6 +25,9 @@ TEXTURES = {
     "salt_block": ("concrete_block_wall_03", ((0.5, 0.48, 0.44), (0.93, 0.92, 0.89)), "Charlotte Baglioni"),
     "salt_crust": ("dry_ground_01", ((0.55, 0.54, 0.51), (0.96, 0.96, 0.95)), "Rob Tuytel"),
     "planks": ("dark_wooden_planks", None, "Amal Kumar"),
+    "rusty_metal": ("rusty_metal_02", None, "Rob Tuytel"),
+    "corrugated": ("rusty_corrugated_iron", None, "Charlotte Baglioni"),
+    "dry_mud": ("brown_mud_dry", ((0.3, 0.27, 0.24), (0.72, 0.68, 0.62)), "Rob Tuytel"),
 }
 # Recortes de luminancia para normalizar antes de aplicar la paleta
 LOW_PERCENTILE, HIGH_PERCENTILE = 2, 98
@@ -54,10 +57,12 @@ def recolor(image, palette):
 
 
 def main():
-    """Baja cada textura en la resolución pedida y la guarda con el nombre del juego."""
+    """Baja las texturas pedidas (o todas) en la resolución indicada con el nombre del juego."""
     folder, resolution = Path(sys.argv[1]), sys.argv[2]
+    wanted = sys.argv[3:] or list(TEXTURES)
     folder.mkdir(parents=True, exist_ok=True)
-    for name, (asset, palette, author) in TEXTURES.items():
+    for name in wanted:
+        asset, palette, author = TEXTURES[name]
         files = json.loads(get(API + asset))
         diffuse = fetch(files["Diffuse"][resolution]["jpg"]["url"])
         if palette:
