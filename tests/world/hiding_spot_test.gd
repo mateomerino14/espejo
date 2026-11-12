@@ -70,3 +70,12 @@ func test_knows_spot_if_it_saw_her_enter() -> void:
 	_player.hide_in(_wardrobe)
 	assert_true(_qispi.get("_suspected_spot") == _wardrobe, "Debe sospechar del ropero")
 	assert_true(_qispi.call("_finds_player_in", _wardrobe), "Debe encontrarla al revisar")
+
+
+## Al entrar suena la puerta que se cierra y al salir la que se abre.
+func test_enter_and_leave_have_their_sounds() -> void:
+	var sound: AudioStreamPlayer3D = _wardrobe.get_node("Sound")
+	_wardrobe.enter(_player)
+	assert_true(sound.stream == _wardrobe.enter_sound, "Al entrar suena la entrada")
+	_wardrobe.leave()
+	assert_true(sound.stream == _wardrobe.leave_sound, "Al salir suena la salida")

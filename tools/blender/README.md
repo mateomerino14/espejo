@@ -64,7 +64,7 @@ Cada personaje es un JSON en `characters/` con sus objetivos, su piel, sus pieza
 python3 make_human.py characters/lucia.json <makehuman>/makehuman/data <recursos_del_sistema> <AnimationLibrary_Godot_Standard.gltf> /ruta/lucia
 ```
 
-La ruta de salida tiene que ser absoluta: el script guarda un `.blend` antes de exportar y, con una ruta relativa, las texturas teñidas quedan sin datos. Los recursos del sistema son `makehuman_system_assets_cc0.zip` de la página de paquetes de MakeHuman. Del resultado se copian el `.gltf`, el `.bin` y las imágenes que nombra a `assets/models/characters/<nombre>/`.
+En la versión de primera persona se quedan las caras que tocan los huesos del brazo, así la manga sale entera. La ruta de salida tiene que ser absoluta: el script guarda un `.blend` antes de exportar y, con una ruta relativa, las texturas teñidas quedan sin datos. Los recursos del sistema son `makehuman_system_assets_cc0.zip` de la página de paquetes de MakeHuman. Del resultado se copian el `.gltf`, el `.bin` y las imágenes que nombra a `assets/models/characters/<nombre>/`.
 
 ## El 4x4 de Javier
 

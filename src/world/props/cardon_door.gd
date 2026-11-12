@@ -24,6 +24,7 @@ var _swing: Tween
 @onready var _hinge: Node3D = $Hinge
 @onready var _interactable: Interactable = $Hinge/Interactable
 @onready var _creak: AudioStreamPlayer3D = $Hinge/Creak
+@onready var _open: AudioStreamPlayer3D = $Hinge/Open
 @onready var _shut: AudioStreamPlayer3D = $Hinge/Shut
 @onready var _rattle: AudioStreamPlayer3D = $Hinge/Rattle
 
@@ -35,16 +36,19 @@ func _ready() -> void:
 	_interactable.interacted.connect(_on_interacted)
 
 
-## Abre o cierra la puerta con un giro y un crujido que se oye.
+## Abre o cierra la puerta con un giro: al abrir suena el pestillo y la bisagra, al cerrar un
+## crujido corto antes del golpe.
 func set_open(value: bool) -> void:
 	is_open = value
 	if _swing:
 		_swing.kill()
 	_swing = create_tween().set_trans(Tween.TRANS_SINE)
 	_swing.tween_property(_hinge, "rotation:y", _target_angle(), swing_seconds)
-	if not value:
+	if value:
+		_open.play()
+	else:
 		_swing.tween_callback(_on_shut)
-	_creak.play()
+		_creak.play()
 	EventBus.noise_emitted.emit(global_position, creak_loudness)
 
 
