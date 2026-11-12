@@ -398,12 +398,18 @@ func _on_player_hiding_changed(spot: HidingSpot) -> void:
 		_last_known_position = spot.get_search_position()
 
 
-## Una ofrenda lo aquieta: deja de buscar y vuelve a acechar por su lugar. Dormido o aturdido, nada.
-func _on_offering_made(_origin: Vector3) -> void:
+## Lo aquieta [param seconds] segundos: deja de buscar y vuelve a acechar por su lugar. Dormido o
+## aturdido, nada.
+func calm_for(seconds: float) -> void:
 	if not can_process() or state == State.STUNNED or _has_caught:
 		return
-	_calm_left = calm_seconds
+	_calm_left = maxf(_calm_left, seconds)
 	_enter_state(State.STALK)
+
+
+## Una ofrenda lo aquieta un rato.
+func _on_offering_made(_origin: Vector3) -> void:
+	calm_for(calm_seconds)
 
 
 ## Recuerda si Lucía mira por el visor.

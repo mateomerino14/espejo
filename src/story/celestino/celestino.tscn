@@ -1,0 +1,75 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/story/dialogue/talking_npc.gd" id="1_npc"]
+[ext_resource type="Script" path="res://src/story/dialogue/dialogue_line.gd" id="2_line"]
+[ext_resource type="Script" path="res://src/interaction/interactable.gd" id="3_interactable"]
+[ext_resource type="PackedScene" path="res://assets/models/characters/celestino/celestino.gltf" id="4_model"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/celestino_1.ogg" id="5_voice1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/celestino_2.ogg" id="6_voice2"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/celestino_3.ogg" id="7_voice3"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/celestino_4.ogg" id="8_voice4"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/celestino_5.ogg" id="9_voice5"]
+
+[sub_resource type="Resource" id="Line_1"]
+script = ExtResource("2_line")
+text = "Llegaste, hija. Rosa me avisó que vendrías."
+voice = ExtResource("5_voice1")
+
+[sub_resource type="Resource" id="Line_2"]
+script = ExtResource("2_line")
+text = "El Q'ispi no es malo ni bueno. Es el salar mirándose a sí mismo. Cuando alguien se queda mucho rato mirando el agua, el agua aprende su cara."
+voice = ExtResource("6_voice2")
+
+[sub_resource type="Resource" id="Line_3"]
+script = ExtResource("2_line")
+text = "A tu amigo lo tiene en el reflejo. Para devolverlo, hay que darle algo a cambio."
+voice = ExtResource("7_voice3")
+
+[sub_resource type="Resource" id="Line_4"]
+script = ExtResource("2_line")
+text = "Las ofrendas en las apachetas, si las dejaste. O algo tuyo... tu propio reflejo, si no te queda otra."
+voice = ExtResource("8_voice4")
+
+[sub_resource type="Resource" id="Line_5"]
+script = ExtResource("2_line")
+text = "Anda al centro del salar antes que amanezca, y llévate la cámara. Lo que la luz muestra, el agua no se lo puede quedar."
+voice = ExtResource("9_voice5")
+
+[sub_resource type="CapsuleShape3D" id="Shape_body"]
+radius = 0.4
+height = 1.4
+
+[sub_resource type="SphereShape3D" id="Shape_talk"]
+radius = 1.1
+
+[node name="Celestino" type="Node3D" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("1_npc")
+prompt = "Hablar con Don Celestino"
+lines = Array[ExtResource("2_line")]([SubResource("Line_1"), SubResource("Line_2"), SubResource("Line_3"), SubResource("Line_4"), SubResource("Line_5")])
+animation_player = NodePath("Model/AnimationPlayer")
+
+[node name="Model" parent="." instance=ExtResource("4_model")]
+
+[node name="Body" type="StaticBody3D" parent="." groups=["navigation_source"]]
+
+[node name="Shape" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("Shape_body")
+
+[node name="Interactable" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("3_interactable")
+
+[node name="Shape" type="CollisionShape3D" parent="Interactable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0.2)
+shape = SubResource("Shape_talk")
+
+[node name="Voice" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+unit_size = 4.0
+bus = &"Efectos"
+
+[node name="LineTimer" type="Timer" parent="."]
+one_shot = true

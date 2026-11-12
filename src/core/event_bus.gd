@@ -43,5 +43,8 @@ signal interaction_prompt_changed(prompt: String)
 ## Un aviso breve para la jugadora, como "Saliste del hotel".
 signal notice_requested(text: String)
 
+## Alguien habla: el HUD muestra [param text] abajo durante [param seconds] segundos.
+signal subtitle_requested(text: String, seconds: float)
+
 ## Lucía abrió una nota para leerla.
 signal note_opened(note: NoteData)

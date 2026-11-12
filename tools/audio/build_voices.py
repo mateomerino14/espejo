@@ -3,7 +3,8 @@
 Uso: python3 build_voices.py <carpeta_de_voces_piper> <salida>
 
 Las voces se bajan de huggingface.co/rhasspy/piper-voices: es_MX-ald-medium para Javier (más grave)
-y es_AR-daniela-high para Lucía.
+y es_AR-daniela-high para Lucía; Don Celestino usa es_MX-claude-high, más grave y lento. Las líneas que
+ya tienen su archivo se saltan: para rehacer una, se borra su .ogg.
 """
 
 import os
@@ -15,6 +16,7 @@ VOICES = {
     "javier": ("es_MX-ald-medium", -2.0, 1.12),
     "lucia": ("es_AR-daniela-high", 0.0, 1.08),
     "rosa": ("es_AR-daniela-high", -4.0, 1.2),
+    "celestino": ("es_MX-claude-high", -3.0, 1.3),
 }
 # Efectos extra: la voz desde el agua tiene eco, y la otra Lucía habla más grave y lenta
 EFFECTS = {
@@ -57,6 +59,34 @@ LINES = [
     ("robada_javier_3", "javier", "No te asustes. Soy yo.", "robada"),
     ("robada_rosa_1", "rosa", "Señorita... ¿ya tapó los espejos?", "robada"),
     ("robada_rosa_2", "rosa", "Venga a la cocina, que se le enfría el api.", "robada"),
+    ("celestino_1", "celestino", "Llegaste, hija. Rosa me avisó que vendrías.", ""),
+    (
+        "celestino_2",
+        "celestino",
+        "El Quispi no es malo ni bueno. Es el salar mirándose a sí mismo. Cuando alguien se queda "
+        "mucho rato mirando el agua, el agua aprende su cara.",
+        "",
+    ),
+    (
+        "celestino_3",
+        "celestino",
+        "A tu amigo lo tiene en el reflejo. Para devolverlo, hay que darle algo a cambio.",
+        "",
+    ),
+    (
+        "celestino_4",
+        "celestino",
+        "Las ofrendas en las apachetas, si las dejaste. O algo tuyo... tu propio reflejo, "
+        "si no te queda otra.",
+        "",
+    ),
+    (
+        "celestino_5",
+        "celestino",
+        "Anda al centro del salar antes que amanezca, y llévate la cámara. Lo que la luz muestra, "
+        "el agua no se lo puede quedar.",
+        "",
+    ),
 ]
 
 
@@ -65,6 +95,8 @@ def main():
     voices_dir, out_dir = sys.argv[-2], sys.argv[-1]
     os.makedirs(out_dir, exist_ok=True)
     for name, who, text, effect in LINES:
+        if os.path.exists(os.path.join(out_dir, name + ".ogg")):
+            continue
         model, semitones, length = VOICES[who]
         with tempfile.TemporaryDirectory() as tmp:
             raw = os.path.join(tmp, "raw.wav")

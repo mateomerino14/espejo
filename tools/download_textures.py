@@ -28,6 +28,8 @@ TEXTURES = {
     "rusty_metal": ("rusty_metal_02", None, "Rob Tuytel"),
     "corrugated": ("rusty_corrugated_iron", None, "Charlotte Baglioni"),
     "dry_mud": ("brown_mud_dry", ((0.3, 0.27, 0.24), (0.72, 0.68, 0.62)), "Rob Tuytel"),
+    "coral_rock": ("coral_fort_wall_01", ((0.3, 0.29, 0.27), (0.8, 0.78, 0.74)), "Dimitrios Savva"),
+    "coral_gravel": ("coral_gravel", ((0.36, 0.34, 0.31), (0.82, 0.8, 0.76)), "Rob Tuytel"),
 }
 # Recortes de luminancia para normalizar antes de aplicar la paleta
 LOW_PERCENTILE, HIGH_PERCENTILE = 2, 98
