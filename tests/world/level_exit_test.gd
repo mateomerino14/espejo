@@ -42,6 +42,25 @@ func test_notifies_once() -> void:
 	assert_true(_notices == PackedStringArray(["Saliste del hotel"]), "Debe avisar una sola vez")
 
 
+## Cerrada, recuerda lo que falta cada vez y no deja pasar; al abrirse, deja salir.
+func test_closed_exit_only_reminds() -> void:
+	_exit.is_open = false
+	_exit.closed_message = "Todavía no"
+	await wait_physics_frames(SETTLE_FRAMES)
+	_player.global_position = Vector3.ZERO
+	await wait_physics_frames(SETTLE_FRAMES)
+	assert_false(_exit.is_used, "Cerrada no se usa")
+	_player.global_position = Vector3(0, 0, 10)
+	_exit.is_open = true
+	await wait_physics_frames(SETTLE_FRAMES)
+	_player.global_position = Vector3.ZERO
+	await wait_physics_frames(SETTLE_FRAMES)
+	assert_true(
+		_notices == PackedStringArray(["Todavía no", "Saliste del hotel"]),
+		"Primero recuerda, después deja salir"
+	)
+
+
 ## Guarda los avisos.
 func _on_notice_requested(text: String) -> void:
 	_notices.append(text)

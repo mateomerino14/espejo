@@ -1,0 +1,25 @@
+{
+  "name": "Celestino",
+  "file": "celestino",
+  "targets": {
+    "macrodetails/asian-male-old": 0.85,
+    "macrodetails/caucasian-male-old": 0.15,
+    "macrodetails/universal-male-old-averagemuscle-minweight": 1.0,
+    "macrodetails/height/male-old-averagemuscle-minweight-minheight": 0.7
+  },
+  "skin": {"path": "skins/middleage_asian_male", "tint": [0.6, 0.44, 0.33]},
+  "pieces": [
+    {"name": "Ropa", "path": "clothes/male_casualsuit04", "tint": [0.42, 0.33, 0.25]},
+    {"name": "Zapatos", "path": "clothes/shoes01"},
+    {"name": "Pelo", "path": "hair/short02", "alpha": true, "tint": [0.75, 0.74, 0.72], "under": "Sombrero", "margin": 0.012},
+    {"name": "Sombrero", "path": "clothes/fedora_cocked", "tint": [0.25, 0.22, 0.2]},
+    {"name": "Cejas", "path": "eyebrows/eyebrow001", "alpha": true, "tint": [0.8, 0.8, 0.78]},
+    {"name": "Pestanas", "path": "eyelashes/eyelashes01", "alpha": true},
+    {"name": "Ojos", "path": "eyes/low-poly"}
+  ],
+  "animations": {
+    "Idle_Loop": "idle",
+    "Sitting_Idle_Loop": "sit",
+    "Sitting_Talking_Loop": "talk"
+  }
+}

@@ -64,7 +64,7 @@ Cada personaje es un JSON en `characters/` con sus objetivos, su piel, sus pieza
 python3 make_human.py characters/lucia.json <makehuman>/makehuman/data <recursos_del_sistema> <AnimationLibrary_Godot_Standard.gltf> /ruta/lucia
 ```
 
-Los recursos del sistema son `makehuman_system_assets_cc0.zip` de la página de paquetes de MakeHuman. Del resultado se copian el `.gltf`, el `.bin` y las imágenes que nombra a `assets/models/characters/<nombre>/`.
+La ruta de salida tiene que ser absoluta: el script guarda un `.blend` antes de exportar y, con una ruta relativa, las texturas teñidas quedan sin datos. Los recursos del sistema son `makehuman_system_assets_cc0.zip` de la página de paquetes de MakeHuman. Del resultado se copian el `.gltf`, el `.bin` y las imágenes que nombra a `assets/models/characters/<nombre>/`.
 
 ## El 4x4 de Javier
 
@@ -81,3 +81,18 @@ python3 build_car.py assets/models/car/car.gltf
 ```bash
 python3 trains.py assets/models/trains assets/models/trains/tio.gltf
 ```
+
+## La isla Incahuasi
+
+La isla no necesita Blender: tres scripts con numpy en `tools/` arman sus piezas en OBJ, sin UV, para los materiales triplanares.
+
+- `island.py` hace el cerro de coral: una cúpula con ruido, una explanada en la cima y pendientes suavizadas hasta que se pueden caminar. También escribe la forma de colisión (`HeightMapShape3D`) y los lugares para los cardones.
+- `cactus.py` hace tres cardones con costillas: uno alto con tres brazos, uno mediano con dos y uno joven sin brazos.
+- `boulder.py` hace dos rocas deformadas, chatas abajo, para las grietas donde esconderse y las piedras sueltas.
+
+```bash
+python3 tools/island.py assets/models/island/island.obj src/world/level_04/island_shape.tres src/world/level_04/cactus_spots.json
+python3 tools/cactus.py assets/models/island
+python3 tools/boulder.py assets/models/island
+```
+

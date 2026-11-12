@@ -347,6 +347,7 @@ transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000
 [node name="Exit" parent="." instance=ExtResource("exit")]
 transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000, 0.0000, 1.0000, -24, 0, -44)
 message = "Más allá de los trenes, el agua vuelve a cubrir el salar. En el horizonte, una isla con cactus."
+next_level_path = "res://src/world/level_04/level_04.tscn"
 
 [node name="Hud" parent="." instance=ExtResource("hud")]
 

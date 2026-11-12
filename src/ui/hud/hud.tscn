@@ -28,6 +28,12 @@ font_color = Color(0.92, 0.94, 0.97, 1)
 outline_size = 5
 outline_color = Color(0, 0, 0, 0.6)
 
+[sub_resource type="LabelSettings" id="LabelSettings_subtitle"]
+font_size = 24
+font_color = Color(0.92, 0.93, 0.95, 1)
+outline_size = 6
+outline_color = Color(0, 0, 0, 0.85)
+
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1_hud")
 
@@ -79,5 +85,27 @@ label_settings = SubResource("LabelSettings_notice")
 horizontal_alignment = 1
 
 [node name="NoticeTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="SubtitleLabel" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 120.0
+offset_top = -150.0
+offset_right = -120.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+label_settings = SubResource("LabelSettings_subtitle")
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="SubtitleTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 one_shot = true
