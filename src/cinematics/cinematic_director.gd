@@ -26,6 +26,7 @@ var _is_closing := false
 @onready var _subtitle: Label = %Subtitle
 @onready var _closing: Label = %Closing
 @onready var _voice: AudioStreamPlayer = $Voice
+@onready var _white: ColorRect = %White
 
 
 ## Junta los planos, oculta el ratón y abre desde negro.
@@ -36,6 +37,7 @@ func _ready() -> void:
 			_shots.append(shot)
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	_closing.modulate.a = CLEAR
+	_white.modulate.a = CLEAR
 	_curtain.modulate.a = OPAQUE
 	create_tween().tween_property(_curtain, "modulate:a", CLEAR, fade_seconds)
 	_next_shot.call_deferred()
@@ -57,6 +59,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") or event.is_action_pressed("pause"):
 		get_viewport().set_input_as_handled()
 		close()
+
+
+## Ciega la pantalla de blanco, como un flash muy cerca, y la deja volver en [param seconds].
+func flash_screen(seconds: float) -> void:
+	_white.modulate.a = OPAQUE
+	create_tween().tween_property(_white, "modulate:a", CLEAR, seconds)
 
 
 ## Funde a negro, muestra el texto final y pasa a la escena siguiente.
