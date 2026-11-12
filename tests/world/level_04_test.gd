@@ -26,7 +26,7 @@ func after_each() -> void:
 func test_summit_and_boat_are_reachable() -> void:
 	var map := _level.get_world_3d().navigation_map
 	var start: Vector3 = _level.get_node("SpawnPoint").global_position
-	await _wait_for_navigation(map, start)
+	await _wait_for_navigation(map, _level.get_node("Exit").global_position)
 	for goal_name: String in ["Celestino", "NavigationRegion3D/Apacheta", "Exit"]:
 		var goal: Vector3 = _level.get_node(goal_name).global_position
 		var path := NavigationServer3D.map_get_path(map, start, goal, true)
@@ -37,10 +37,10 @@ func test_summit_and_boat_are_reachable() -> void:
 		)
 
 
-## Espera a que la navegación cubra la orilla, con un límite.
-func _wait_for_navigation(map: RID, start: Vector3) -> void:
+## Espera a que la navegación llegue hasta [param point], con un límite.
+func _wait_for_navigation(map: RID, point: Vector3) -> void:
 	for i in MAX_SETTLE_FRAMES:
-		if NavigationServer3D.map_get_closest_point(map, start) != Vector3.ZERO:
+		if NavigationServer3D.map_get_closest_point(map, point).distance_to(point) < 1.0:
 			return
 		await wait_physics_frames(1)
 
