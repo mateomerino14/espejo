@@ -3,3 +3,4 @@
 [resource]
 albedo_color = Color(0.82, 0.8, 0.74, 1)
 roughness = 0.95
+cull_mode = 2

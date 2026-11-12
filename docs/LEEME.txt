@@ -19,4 +19,4 @@ Pausa .................. Escape
 Algunas cosas solo se ven por el visor de la cámara o en los espejos.
 El flash aturde a lo que vive en el reflejo, pero cada vez le dura menos.
 
-La partida se guarda sola al empezar cada nivel.
+La partida se guarda sola al empezar cada nivel y con cada ofrenda en una apacheta.

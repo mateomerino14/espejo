@@ -89,10 +89,12 @@ La isla no necesita Blender: tres scripts con numpy en `tools/` arman sus piezas
 - `island.py` hace el cerro de coral: una cúpula con ruido, una explanada en la cima y pendientes suavizadas hasta que se pueden caminar. También escribe la forma de colisión (`HeightMapShape3D`) y los lugares para los cardones.
 - `cactus.py` hace tres cardones con costillas: uno alto con tres brazos, uno mediano con dos y uno joven sin brazos.
 - `boulder.py` hace dos rocas deformadas, chatas abajo, para las grietas donde esconderse y las piedras sueltas.
+- `boat.py` hace el bote de Don Celestino: casco de tablas con proa en punta, popa cortada y dos bancos.
 
 ```bash
 python3 tools/island.py assets/models/island/island.obj src/world/level_04/island_shape.tres src/world/level_04/cactus_spots.json
 python3 tools/cactus.py assets/models/island
 python3 tools/boulder.py assets/models/island
+python3 tools/boat.py assets/models/island/boat.obj
 ```
 

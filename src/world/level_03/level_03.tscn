@@ -117,9 +117,9 @@ size = Vector3(2.7, 0.08, 1.2)
 [sub_resource type="BoxShape3D" id="Shape_ground"]
 size = Vector3(130, 1, 130)
 
-[sub_resource type="BoxMesh" id="Ground"]
+[sub_resource type="PlaneMesh" id="Ground"]
 material = ExtResource("mud")
-size = Vector3(130, 1, 130)
+size = Vector2(130, 130)
 
 [sub_resource type="BoxShape3D" id="Shape_drum"]
 size = Vector3(0.6, 0.9, 0.6)
@@ -153,7 +153,6 @@ transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000
 shape = SubResource("Shape_ground")
 
 [node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground"]
-transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000, 0.0000, 1.0000, 0, -0.5, 0)
 mesh = SubResource("Ground")
 
 [node name="Tracks" type="Node3D" parent="."]
@@ -254,8 +253,9 @@ max_distance = 3.0
 transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000, 0.0000, 1.0000, -5, 0.03, -4)
 size = Vector2(9, 7)
 resolution_scale = 0.4
-bed_color = Color(0.16, 0.14, 0.12, 1)
-reflectivity = 0.65
+bed_color = Color(0.2, 0.18, 0.15, 1)
+reflectivity = 0.8
+puddle_edge = 0.45
 
 [node name="PuddleSurface" parent="." instance=ExtResource("surface")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -5, 0, -4)
