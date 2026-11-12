@@ -2,6 +2,9 @@ class_name LampFlicker
 extends OmniLight3D
 ## Llama de kerosene: la luz tiembla sola, con algún bajón de vez en cuando.
 
+## Frecuencia base del ruido; la velocidad del temblor se ajusta con speed.
+const NOISE_FREQUENCY := 1.0
+
 ## Cuánto se aleja la intensidad de la base, como fracción de ella.
 @export_range(0.0, 1.0) var flicker := 0.18
 ## Qué tan rápido cambia la llama.
@@ -16,7 +19,7 @@ var _time := 0.0
 func _ready() -> void:
 	_base_energy = light_energy
 	_noise.seed = randi()
-	_noise.frequency = 1.0
+	_noise.frequency = NOISE_FREQUENCY
 
 
 ## Hace temblar la llama.

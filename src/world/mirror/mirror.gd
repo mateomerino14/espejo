@@ -20,6 +20,8 @@ const COVER_PROMPT := "Tapar el espejo con una manta"
 ## La manta cuelga un poco más grande que el marco y apenas por delante.
 const COVER_MARGIN := 0.08
 const COVER_DEPTH := 0.03
+## Fondo del área donde se puede tapar el espejo, delante del vidrio.
+const COVER_REACH_DEPTH := 0.3
 
 ## Ancho y alto del vidrio en metros; el vidrio mira hacia +Z.
 @export var size := Vector2(1.0, 1.6)
@@ -66,7 +68,7 @@ func _ready() -> void:
 	_cover.mesh = DrapedCloth.build(cloth_size, hash(name))
 	_cover.position.z = COVER_DEPTH
 	var reach := _interactable.get_child(0) as CollisionShape3D
-	(reach.shape as BoxShape3D).size = Vector3(size.x, size.y, COVER_DEPTH * 10.0)
+	(reach.shape as BoxShape3D).size = Vector3(size.x, size.y, COVER_REACH_DEPTH)
 	_interactable.prompt = COVER_PROMPT
 	_interactable.interacted.connect(_on_interacted)
 	_show_cover()
