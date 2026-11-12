@@ -17,6 +17,7 @@ script = ExtResource("2_animator")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, -0.1)
 
 [node name="PhotoSubject" type="Node3D" parent="."]
+clue_id = "aparicion"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 script = ExtResource("4_subject")
 max_distance = 14.0

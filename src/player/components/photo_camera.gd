@@ -97,6 +97,12 @@ func reset() -> void:
 	raised_changed.emit(false)
 
 
+## Suma batería al flash, sin pasarse del máximo.
+func recharge(amount: float) -> void:
+	battery = minf(battery + amount, max_battery)
+	battery_changed.emit(battery, max_battery)
+
+
 ## Dice si puede disparar: mirando por el visor, con rollo y sin esperar al flash.
 func can_shoot() -> bool:
 	return is_raised and film_remaining > 0 and _cooldown_left <= 0.0
@@ -133,12 +139,14 @@ func _play_after(sound: AudioStreamPlayer3D, delay: float) -> void:
 	create_tween().tween_callback(sound.play).set_delay(delay)
 
 
-## Devuelve lo que la foto alcanza a mostrar de los sujetos que hay en cuadro.
+## Devuelve lo que la foto alcanza a mostrar de los sujetos en cuadro y guarda las pistas.
 func _find_captions() -> PackedStringArray:
 	var captions := PackedStringArray()
 	for subject: PhotoSubject in get_tree().get_nodes_in_group(PhotoSubject.GROUP):
 		if subject.is_visible_from(camera):
 			captions.append(subject.caption)
+			if not subject.clue_id.is_empty():
+				GameState.add_clue_photo(subject.clue_id)
 	return captions
 
 

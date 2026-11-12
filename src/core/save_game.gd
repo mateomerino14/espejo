@@ -64,7 +64,7 @@ func has_pending() -> bool:
 ## Vuelca en GameState lo que guardaba la partida pendiente.
 func restore_state(pending: Dictionary) -> void:
 	GameState.read_notes = pending.get(NOTES_KEY, PackedStringArray())
-	GameState.offerings = pending.get(OFFERINGS_KEY, 0)
+	GameState.offerings = pending.get(OFFERINGS_KEY, PackedStringArray())
 	GameState.clue_photos = pending.get(CLUES_KEY, PackedStringArray())
 	GameState.mirror_stares = pending.get(STARES_KEY, 0)
 

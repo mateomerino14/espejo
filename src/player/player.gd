@@ -141,6 +141,11 @@ func leave_hiding() -> void:
 	_move_to(spot.get_exit_transform(), spot.move_seconds, _finish_leaving.bind(spot))
 
 
+## Pone pilas nuevas en el flash.
+func recharge_camera(amount: float) -> void:
+	_photo_camera.recharge(amount)
+
+
 ## Dice si está escondida.
 func is_hidden() -> bool:
 	return hiding_spot != null

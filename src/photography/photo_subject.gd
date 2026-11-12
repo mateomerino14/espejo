@@ -11,6 +11,8 @@ const SURFACE_MARGIN := 0.15
 ## Texto que aparece en el álbum bajo la foto.
 @export_multiline var caption := ""
 @export var max_distance := 8.0
+## Si es una pista que ayuda a entender al Q'ispi, su nombre; las pistas cuentan para el final.
+@export var clue_id := ""
 
 
 ## Se registra para que la cámara lo encuentre.

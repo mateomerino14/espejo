@@ -31,6 +31,9 @@ signal flash_fired(origin: Vector3, direction: Vector3)
 ## Lucía se escondió en [param spot], o salió si es null.
 signal player_hiding_changed(spot: HidingSpot)
 
+## Lucía dejó una ofrenda en una apacheta: el ente se aquieta un rato.
+signal offering_made(origin: Vector3)
+
 ## El ente alcanzó a Lucía.
 signal player_caught
 
