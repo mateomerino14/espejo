@@ -38,7 +38,7 @@ func _ready() -> void:
 func _on_cue(cue: StringName) -> void:
 	match cue:
 		SHORE:
-			play(lucia, &"crouch_idle")
+			play(lucia, IDLE)
 		DEAL:
 			create_tween().tween_callback(_give_reflection).set_delay(DEAL_SECONDS)
 		JAVIER_BACK:
