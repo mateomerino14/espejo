@@ -16,7 +16,8 @@ Sintetizadas con Piper (github.com/rhasspy/piper):
 - daniela, español de Argentina, entrenada con el corpus de Google publicado en OpenSLR 61, licencia CC BY-SA 4.0 (creativecommons.org/licenses/by-sa/4.0). Las voces de Lucía y Rosa salen de este modelo y se comparten con la misma licencia.
 
 Sonidos y música
-Armados con grabaciones de Freesound (freesound.org), dominio público (CC0), de aglinder, BenjaminNelan, cms4f, craigsmith, davidbain, felix.blume, j1987, janbezouska, jaredpass24, khenshom, lisaisanut, MarleneAyni, mshahen, OwlStorm, Patitodilluvio_, PLukx, Proxima4, ralph.whitehead, razrox, Sclolex, timbreknight y wjtaylor.
+Armados con grabaciones de Freesound (freesound.org), dominio público (CC0), de aglinder, BenjaminNelan, cms4f, craigsmith, davidbain, felix.blume, j1987, janbezouska, jaredpass24, khenshom, lisaisanut, MarleneAyni, mshahen, OwlStorm, Patitodilluvio_, PLukx, Proxima4, ralph.whitehead, razrox, Sclolex y timbreknight.
+Las puertas y los escondites usan grabaciones de OpenGameArt (opengameart.org), dominio público (CC0), de qubodup, w.forster y rubberduck.
 
 Tipografías
 IM Fell English SC (Igino Marini) y Lora, bajo la licencia SIL Open Font (openfontlicense.org).

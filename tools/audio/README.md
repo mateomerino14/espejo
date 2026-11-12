@@ -8,6 +8,13 @@ Los sonidos de Espejo salen de grabaciones de [Freesound](https://freesound.org)
 - Ambiente: viento del salar, la llama de la lámpara, crujidos de sal y gotas.
 - Música en tres capas que se cruzan según el Q'ispi: calma (bordón y viento tonal), tensión (segunda menor, chelo raspado y latido) y persecución (bombo legüero en 6/8, violín raspado). Además, cuatro frases de quena lejanas y desafinadas.
 
+Las puertas y los escondites salen de grabaciones CC0 de [OpenGameArt](https://opengameart.org): `oga_sources.json` dice de qué paquete viene cada una y `build_oga_sounds.py` las baja y mezcla (la puerta que se abre con su bisagra, el golpe al cerrarse, el ropero y el casillero al entrar y al salir).
+
+```bash
+pip install py7zr
+python3 tools/audio/build_oga_sounds.py <carpeta_de_descarga> assets/audio
+```
+
 Los pasos de uso están al principio del script. El grito, el aturdimiento del ente y el crujido de las puertas siguen saliendo de `tools/generate_sounds.py`.
 
 ## Voces

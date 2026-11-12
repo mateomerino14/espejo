@@ -3,7 +3,8 @@
 [ext_resource type="Script" path="res://src/world/hiding_spot/hiding_spot.gd" id="1_spot"]
 [ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="cardon"]
 [ext_resource type="Script" path="res://src/interaction/interactable.gd" id="2_interactable"]
-[ext_resource type="AudioStream" path="res://assets/audio/door_creak.wav" id="3_creak"]
+[ext_resource type="AudioStream" path="res://assets/audio/wardrobe_enter.ogg" id="3_enter"]
+[ext_resource type="AudioStream" path="res://assets/audio/wardrobe_leave.ogg" id="4_leave"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_Back"]
 material = ExtResource("cardon")
@@ -205,6 +206,8 @@ size = Vector3(1.0, 1.7, 0.25)
 
 [node name="Wardrobe" type="Node3D"]
 script = ExtResource("1_spot")
+enter_sound = ExtResource("3_enter")
+leave_sound = ExtResource("4_leave")
 
 [node name="Model" type="Node3D" parent="."]
 
@@ -427,6 +430,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.05)
 
 [node name="Sound" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.3)
-stream = ExtResource("3_creak")
+stream = ExtResource("3_enter")
 volume_db = -6.0
 bus = &"Efectos"

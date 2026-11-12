@@ -533,20 +533,23 @@ print("personaje exportado")
 arms = spec.get("first_person")
 if arms:
     ARM_BONES = ("clavicle", "shoulder", "upperarm", "lowerarm", "wrist", "metacarpal", "finger")
+    # Se quedan las caras que tocan el brazo: así las mangas salen enteras y no en pedazos sueltos.
     for ob in [o for o in scene.objects if o.type == "MESH" and o.parent == rig]:
         names = {g.index: g.name for g in ob.vertex_groups}
-        doomed = []
+        on_arm = set()
         for v in ob.data.vertices:
             weight = sum(g.weight for g in v.groups if names[g.group].startswith(ARM_BONES))
-            if weight < arms["min_weight"]:
-                doomed.append(v)
-        if len(doomed) == len(ob.data.vertices):
+            if weight >= arms["min_weight"]:
+                on_arm.add(v.index)
+        if not on_arm:
             bpy.data.objects.remove(ob)
             continue
         mesh = bmesh.new()
         mesh.from_mesh(ob.data)
-        mesh.verts.ensure_lookup_table()
-        bmesh.ops.delete(mesh, geom=[mesh.verts[v.index] for v in doomed], context="VERTS")
+        doomed = [f for f in mesh.faces if not any(v.index in on_arm for v in f.verts)]
+        bmesh.ops.delete(mesh, geom=doomed, context="FACES_ONLY")
+        loose = [v for v in mesh.verts if not v.link_faces]
+        bmesh.ops.delete(mesh, geom=loose, context="VERTS")
         mesh.to_mesh(ob.data)
         mesh.free()
     for track in list(rig.animation_data.nla_tracks):

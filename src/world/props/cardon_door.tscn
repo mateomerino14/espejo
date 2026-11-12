@@ -5,7 +5,8 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/props/cardon_door.obj" id="3_door"]
 [ext_resource type="Material" path="res://src/world/materials/cardon.tres" id="4_cardon"]
 [ext_resource type="Script" path="res://src/interaction/interactable.gd" id="5_interactable"]
-[ext_resource type="AudioStream" path="res://assets/audio/door_close.wav" id="7_shut"]
+[ext_resource type="AudioStream" path="res://assets/audio/door_shut.ogg" id="7_shut"]
+[ext_resource type="AudioStream" path="res://assets/audio/door_open.ogg" id="9_open"]
 [ext_resource type="AudioStream" path="res://assets/audio/door_locked.wav" id="8_rattle"]
 [ext_resource type="AudioStream" path="res://assets/audio/door_creak.wav" id="6_creak"]
 
@@ -69,6 +70,11 @@ shape = SubResource("BoxShape3D_handle")
 [node name="Creak" type="AudioStreamPlayer3D" parent="Hinge"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 stream = ExtResource("6_creak")
+bus = &"Efectos"
+
+[node name="Open" type="AudioStreamPlayer3D" parent="Hinge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+stream = ExtResource("9_open")
 bus = &"Efectos"
 
 [node name="Shut" type="AudioStreamPlayer3D" parent="Hinge"]
