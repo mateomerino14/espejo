@@ -7,7 +7,7 @@ const IDLE := &"idle"
 const WALK := &"walk"
 const TALK := &"talk"
 const AIM := &"camera_aim"
-const LOOPED: Array[StringName] = [&"idle", &"walk", &"talk", &"drive", &"crouch_idle"]
+const LOOPED: Array[StringName] = [&"idle", &"walk", &"talk"]
 ## Ruedas del auto, que giran al andar.
 const WHEELS: Array[String] = ["WheelFL", "WheelFR", "WheelBL", "WheelBR"]
 ## Cambio suave entre animaciones.
