@@ -1,5 +1,14 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://src/enemies/components/footprint_trail.gd" id="fp_script"]
+[ext_resource type="Texture2D" path="res://assets/textures/footprint.png" id="fp_texture"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/robada_javier_1.ogg" id="sv_0"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/robada_javier_2.ogg" id="sv_1"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/robada_javier_3.ogg" id="sv_2"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/robada_rosa_1.ogg" id="sv_3"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/robada_rosa_2.ogg" id="sv_4"]
+[ext_resource type="Script" path="res://src/enemies/components/stolen_voice.gd" id="sv_script"]
+
 [ext_resource type="Script" path="res://src/enemies/qispi/qispi.gd" id="1_qispi"]
 [ext_resource type="Script" path="res://src/enemies/components/noise_hearing.gd" id="2_hearing"]
 [ext_resource type="Script" path="res://src/enemies/components/player_sight.gd" id="3_sight"]
@@ -24,6 +33,15 @@ stream_3/stream = ExtResource("8_step4")
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.3
 height = 2.2
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_voices"]
+playback_mode = 1
+streams_count = 5
+stream_0/stream = ExtResource("sv_0")
+stream_1/stream = ExtResource("sv_1")
+stream_2/stream = ExtResource("sv_2")
+stream_3/stream = ExtResource("sv_3")
+stream_4/stream = ExtResource("sv_4")
 
 [node name="Qispi" type="CharacterBody3D" groups=["enemies"]]
 collision_layer = 8
@@ -51,6 +69,22 @@ path_desired_distance = 0.8
 target_desired_distance = 0.8
 radius = 0.4
 height = 2.4
+
+[node name="FootprintTrail" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("fp_script")
+texture = ExtResource("fp_texture")
+
+[node name="StolenVoice" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+stream = SubResource("AudioStreamRandomizer_voices")
+unit_size = 4.0
+max_distance = 30.0
+bus = &"Efectos"
+script = ExtResource("sv_script")
+
+[node name="Timer" type="Timer" parent="StolenVoice"]
+one_shot = true
 
 [node name="StrideAudio" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)

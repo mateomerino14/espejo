@@ -14,12 +14,14 @@ import tempfile
 VOICES = {
     "javier": ("es_MX-ald-medium", -2.0, 1.12),
     "lucia": ("es_AR-daniela-high", 0.0, 1.08),
+    "rosa": ("es_AR-daniela-high", -4.0, 1.2),
 }
 # Efectos extra: la voz desde el agua tiene eco, y la otra Lucía habla más grave y lenta
 EFFECTS = {
     "": "",
     "agua": ",aecho=0.8:0.7:180|420:0.45|0.3,lowpass=f=3200",
     "otra": ",asetrate=44100*0.9,aresample=44100,atempo=1.05",
+    "robada": ",vibrato=f=5.5:d=0.25,aecho=0.7:0.6:90|230:0.35|0.2,highpass=f=220,lowpass=f=3600",
 }
 # Cada línea: archivo, personaje, texto y efecto
 LINES = [
@@ -50,6 +52,11 @@ LINES = [
     ("final2_lucia_2", "lucia", "Javier. No te quedes mirando el agua.", "agua"),
     ("final3_javier_1", "javier", "¿Nos vamos, Lucía?", ""),
     ("final3_lucia_1", "lucia", "Vamos.", "otra"),
+    ("robada_javier_1", "javier", "Lucía... ¿dónde estás?", "robada"),
+    ("robada_javier_2", "javier", "Lucía, ven. Estoy acá, en el espejo.", "robada"),
+    ("robada_javier_3", "javier", "No te asustes. Soy yo.", "robada"),
+    ("robada_rosa_1", "rosa", "Señorita... ¿ya tapó los espejos?", "robada"),
+    ("robada_rosa_2", "rosa", "Venga a la cocina, que se le enfría el api.", "robada"),
 ]
 
 

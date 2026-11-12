@@ -11,6 +11,7 @@ const NOTES_KEY := "notas"
 const OFFERINGS_KEY := "ofrendas"
 const CLUES_KEY := "pistas"
 const STARES_KEY := "miradas"
+const COVERED_KEY := "espejos_tapados"
 
 var save_path := DEFAULT_PATH
 
@@ -30,6 +31,7 @@ func save(level_path: String) -> void:
 	config.set_value(SECTION, OFFERINGS_KEY, GameState.offerings)
 	config.set_value(SECTION, CLUES_KEY, GameState.clue_photos)
 	config.set_value(SECTION, STARES_KEY, GameState.mirror_stares)
+	config.set_value(SECTION, COVERED_KEY, GameState.covered_mirrors)
 	config.save(save_path)
 
 
@@ -53,6 +55,7 @@ func load_pending() -> String:
 ## Borra lo guardado y empieza desde el nivel indicado.
 func new_game(first_level_path: String) -> void:
 	clear()
+	GameState.reset()
 	get_tree().change_scene_to_file(first_level_path)
 
 
@@ -67,6 +70,7 @@ func restore_state(pending: Dictionary) -> void:
 	GameState.offerings = pending.get(OFFERINGS_KEY, PackedStringArray())
 	GameState.clue_photos = pending.get(CLUES_KEY, PackedStringArray())
 	GameState.mirror_stares = pending.get(STARES_KEY, 0)
+	GameState.covered_mirrors = pending.get(COVERED_KEY, PackedStringArray())
 
 
 ## Entrega la partida por restaurar y la olvida.

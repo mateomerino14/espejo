@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NoteData" format=3]
+
+[ext_resource type="Script" path="res://src/story/note_data.gd" id="1_note"]
+
+[resource]
+script = ExtResource("1_note")
+id = "nota_rosa_mantas"
+title = "Hoja pegada en la puerta de la cocina"
+signature = "Doña Rosa"
+body = "Si vuelve y no estoy, tape los espejos con las mantas de las camas. Todos. El del pasillo también, aunque le parezca que antes no estaba.
+
+Por los espejos destapados entra. Por los tapados no.
+
+Me fui a la isla, donde Don Celestino. Él sabe qué hacer cuando el salar se pone a mirar. Si Javier no aparece, búsquelo por el lado de los trenes viejos: ahí se juntan las cosas que el agua se lleva."
