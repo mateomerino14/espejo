@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/trains/locomotive.obj" id="1_loco"]
+[ext_resource type="Material" path="res://src/world/materials/rusty_metal.tres" id="2_rust"]
+
+[sub_resource type="BoxShape3D" id="Shape_body"]
+size = Vector3(2.6, 3.4, 11.2)
+
+[node name="Locomotive" type="Node3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_loco")
+surface_material_override/0 = ExtResource("2_rust")
+
+[node name="Body" type="StaticBody3D" parent="." groups=["navigation_source"]]
+
+[node name="Shape" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0.2)
+shape = SubResource("Shape_body")

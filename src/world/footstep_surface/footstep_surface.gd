@@ -8,6 +8,8 @@ const SALT := &"sal"
 const PHYSICS_LAYER := 32
 
 @export_enum("sal", "tierra", "madera", "agua") var surface: String = "tierra"
+## Si dos zonas se pisan, suena la de prioridad más alta: el charco sobre la tierra.
+@export var surface_priority := 0
 
 
 ## Deja la zona en su capa propia y sin detectar nada por su cuenta.

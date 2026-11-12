@@ -1,0 +1,77 @@
+[gd_scene format=3]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/trains/boxcar_metal.obj" id="1_metal"]
+[ext_resource type="ArrayMesh" path="res://assets/models/trains/boxcar_walls.obj" id="2_walls"]
+[ext_resource type="Material" path="res://src/world/materials/rusty_metal.tres" id="3_rust"]
+[ext_resource type="Material" path="res://src/world/materials/corrugated.tres" id="4_corrugated"]
+
+[sub_resource type="BoxShape3D" id="Shape_Floor"]
+size = Vector3(2.700, 0.420, 9.400)
+
+[sub_resource type="BoxShape3D" id="Shape_Roof"]
+size = Vector3(2.760, 0.120, 9.100)
+
+[sub_resource type="BoxShape3D" id="Shape_WallL"]
+size = Vector3(0.120, 2.400, 9.000)
+
+[sub_resource type="BoxShape3D" id="Shape_EndA"]
+size = Vector3(2.600, 2.400, 0.120)
+
+[sub_resource type="BoxShape3D" id="Shape_EndB"]
+size = Vector3(2.600, 2.400, 0.120)
+
+[sub_resource type="BoxShape3D" id="Shape_WallR1"]
+size = Vector3(0.120, 2.400, 3.600)
+
+[sub_resource type="BoxShape3D" id="Shape_WallR2"]
+size = Vector3(0.120, 2.400, 3.600)
+
+[sub_resource type="BoxShape3D" id="Shape_Wheels"]
+size = Vector3(2.600, 0.900, 7.650)
+
+[sub_resource type="BoxShape3D" id="Shape_ramp"]
+size = Vector3(2.4, 0.1, 1.4)
+
+[node name="Boxcar" type="Node3D"]
+
+[node name="Metal" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_metal")
+surface_material_override/0 = ExtResource("3_rust")
+
+[node name="Walls" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_walls")
+surface_material_override/0 = ExtResource("4_corrugated")
+
+[node name="Body" type="StaticBody3D" parent="." groups=["navigation_source"]]
+
+[node name="Floor" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 0.950, 0.000)
+shape = SubResource("Shape_Floor")
+
+[node name="Roof" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 3.450, 0.000)
+shape = SubResource("Shape_Roof")
+
+[node name="WallL" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.300, 2.250, 0.000)
+shape = SubResource("Shape_WallL")
+
+[node name="EndA" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 2.250, 4.500)
+shape = SubResource("Shape_EndA")
+
+[node name="EndB" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 2.250, -4.500)
+shape = SubResource("Shape_EndB")
+
+[node name="WallR1" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.300, 2.250, 2.700)
+shape = SubResource("Shape_WallR1")
+
+[node name="WallR2" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.300, 2.250, -2.700)
+shape = SubResource("Shape_WallR2")
+
+[node name="Wheels" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000, 0.450, 0.000)
+shape = SubResource("Shape_Wheels")

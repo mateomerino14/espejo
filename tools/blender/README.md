@@ -73,3 +73,11 @@ Los recursos del sistema son `makehuman_system_assets_cc0.zip` de la página de 
 ```bash
 python3 build_car.py assets/models/car/car.gltf
 ```
+
+## El cementerio de trenes
+
+`trains.py` modela el vagón de carga (chasis y ruedas de hierro, paredes de chapa abollada y la puerta corrida a un lado del hueco), la locomotora a vapor y el altar del Tío con sus ofrendas. Los vagones y la locomotora salen como OBJ sin UV para los materiales triplanares de óxido y chapa (`rusty_metal.tres`, `corrugated.tres`); el Tío sale como glTF con sus colores.
+
+```bash
+python3 trains.py assets/models/trains assets/models/trains/tio.gltf
+```
