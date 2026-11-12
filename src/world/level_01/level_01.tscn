@@ -33,6 +33,8 @@
 [ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music_r"]
 [ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience_r"]
 
+[ext_resource type="PackedScene" path="res://src/world/apacheta/apacheta.tscn" id="apacheta_r"]
+[ext_resource type="PackedScene" path="res://src/world/pickups/battery_pickup.tscn" id="battery_r"]
 [ext_resource type="PackedScene" path="res://src/world/hiding_spot/wardrobe.tscn" id="wardrobe_r"]
 [node name="Level01" type="Node3D" node_paths=PackedStringArray("qispi")]
 script = ExtResource("1_r")
@@ -387,3 +389,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 0, -9.68)
 
 [node name="R4Wardrobe" parent="." instance=ExtResource("wardrobe_r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, -9.68)
+
+[node name="Apacheta" parent="." instance=ExtResource("apacheta_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7, 0, -21.9)
+apacheta_id = "hostal_comedor"
+
+[node name="BatteriesR4" parent="." instance=ExtResource("battery_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.45, -5.7)
+
+[node name="BatteriesDining" parent="." instance=ExtResource("battery_r")]
+transform = Transform3D(0.7071, 0, 0.7071, 0, 1, 0, -0.7071, 0, 0.7071, -3.0, 0.68, -19.4)

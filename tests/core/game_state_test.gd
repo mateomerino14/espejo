@@ -15,7 +15,7 @@ func after_each() -> void:
 ## Con todas las ofrendas y las pistas, el agua devuelve a Javier.
 func test_all_offerings_and_clues_return_him() -> void:
 	for i in GameState.TOTAL_OFFERINGS:
-		GameState.add_offering()
+		GameState.add_offering("apacheta_%d" % i)
 	for clue: String in ["espejo", "lista", "altar"]:
 		GameState.add_clue_photo(clue)
 	assert_true(GameState.choose_ending() == GameState.Ending.RETURNED, "Final bueno")
@@ -24,7 +24,7 @@ func test_all_offerings_and_clues_return_him() -> void:
 ## Con algunas ofrendas, el trato.
 func test_some_offerings_make_a_deal() -> void:
 	for i in GameState.MIN_OFFERINGS:
-		GameState.add_offering()
+		GameState.add_offering("apacheta_%d" % i)
 	assert_true(GameState.choose_ending() == GameState.Ending.DEAL, "Final del trato")
 
 
@@ -32,7 +32,7 @@ func test_some_offerings_make_a_deal() -> void:
 func test_few_offerings_or_mirrors_take_her() -> void:
 	assert_true(GameState.choose_ending() == GameState.Ending.TAKEN, "Sin ofrendas")
 	for i in GameState.TOTAL_OFFERINGS:
-		GameState.add_offering()
+		GameState.add_offering("apacheta_%d" % i)
 	for i in GameState.MAX_MIRROR_STARES:
 		GameState.add_mirror_stare()
 	assert_true(GameState.choose_ending() == GameState.Ending.TAKEN, "Mirándose demasiado")

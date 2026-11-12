@@ -50,6 +50,10 @@ const WORLD_MASK := 17
 ## Si la perdió de vista hace menos que esto cuando se escondió, sabe dónde está.
 @export var seen_hiding_seconds := 1.2
 
+@export_group("Ofrendas")
+## Después de una ofrenda se aquieta: vuelve a su lugar y no nota a Lucía por este tiempo.
+@export var calm_seconds := 25.0
+
 @export_group("Visor")
 ## Si Lucía lo mira por el visor a esta distancia o menos, se da cuenta.
 @export var watched_range := 10.0
@@ -73,6 +77,7 @@ var _suspected_spot: HidingSpot
 ## El escondite que está revisando ahora y los que ya revisó en esta búsqueda.
 var _search_spot: HidingSpot
 var _searched: Array[HidingSpot] = []
+var _calm_left := 0.0
 
 @onready var _agent: NavigationAgent3D = $NavigationAgent3D
 @onready var _hearing: NoiseHearing = $NoiseHearing
@@ -92,6 +97,7 @@ func _ready() -> void:
 	EventBus.flash_fired.connect(_on_flash_fired)
 	EventBus.camera_raised.connect(_on_camera_raised)
 	EventBus.player_hiding_changed.connect(_on_player_hiding_changed)
+	EventBus.offering_made.connect(_on_offering_made)
 	_enter_state(State.STALK)
 
 
@@ -134,6 +140,7 @@ func get_face_position() -> Vector3:
 
 ## Deriva a la lógica del estado actual.
 func _update_state(delta: float) -> void:
+	_calm_left = maxf(_calm_left - delta, 0.0)
 	match state:
 		State.STALK:
 			_update_stalk(delta)
@@ -244,7 +251,14 @@ func _enter_state(new_state: State) -> void:
 
 ## Dice si sabe dónde está Lucía: porque la ve o porque ella lo mira por el visor.
 func _notices_player() -> bool:
+	if is_calm():
+		return false
 	return _sight.can_see(_player) or _is_watched()
+
+
+## Dice si una ofrenda lo tiene aquietado.
+func is_calm() -> bool:
+	return _calm_left > 0.0
 
 
 ## Dice si Lucía lo está mirando por el visor: cerca, en cuadro y sin nada en medio.
@@ -355,7 +369,7 @@ func _random_point_near(center: Vector3) -> Vector3:
 ## Va hacia el ruido: si acechaba, a rastrear; si cazaba sin verla, actualiza dónde buscar.
 ## Dormido no oye nada.
 func _on_heard(origin: Vector3, _strength: float) -> void:
-	if not can_process():
+	if not can_process() or is_calm():
 		return
 	match state:
 		State.STALK, State.TRACK:
@@ -372,6 +386,14 @@ func _on_player_hiding_changed(spot: HidingSpot) -> void:
 	if state == State.HUNT and _unseen_time <= seen_hiding_seconds:
 		_suspected_spot = spot
 		_last_known_position = spot.get_search_position()
+
+
+## Una ofrenda lo aquieta: deja de buscar y vuelve a acechar por su lugar. Dormido o aturdido, nada.
+func _on_offering_made(_origin: Vector3) -> void:
+	if not can_process() or state == State.STUNNED or _has_caught:
+		return
+	_calm_left = calm_seconds
+	_enter_state(State.STALK)
 
 
 ## Recuerda si Lucía mira por el visor.

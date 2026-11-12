@@ -88,3 +88,17 @@ func test_dry_fire_without_film() -> void:
 	await tree.process_frame
 	assert_true(_photos.is_empty(), "No debe salir ninguna foto")
 	assert_true(_camera.get_node("DryFire").playing, "Debe sonar el clic seco")
+
+
+## Una foto con una pista en cuadro la guarda para el final.
+func test_clue_in_frame_counts() -> void:
+	GameState.reset()
+	var subject := PhotoSubject.new()
+	subject.clue_id = "prueba"
+	_view.add_child(subject)
+	subject.position = Vector3(0.0, 0.0, -2.0)
+	_camera.set_raised(true)
+	_camera.shoot()
+	await _camera.photo_taken
+	assert_true(GameState.clue_photos.has("prueba"), "Debe guardar la pista")
+	GameState.reset()

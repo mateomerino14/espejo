@@ -15,7 +15,8 @@ const MIN_OFFERINGS := 2
 const MAX_MIRROR_STARES := 3
 
 var read_notes := PackedStringArray()
-var offerings := 0
+## Apachetas donde Lucía ya dejó su ofrenda.
+var offerings := PackedStringArray()
 var clue_photos := PackedStringArray()
 var mirror_stares := 0
 
@@ -31,9 +32,15 @@ func has_read_note(note_id: String) -> bool:
 	return read_notes.has(note_id)
 
 
-## Suma una ofrenda dejada en una apacheta.
-func add_offering() -> void:
-	offerings += 1
+## Recuerda la ofrenda dejada en la apacheta [param apacheta_id].
+func add_offering(apacheta_id: String) -> void:
+	if not offerings.has(apacheta_id):
+		offerings.append(apacheta_id)
+
+
+## Dice si ya dejó ofrenda en esa apacheta.
+func has_offering(apacheta_id: String) -> bool:
+	return offerings.has(apacheta_id)
 
 
 ## Guarda que una foto mostró la pista [param clue_id].
@@ -49,9 +56,9 @@ func add_mirror_stare() -> void:
 
 ## Elige el final según lo que hizo Lucía en toda la noche.
 func choose_ending() -> Ending:
-	if offerings < MIN_OFFERINGS or mirror_stares >= MAX_MIRROR_STARES:
+	if offerings.size() < MIN_OFFERINGS or mirror_stares >= MAX_MIRROR_STARES:
 		return Ending.TAKEN
-	if offerings >= TOTAL_OFFERINGS and clue_photos.size() >= REQUIRED_CLUES:
+	if offerings.size() >= TOTAL_OFFERINGS and clue_photos.size() >= REQUIRED_CLUES:
 		return Ending.RETURNED
 	return Ending.DEAL
 
@@ -59,6 +66,6 @@ func choose_ending() -> Ending:
 ## Vuelve al estado de una partida nueva.
 func reset() -> void:
 	read_notes.clear()
-	offerings = 0
+	offerings.clear()
 	clue_photos.clear()
 	mirror_stares = 0
