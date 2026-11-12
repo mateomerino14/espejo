@@ -5,9 +5,9 @@ extends Node3D
 
 ## Huellas a la vez; las más viejas se reusan.
 @export var max_prints := 30
-@export var print_size := Vector3(0.14, 0.3, 0.3)
+@export var print_size := Vector3(0.18, 0.3, 0.38)
 ## Separación de cada pie respecto del centro.
-@export var foot_spacing := 0.13
+@export var foot_spacing := 0.15
 ## Lo que tarda una huella en secarse.
 @export var dry_seconds := 25.0
 @export var texture: Texture2D

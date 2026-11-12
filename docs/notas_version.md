@@ -1,6 +1,6 @@
-# Espejo 0.1.0
+# Espejo 1.0.0
 
-Primera versión jugable: el nivel 1, el hostal de sal de noche.
+Primera versión completa: la noche entera de Lucía en el salar, de la llegada al hostal hasta el amanecer en el centro, en cinco niveles y con tres finales.
 
 - La cámara de Lucía: el visor revela lo que vive en el reflejo, el flash aturde al ente y cada foto guarda lo que revela.
 - El Q'ispi: invisible a simple vista, se ve por el visor y en los espejos; oye, acecha y caza.
@@ -19,5 +19,4 @@ Primera versión jugable: el nivel 1, el hostal de sal de noche.
 - Nivel 4, la isla Incahuasi: un cerro de coral fósil lleno de cardones en medio del salar inundado. En la cima espera Don Celestino junto a su q'oa; mientras habla, con voz y subtítulos, el Q'ispi se aquieta. Hay una apacheta en la cima, grietas entre las rocas para esconderse y, al terminar de escucharlo, su bote en la orilla oeste.
 - Nivel 5, el centro del salar: Lucía deja el bote y camina por el agua, que refleja el cielo del amanecer como un espejo, entre conos de sal. En el agua, y solo ahí, Javier camina delante de ella y la espera si se queda atrás. Hay una última apacheta a mitad de camino, y en el centro, un espejo parado en el agua que abre el final.
 - Música que sigue al Q'ispi: calma con una quena lejana, tensión cuando rastrea y bombo cuando caza, con su propio volumen en las opciones.
-
-Pendiente: pulir detalles antes de la versión 1.0.
+- Pulido: las mantas cuelgan con pliegues sobre los espejos, las huellas del Q'ispi se ven más grandes, el charco del cementerio tiene borde irregular y refleja los vagones, y Don Celestino tiene un bote de verdad, con proa y bancos.

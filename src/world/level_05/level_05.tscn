@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://src/story/reflection_guide/reflection_guide.gd" id="guide"]
 [ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="salt"]
 [ext_resource type="Material" path="res://src/world/materials/salt_block.tres" id="salt_block"]
+[ext_resource type="PackedScene" path="res://src/world/props/rowboat.tscn" id="rowboat"]
 [ext_resource type="Material" path="res://src/world/materials/planks.tres" id="planks"]
 [ext_resource type="NavigationMesh" path="res://src/world/level_05/level_05_navmesh.tres" id="navmesh"]
 
@@ -72,14 +73,6 @@ rings = 2
 [sub_resource type="CylinderShape3D" id="Shape_cone"]
 radius = 0.6
 height = 1.1
-
-[sub_resource type="BoxMesh" id="Plank"]
-material = ExtResource("planks")
-size = Vector3(1.1, 0.06, 3.2)
-
-[sub_resource type="BoxMesh" id="Side"]
-material = ExtResource("planks")
-size = Vector3(0.06, 0.35, 3.0)
 
 [sub_resource type="BoxMesh" id="Leg"]
 material = ExtResource("planks")
@@ -632,20 +625,8 @@ transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -9.
 [node name="Batteries1" parent="." instance=ExtResource("battery")]
 transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 8.000, 0.020, -82.000)
 
-[node name="Boat" type="Node3D" parent="."]
+[node name="Boat" parent="." instance=ExtResource("rowboat")]
 transform = Transform3D(0.9848, 0, -0.1736, 0, 1.0000, 0, 0.1736, 0, 0.9848, 1.600, -0.080, 13.500)
-
-[node name="Bottom" type="MeshInstance3D" parent="Boat"]
-transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.050, 0.000)
-mesh = SubResource("Plank")
-
-[node name="Left" type="MeshInstance3D" parent="Boat"]
-transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -0.550, 0.220, 0.000)
-mesh = SubResource("Side")
-
-[node name="Right" type="MeshInstance3D" parent="Boat"]
-transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.550, 0.220, 0.000)
-mesh = SubResource("Side")
 
 [node name="JavierReflection" type="Node3D" parent="." node_paths=PackedStringArray("player", "animation_player")]
 transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, -0.020, -3.000)

@@ -10,6 +10,8 @@ uniform float ripple_strength = 0.008;
 // Anillos por metro y anillos por segundo
 uniform float ripple_density = 2.5;
 uniform float ripple_rate = 1.6;
+// Charcos: en 0 el agua llena el rectángulo; más alto, se recorta en una mancha de borde irregular.
+uniform float puddle_edge : hint_range(0.0, 1.0) = 0.0;
 
 float hash(vec2 p) {
 	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -33,7 +35,26 @@ vec2 ripples(vec2 world, float time) {
 	return offset;
 }
 
+// Ruido liso por interpolación de valores al azar en una grilla.
+float value_noise(vec2 p) {
+	vec2 cell = floor(p);
+	vec2 f = fract(p);
+	f = f * f * (3.0 - 2.0 * f);
+	float a = hash(cell);
+	float b = hash(cell + vec2(1.0, 0.0));
+	float c = hash(cell + vec2(0.0, 1.0));
+	float d = hash(cell + vec2(1.0, 1.0));
+	return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
 void fragment() {
+	if (puddle_edge > 0.0) {
+		vec2 centered = (UV - 0.5) * 2.0;
+		float wobble = value_noise(UV * 6.0) * 0.6 + value_noise(UV * 13.0) * 0.4;
+		if (length(centered) > 1.0 - puddle_edge * wobble) {
+			discard;
+		}
+	}
 	vec2 world = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xz;
 	vec2 uv = vec2(1.0 - SCREEN_UV.x, SCREEN_UV.y) + ripples(world, TIME) * ripple_strength;
 	vec3 mirrored = texture(reflection, clamp(uv, vec2(0.001), vec2(0.999))).rgb;

@@ -62,9 +62,8 @@ func _ready() -> void:
 	_viewport.size = Vector2i(roundi(resolution * size.x / size.y), resolution)
 	var material := _surface.material_override as ShaderMaterial
 	material.set_shader_parameter("reflection", _viewport.get_texture())
-	var cloth := BoxMesh.new()
-	cloth.size = Vector3(size.x + COVER_MARGIN * 2.0, size.y + COVER_MARGIN * 2.0, COVER_DEPTH)
-	_cover.mesh = cloth
+	var cloth_size := Vector2(size.x + COVER_MARGIN * 2.0, size.y + COVER_MARGIN * 2.0)
+	_cover.mesh = DrapedCloth.build(cloth_size, hash(name))
 	_cover.position.z = COVER_DEPTH
 	var reach := _interactable.get_child(0) as CollisionShape3D
 	(reach.shape as BoxShape3D).size = Vector3(size.x, size.y, COVER_DEPTH * 10.0)

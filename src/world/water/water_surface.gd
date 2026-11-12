@@ -11,6 +11,8 @@ extends Node3D
 ## Color del fondo bajo el agua y cuánto refleja: el salar es claro, un charco de barro no.
 @export var bed_color := Color(0.05, 0.055, 0.06)
 @export_range(0.0, 1.0) var reflectivity := 0.9
+## En 0 el agua llena todo el rectángulo; más alto, es un charco de borde irregular.
+@export_range(0.0, 1.0) var puddle_edge := 0.0
 ## Lo que el agua devuelve: por defecto todo, incluida la capa del reflejo.
 @export_flags_3d_render var reflected_layers := 0xFFFFF
 
@@ -30,6 +32,7 @@ func _ready() -> void:
 	material.set_shader_parameter("reflection", _viewport.get_texture())
 	material.set_shader_parameter("bed_color", bed_color)
 	material.set_shader_parameter("reflectivity", reflectivity)
+	material.set_shader_parameter("puddle_edge", puddle_edge)
 
 
 ## Cambia lo que el agua devuelve.

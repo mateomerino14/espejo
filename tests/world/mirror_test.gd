@@ -51,3 +51,11 @@ func test_reflection_sees_entity_layer() -> void:
 func test_image_matches_glass() -> void:
 	var ratio := float(_viewport.size.x) / _viewport.size.y
 	assert_almost_eq(ratio, _mirror.size.x / _mirror.size.y, "Debe tener la forma del vidrio", 0.01)
+
+
+## La manta cuelga más grande que el vidrio y queda por delante de él.
+func test_cover_hangs_over_glass() -> void:
+	var cover: MeshInstance3D = _mirror.get_node("Cover")
+	var box := cover.get_aabb()
+	assert_true(box.size.x > _mirror.size.x and box.size.y > _mirror.size.y, "Tapa todo el vidrio")
+	assert_true(cover.position.z + box.end.z > 0.0, "Cuelga por delante")

@@ -30,7 +30,7 @@
 [ext_resource type="Material" path="res://src/world/materials/coral_gravel.tres" id="gravel"]
 [ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="salt"]
 [ext_resource type="Material" path="res://src/world/materials/cactus.tres" id="cactus"]
-[ext_resource type="Material" path="res://src/world/materials/planks.tres" id="planks"]
+[ext_resource type="PackedScene" path="res://src/world/props/rowboat.tscn" id="rowboat"]
 [ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="flicker"]
 [ext_resource type="NavigationMesh" path="res://src/world/level_04/level_04_navmesh.tres" id="navmesh"]
 
@@ -143,14 +143,6 @@ point_count = 2
 [sub_resource type="Gradient" id="Gradient_smoke"]
 offsets = PackedFloat32Array(0, 0.2, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="BoxMesh" id="Plank"]
-material = ExtResource("planks")
-size = Vector3(1.1, 0.06, 3.2)
-
-[sub_resource type="BoxMesh" id="Side"]
-material = ExtResource("planks")
-size = Vector3(0.06, 0.35, 3.0)
 
 [sub_resource type="MultiMesh" id="Boulders0"]
 transform_format = 1
@@ -886,20 +878,8 @@ transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -12
 [node name="Batteries1" parent="." instance=ExtResource("battery")]
 transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 16.000, 4.076, -24.000)
 
-[node name="Boat" type="Node3D" parent="."]
+[node name="Boat" parent="." instance=ExtResource("rowboat")]
 transform = Transform3D(0.9903, 0, 0.1392, 0, 1.0000, 0, -0.1392, 0, 0.9903, -34.500, -0.120, -10.000)
-
-[node name="Bottom" type="MeshInstance3D" parent="Boat"]
-transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.000, 0.050, 0.000)
-mesh = SubResource("Plank")
-
-[node name="Left" type="MeshInstance3D" parent="Boat"]
-transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, -0.550, 0.220, 0.000)
-mesh = SubResource("Side")
-
-[node name="Right" type="MeshInstance3D" parent="Boat"]
-transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 0.550, 0.220, 0.000)
-mesh = SubResource("Side")
 
 [node name="Exit" parent="." instance=ExtResource("exit")]
 transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, -33.500, -0.150, -10.000)
