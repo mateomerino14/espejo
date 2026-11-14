@@ -4,6 +4,7 @@
 [ext_resource type="AudioStream" path="res://assets/audio/paper_pick.wav" id="2_paper"]
 [ext_resource type="AudioStream" path="res://assets/audio/paper_open.wav" id="3_book"]
 [ext_resource type="AudioStream" path="res://assets/audio/paper_fold.wav" id="4_fold"]
+[ext_resource type="Script" path="res://src/ui/key_hint_label.gd" id="k_hint"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
 bg_color = Color(0.84, 0.77, 0.62, 1)
@@ -90,7 +91,8 @@ autowrap_mode = 3
 
 [node name="Hint" type="Label" parent="Center/Paper/Content"]
 layout_mode = 2
-text = "[E] Cerrar"
+script = ExtResource("k_hint")
+template = "{interact} Cerrar"
 label_settings = SubResource("LabelSettings_hint")
 horizontal_alignment = 2
 

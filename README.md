@@ -6,30 +6,33 @@ Es la segunda historia del Manqha Pacha, después de [Socavón](https://github.c
 
 ## Estado
 
-En desarrollo. La hoja de ruta está en el documento de diseño.
+Versión `1.0.1`: el juego completo, con cinco niveles, tres finales y versión para Windows en [Releases](https://github.com/mateomerino14/espejo/releases).
 
 | Fase | Entrega | Estado |
 |---|---|---|
 | 0. Base | Proyecto, jugador, sala de prueba, CI | Lista |
 | 1. Cámara | Visor, flash, fotos y álbum | Lista |
 | 2. Ente | El Q'ispi, visible solo en reflejos | Lista |
-| 3. Nivel 1 | Hostal de sal | Jugable |
-| 4. Niveles 2 a 5 | El resto del salar | Pendiente |
-| 5. Pulido | Menú, cinemáticas, finales y versión para Windows | En curso: menú, pausa y exe listos |
+| 3. Nivel 1 | Hostal de sal | Lista |
+| 4. Niveles 2 a 5 | El resto del salar | Lista |
+| 5. Pulido | Menú, cinemáticas, finales, consejos de controles y versión para Windows | Lista |
 
 ## Controles
+
+También se ven en el juego, en **Controles**, desde el menú principal o la pausa. Mientras juegas, un cuadro arriba a la derecha enseña cada control la primera vez que hace falta, con la tecla o el botón según juegues con teclado o mando; se apaga en Opciones.
 
 | Acción | Teclado y ratón | Mando |
 |---|---|---|
 | Moverse | WASD | Stick izquierdo |
-| Correr | Shift | RB |
+| Mirar | Ratón | Stick derecho |
+| Correr | Shift | L3 |
 | Agacharse | Ctrl o C | B |
-| Usar, abrir, leer | E | A |
-| Asomarse | Q y Z | Sticks presionados |
-| Levantar la cámara | Clic derecho | LT |
+| Usar, abrir, leer, esconderse | E | A |
+| Asomarse | Q y Z | LB y RB |
+| Levantar la cámara (mantener) | Clic derecho | LT |
 | Tomar foto | Clic izquierdo | RT |
 | Álbum | Tab | Back |
-| Pausa | Escape | Start |
+| Pausa | Esc | Start |
 
 ## Desarrollo
 

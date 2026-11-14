@@ -48,3 +48,6 @@ signal subtitle_requested(text: String, seconds: float)
 
 ## Lucía abrió una nota para leerla.
 signal note_opened(note: NoteData)
+
+## Pide mostrar un consejo de controles, por su identificador en HintCatalog.
+signal hint_requested(id: String)

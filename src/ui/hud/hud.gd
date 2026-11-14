@@ -8,9 +8,11 @@ const SHOWN_ALPHA := 1.0
 const HIDDEN_ALPHA := 0.0
 const FADE_SPEED := 3.0
 const NOTICE_SECONDS := 3.0
-const PROMPT_FORMAT := "[E]  %s"
+const PROMPT_FORMAT := "[%s]  %s"
 
 var _target_alpha := {}
+## Lo que se puede hacer con lo que está al frente; se reescribe si cambia el aparato.
+var _prompt := ""
 
 @onready var _stamina_bar: ProgressBar = %StaminaBar
 @onready var _prompt_label: Label = %PromptLabel
@@ -32,6 +34,7 @@ func _ready() -> void:
 	EventBus.interaction_prompt_changed.connect(_on_interaction_prompt_changed)
 	EventBus.notice_requested.connect(_on_notice_requested)
 	EventBus.subtitle_requested.connect(_on_subtitle_requested)
+	InputDevice.changed.connect(_write_prompt)
 
 
 ## Acerca la transparencia de cada elemento a la que le toca.
@@ -53,9 +56,15 @@ func _on_stamina_changed(current: float, maximum: float) -> void:
 
 ## Muestra qué se puede hacer con lo que está al frente.
 func _on_interaction_prompt_changed(prompt: String) -> void:
+	_prompt = prompt
+	_write_prompt()
+
+
+## Escribe la acción al frente con la tecla o el botón de usar del aparato actual.
+func _write_prompt() -> void:
 	_prompt_label.text = ""
-	if not prompt.is_empty():
-		_prompt_label.text = PROMPT_FORMAT % prompt
+	if not _prompt.is_empty():
+		_prompt_label.text = PROMPT_FORMAT % [InputDevice.label(&"interact"), _prompt]
 
 
 ## Muestra un aviso breve que se desvanece solo.

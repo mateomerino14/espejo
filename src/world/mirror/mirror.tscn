@@ -5,6 +5,7 @@
 [ext_resource type="Material" path="res://src/world/materials/linen.tres" id="3_linen"]
 [ext_resource type="Script" path="res://src/interaction/interactable.gd" id="4_interactable"]
 [ext_resource type="AudioStream" path="res://assets/audio/camera_lower.wav" id="5_cloth"]
+[ext_resource type="Script" path="res://src/story/hint_trigger/hint_trigger.gd" id="hint_trigger_r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_glass"]
 resource_local_to_scene = true
@@ -51,3 +52,8 @@ shape = SubResource("BoxShape3D_reach")
 [node name="CoverSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_cloth")
 bus = &"Efectos"
+
+[node name="HintTrigger" type="Area3D" parent="."]
+script = ExtResource("hint_trigger_r")
+hint_id = "espejo"
+radius = 3.0
