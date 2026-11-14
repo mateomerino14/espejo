@@ -132,6 +132,8 @@ buffer = PackedFloat32Array(0.9997, 0.0000, -0.0246, -12.0000, 0.0000, 1.0000, 0
 
 [node name="Level03" type="Node3D"]
 script = ExtResource("level")
+title = "Nivel 3 · El cementerio de trenes"
+objective = "Busca a Javier entre los trenes"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_night")

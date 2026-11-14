@@ -80,6 +80,8 @@ size = Vector3(0.07, 0.25, 0.5)
 
 [node name="Level05" type="Node3D"]
 script = ExtResource("level")
+title = "Nivel 5 · El centro del salar"
+objective = "Camina hacia el espejo del centro del salar"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_dawn")
