@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del mapa: el piso sale de la malla de navegación, se dibuja solo lo recorrido, marca la
-## apacheta, los espejos sin tapar y la salida, pausa el juego y lo recorrido vuelve al continuar.
+## Pruebas del mapa: el piso, lo recorrido, las marcas, la pausa y el guardado.
 
 const LEVEL_SCENE := preload("res://src/world/level_02/level_02.tscn")
 const SETTLE_FRAMES := 10
@@ -38,8 +37,7 @@ func test_only_nearby_is_explored() -> void:
 	)
 
 
-## Abierto, pausa el juego, dibuja el piso del hostal y marca la apacheta, los espejos y la
-## salida; cerrado, sigue el juego.
+## Abierto, pausa, dibuja el piso y marca la apacheta, los espejos y la salida; cerrado, sigue.
 func test_map_has_floor_and_marks() -> void:
 	var screen: MapScreen = _level.find_child("MapScreen", true, false)
 	screen.open()

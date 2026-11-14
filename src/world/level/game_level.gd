@@ -1,8 +1,6 @@
 class_name GameLevel
 extends Node3D
-## Base de los niveles: al empezar restaura la partida si se eligió continuar y la guarda; también
-## la guarda con cada ofrenda. Muestra el nombre del nivel y, un poco después, el objetivo. Lo que
-## se juntó en niveles anteriores sigue en GameState.
+## Base de los niveles: empieza o restaura la partida, la guarda y presenta su nombre y objetivo.
 
 const TITLE_DELAY_SECONDS := 1.0
 const OBJECTIVE_DELAY_SECONDS := 2.5
@@ -19,8 +17,7 @@ const ARRIVAL_LAYER := 9
 @export var map_reach := 4.0
 
 
-## Empieza el nivel sin herramientas, sin nada hecho y con el mapa en blanco; restaura lo pendiente,
-## guarda, escucha las ofrendas, aparece desde negro si viene de un tránsito y presenta el nivel.
+## Empieza el nivel en limpio, restaura lo pendiente, guarda, aparece desde negro y lo presenta.
 func _ready() -> void:
 	var first_objective := objective
 	GameState.start_level()

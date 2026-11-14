@@ -1,7 +1,5 @@
 extends Node
-## Estado de la partida (autoload "GameState"): las notas que Lucía ya leyó, el objetivo, la
-## mochila, la cámara, el álbum y lo que decide el final: las ofrendas que dejó, las fotos que
-## guardan pistas y cuánto se quedó mirando espejos.
+## Estado de la partida (autoload "GameState"): notas, objetivo, mochila, cámara y final.
 
 ## Cómo termina la historia.
 enum Ending { RETURNED, DEAL, TAKEN }

@@ -1,7 +1,6 @@
 class_name InventoryScreen
 extends CanvasLayer
-## Inventario: detiene el juego y muestra la mochila de Lucía con el dibujo de cada cosa, qué es y
-## para qué sirve; también la cámara, las herramientas, el objetivo y las fotos de pistas.
+## Inventario: pausa y muestra la mochila, la cámara, el objetivo y las fotos de pistas.
 
 const SLOT_SCENE := preload("res://src/ui/inventory_screen/inventory_slot.tscn")
 const OBJECTIVE_FORMAT := "Objetivo: %s"
@@ -83,8 +82,7 @@ func _can_open() -> bool:
 	return not get_tree().paused and get_tree().get_first_node_in_group(Player.GROUP) != null
 
 
-## Pone lo que lleva, la cámara, las herramientas, el objetivo y las pistas; elige la primera
-## cosa que tenga.
+## Pone lo que lleva, la cámara, el objetivo y las pistas, y elige lo primero que tenga.
 func _refresh() -> void:
 	var first_owned := -1
 	for index in _slots.size():

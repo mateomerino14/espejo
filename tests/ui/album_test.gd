@@ -1,8 +1,9 @@
 extends TestCase
-## Pruebas del álbum: guarda las fotos, que siguen de un nivel a otro, pausa al abrirse y se hojea
-## sin salirse del rollo.
+## Pruebas del álbum: guarda fotos que siguen de nivel, pausa y no se sale del rollo.
 
 const ALBUM_SCENE := preload("res://src/ui/album/album.tscn")
+const BEFORE_FIRST := -3
+const AFTER_LAST := 5
 
 var _album: Album
 
@@ -35,9 +36,9 @@ func test_opens_on_last_photo_and_pauses() -> void:
 func test_navigation_stays_inside_roll() -> void:
 	EventBus.photo_taken.emit(Photo.new(false, PackedStringArray()))
 	_album.set_open(true)
-	_album.show_photo(-3)
+	_album.show_photo(BEFORE_FIRST)
 	assert_true(_album.current == 0, "No debe pasar de la primera")
-	_album.show_photo(5)
+	_album.show_photo(AFTER_LAST)
 	assert_true(_album.current == 0, "No debe pasar de la última")
 
 

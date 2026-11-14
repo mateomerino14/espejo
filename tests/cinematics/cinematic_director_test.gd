@@ -3,6 +3,15 @@ extends TestCase
 
 const DIRECTOR_SCENE := preload("res://src/cinematics/cinematic_director.tscn")
 const SHOT_SCRIPT := preload("res://src/cinematics/cinematic_shot.gd")
+const SECOND_FROM := Vector3(5.0, 2.0, 0.0)
+const SECOND_TO := Vector3(5.0, 2.0, 2.0)
+const FIRST_START := Vector3(0.0, 1.0, 0.0)
+const POSITION_TOLERANCE := 0.2
+## Más que el primer plano, para estar en el segundo.
+const SECOND_SHOT_WAIT := 0.35
+## La cámara del segundo plano queda más allá de esta x.
+const SECOND_SHOT_X := 4.0
+const SHOT_SECONDS := 0.2
 
 var _root: Node3D
 var _director: CinematicDirector
@@ -18,7 +27,7 @@ func before_each() -> void:
 	var shots := Node3D.new()
 	_root.add_child(shots)
 	shots.add_child(_make_shot(&"primero", Vector3(0.0, 1.0, 0.0), Vector3(2.0, 1.0, 0.0)))
-	shots.add_child(_make_shot(&"segundo", Vector3(5.0, 2.0, 0.0), Vector3(5.0, 2.0, 2.0)))
+	shots.add_child(_make_shot(&"segundo", SECOND_FROM, SECOND_TO))
 	_director = DIRECTOR_SCENE.instantiate()
 	_director.camera = _camera
 	_director.shots_root = shots
@@ -37,15 +46,17 @@ func test_first_shot_starts() -> void:
 	await tree.process_frame
 	assert_true(_cues == [&"primero"], "Debe avisar el primer momento")
 	assert_true(
-		_camera.global_position.distance_to(Vector3(0.0, 1.0, 0.0)) < 0.2, "Cámara al inicio"
+		_camera.global_position.distance_to(FIRST_START) < POSITION_TOLERANCE, "Cámara al inicio"
 	)
 
 
 ## Pasado el primero, sigue el segundo plano.
 func test_shots_follow_in_order() -> void:
-	await tree.create_timer(0.35).timeout
+	await tree.create_timer(SECOND_SHOT_WAIT).timeout
 	assert_true(_cues == [&"primero", &"segundo"], "Deben pasar los dos momentos en orden")
-	assert_true(_camera.global_position.x > 4.0, "La cámara debe estar en el segundo plano")
+	assert_true(
+		_camera.global_position.x > SECOND_SHOT_X, "La cámara debe estar en el segundo plano"
+	)
 
 
 ## El plano mueve la cámara de From a To.
@@ -59,7 +70,7 @@ func test_shot_interpolates_camera() -> void:
 ## Crea un plano de 0,2 s que va de [param from] a [param to].
 func _make_shot(cue: StringName, from: Vector3, to: Vector3) -> CinematicShot:
 	var shot: CinematicShot = SHOT_SCRIPT.new()
-	shot.duration = 0.2
+	shot.duration = SHOT_SECONDS
 	shot.cue = cue
 	shot.add_child(_make_marker("From", from))
 	shot.add_child(_make_marker("To", to))

@@ -1,6 +1,5 @@
 extends TestCase
-## Prueba de la partida entera: desde la cinemática de inicio, cada escena lleva a la siguiente
-## hasta los finales, y cada final vuelve al menú.
+## Prueba de la partida entera: cada escena lleva a la siguiente y cada final vuelve al menú.
 
 const INTRO := "res://src/cinematics/intro/intro.tscn"
 const ROUTER := "res://src/cinematics/endings/ending_router.tscn"

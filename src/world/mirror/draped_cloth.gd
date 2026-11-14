@@ -1,7 +1,6 @@
 class_name DrapedCloth
 extends RefCounted
-## Arma la malla de una manta colgada sobre un marco: se dobla por arriba hacia atrás, cae con
-## pliegues verticales que se abren hacia abajo y el borde inferior queda un poco desparejo.
+## Arma la malla de una manta colgada sobre un marco, con pliegues y el borde desparejo.
 
 const COLUMNS := 24
 const ROWS := 32
@@ -46,8 +45,7 @@ static func build(size: Vector2, seed_value: int) -> ArrayMesh:
 	return tool.commit()
 
 
-## Dónde queda un punto de la manta: [param across] va de izquierda a derecha y [param down] de
-## arriba abajo, los dos de 0 a 1.
+## Punto de la manta: [param across] de izquierda a derecha, [param down] de arriba abajo, de 0 a 1.
 static func _point(size: Vector2, across: float, down: float, phase: float) -> Vector3:
 	var fold_wave := sin(across * FOLDS * TAU + phase)
 	var x := (across - 0.5) * size.x

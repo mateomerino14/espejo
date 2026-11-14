@@ -1,8 +1,6 @@
 class_name HintDirector
 extends Node
-## Pide los consejos que dependen de lo que pasa en el juego: los primeros pasos, la primera cosa
-## que se puede usar, la cámara, la primera foto, la mochila, el flash sin pila y cuando el
-## Q'ispi rastrea o caza.
+## Pide los consejos que dependen de lo que pasa en el juego, como la cámara o que el Q'ispi cace.
 
 const START_HINTS: Array[String] = ["caminar", "camara", "correr", "mapa"]
 

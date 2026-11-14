@@ -1,7 +1,6 @@
 class_name HintTrigger
 extends Area3D
-## Zona redonda que pide un consejo de controles cuando Lucía se acerca; va dentro de las apachetas,
-## los escondites y los espejos. El consejo no se repite.
+## Zona redonda que pide un consejo de controles cuando Lucía se acerca.
 
 ## Capa de Lucía.
 const PLAYER_LAYER := 2

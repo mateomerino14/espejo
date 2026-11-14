@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas de la mochila: guarda hasta su tope, el inventario muestra lo que lleva Lucía, la cámara,
-## el objetivo y las pistas, y pausa el juego; no se abre con el juego en pausa.
+## Pruebas de la mochila y del inventario.
 
 const SCREEN_SCENE := preload("res://src/ui/inventory_screen/inventory_screen.tscn")
 const PLAYER_SCENE := preload("res://src/player/player.tscn")
@@ -8,6 +7,7 @@ const PICKUP_SCENE := preload("res://src/items/item_pickup/item_pickup.tscn")
 const CANDLE_COUNT := 2
 const OBJECTIVE := "Tapa todos los espejos"
 const CANDLE_INDEX := 3
+const PILE_SIZE := 3
 
 var _screen: InventoryScreen
 var _player: Player
@@ -46,11 +46,11 @@ func test_pickup_leaves_what_does_not_fit() -> void:
 	GameState.add_item(ItemCatalog.Type.BLANKET, limit - 1)
 	var pile: ItemPickup = PICKUP_SCENE.instantiate()
 	pile.item_type = ItemCatalog.Type.BLANKET
-	pile.count = 3
+	pile.count = PILE_SIZE
 	add_to_tree(pile)
 	pile.get_node("Interactable").interact(_player)
 	assert_true(GameState.count_item(ItemCatalog.Type.BLANKET) == limit, "Llena la mochila")
-	assert_true(pile.count == 2, "Quedan dos en el suelo")
+	assert_true(pile.count == PILE_SIZE - 1, "Quedan dos en el suelo")
 	pile.free()
 
 

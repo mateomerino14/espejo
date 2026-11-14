@@ -1,8 +1,9 @@
 extends TestCase
-## Pruebas de la puerta de cardón: se abre y se cierra al usarla, cruje, golpea al cerrarse y cambia
-## su texto.
+## Pruebas de la puerta de cardón: abre, cierra, cruje, golpea y cambia su texto.
 
 const DOOR_SCENE := preload("res://src/world/props/cardon_door.tscn")
+const QUICK_SWING_SECONDS := 0.1
+const SWING_WAIT_SECONDS := 0.3
 
 var _door: CardonDoor
 var _interactable: Interactable
@@ -13,7 +14,7 @@ var _last_loudness := 0.0
 ## Crea una puerta cerrada que se mueve rápido.
 func before_each() -> void:
 	_door = DOOR_SCENE.instantiate()
-	_door.swing_seconds = 0.1
+	_door.swing_seconds = QUICK_SWING_SECONDS
 	add_to_tree(_door)
 	_interactable = _door.get_node("Hinge/Interactable")
 	EventBus.noise_emitted.connect(_on_noise_emitted)
@@ -29,7 +30,7 @@ func after_each() -> void:
 func test_opens_when_used() -> void:
 	assert_true(_interactable.get_prompt(null) == CardonDoor.OPEN_PROMPT, "Cerrada se ofrece abrir")
 	_interactable.interact(null)
-	await tree.create_timer(0.3).timeout
+	await tree.create_timer(SWING_WAIT_SECONDS).timeout
 	var hinge: Node3D = _door.get_node("Hinge")
 	assert_almost_eq(
 		rad_to_deg(hinge.rotation.y), _door.open_angle_degrees, "Debe quedar abierta", 1.0
@@ -44,7 +45,7 @@ func test_opens_when_used() -> void:
 func test_closes_when_used_again() -> void:
 	_interactable.interact(null)
 	_interactable.interact(null)
-	await tree.create_timer(0.3).timeout
+	await tree.create_timer(SWING_WAIT_SECONDS).timeout
 	assert_almost_eq(_door.get_node("Hinge").rotation.y, 0.0, "Debe quedar cerrada")
 	assert_almost_eq(_last_loudness, _door.knock_loudness, "Al llegar al marco debe golpear")
 

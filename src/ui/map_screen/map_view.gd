@@ -1,7 +1,6 @@
 class_name MapView
 extends Control
-## Dibujo del mapa: el piso ya recorrido con tinta sobre papel, lo que falta recorrer tapado por una
-## bruma, Lucía como una flecha y marcas para apachetas, espejos y salida. El norte queda arriba.
+## Dibujo del mapa: piso recorrido en tinta, bruma sobre lo demás, la flecha de Lucía y las marcas.
 
 enum Mark { APACHETA, MIRROR, EXIT }
 
@@ -48,8 +47,7 @@ func refresh() -> void:
 	queue_redraw()
 
 
-## Papel, piso con su borde, bruma sobre lo no recorrido, marcas y flecha, encajados en el
-## recuadro.
+## Papel, piso con su borde, bruma sobre lo no recorrido, marcas y flecha, encajados.
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), PAPER)
 	if floor_polygons.is_empty() or GameState.explored.is_empty():

@@ -1,7 +1,6 @@
 class_name Qispi
 extends CharacterBody3D
-## El Q'ispi: vive del otro lado del reflejo. Acecha, sigue los ruidos, caza a Lucía si la ve o
-## si ella lo mira por el visor, y el flash lo aturde cada vez por menos tiempo.
+## El Q'ispi: acecha, sigue ruidos, caza a Lucía si la ve o si lo mira, y el flash lo aturde.
 
 ## Cambió de estado: acecha, rastrea, caza o está aturdido.
 signal state_changed(new_state: State)
@@ -181,8 +180,7 @@ func _update_stalk(delta: float) -> void:
 		_move_speed = 0.0
 
 
-## Va hacia lo último que supo, revisa los escondites cercanos y mira alrededor; si no encuentra
-## nada, vuelve a acechar.
+## Va a lo último que supo, revisa escondites y mira alrededor; si no hay nada, vuelve a acechar.
 func _update_track(delta: float) -> void:
 	if _notices_player():
 		_enter_state(State.HUNT)
@@ -351,8 +349,7 @@ func _catch() -> void:
 	EventBus.player_caught.emit()
 
 
-## Retrocede hasta la distancia del susto sin atravesar paredes; si una pared lo frena, empuja a
-## Lucía lo que falta. Escondida no se la empuja: sale del escondite al reaparecer.
+## Retrocede a la distancia del susto; si una pared lo frena, empuja a Lucía si no está escondida.
 func _step_back_from_player() -> void:
 	var offset := (global_position - _player.global_position) * HORIZONTAL_PLANE
 	if offset.length() >= SCARE_DISTANCE or offset == Vector3.ZERO:
@@ -395,7 +392,6 @@ func _random_point_near(center: Vector3) -> Vector3:
 
 
 ## Va hacia el ruido: si acechaba, a rastrear; si cazaba sin verla, actualiza dónde buscar.
-## Dormido no oye nada.
 func _on_heard(origin: Vector3, _strength: float) -> void:
 	if not can_process() or is_calm():
 		return
@@ -416,8 +412,7 @@ func _on_player_hiding_changed(spot: HidingSpot) -> void:
 		_last_known_position = spot.get_search_position()
 
 
-## Lo aquieta [param seconds] segundos: deja de buscar y vuelve a acechar por su lugar. Dormido o
-## aturdido, nada.
+## Lo aquieta [param seconds] segundos: deja de buscar y vuelve a acechar por su lugar.
 func calm_for(seconds: float) -> void:
 	if not can_process() or state == State.STUNNED or _has_caught:
 		return

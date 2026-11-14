@@ -1,7 +1,6 @@
 class_name CinematicDirector
 extends Node
-## Pasa los planos de una cinemática en orden, con sus voces y subtítulos, y, al terminar o si la
-## jugadora la salta, funde a negro, muestra el texto final y cambia de escena.
+## Pasa los planos de una cinemática con voces y subtítulos, y al terminar cambia de escena.
 
 signal cue_reached(cue: StringName)
 

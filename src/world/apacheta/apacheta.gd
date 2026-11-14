@@ -1,8 +1,6 @@
 class_name Apacheta
 extends Node3D
-## Apacheta: montículo de piedras donde se deja coca y una vela para pedir permiso al lugar; Lucía
-## las tiene que llevar en la mochila. Cada ofrenda aquieta al Q'ispi un rato, guarda la partida y
-## cuenta para el final.
+## Apacheta: con coca y una vela, la ofrenda aquieta al Q'ispi, guarda y cuenta para el final.
 
 const OFFER_PROMPT := "Dejar coca y una vela"
 const MISSING_PROMPT := "Para la ofrenda hacen falta hojas de coca y una vela"

@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del Q'ispi en la sala: oye, caza al ver o al ser mirado, el flash lo aturde cada vez
-## menos, al atraparla se aparta para el susto y Lucía reaparece.
+## Pruebas del Q'ispi: oye, caza, el flash lo aturde, se aparta en el susto y Lucía reaparece.
 
 const ROOM_SCENE := preload("res://src/world/test_room/test_room.tscn")
 const SETTLE_FRAMES := 10
@@ -10,6 +9,11 @@ const QISPI_START := Vector3(2.5, 0.05, -5.0)
 const QUICK_SECONDS := 0.05
 ## A esta distancia el flash le alcanza la cara.
 const FLASH_SPOT := Vector3(1.0, 0.05, 0.0)
+## Cuántos tiempos rápidos se espera a que pasen el susto y la reaparición.
+const RESPAWN_STEPS := 8.0
+## Casi encima del ente.
+const ON_TOP := Vector3(0.3, 0.0, 0.0)
+const DISTANCE_TOLERANCE := 0.05
 
 var _room: Node3D
 var _player: Player
@@ -95,7 +99,7 @@ func test_catch_respawns_player() -> void:
 	_player.global_position = _qispi.global_position + Vector3(0.5, 0.0, 0.0)
 	await wait_physics_frames(2)
 	assert_true(_caught == 1, "Debe avisar una captura")
-	await tree.create_timer(QUICK_SECONDS * 8.0).timeout
+	await tree.create_timer(QUICK_SECONDS * RESPAWN_STEPS).timeout
 	var spawn: Vector3 = _room.get_node("SpawnPoint").global_position
 	assert_true(_player.global_position.distance_to(spawn) < 0.5, "Debe reaparecer en su punto")
 	assert_true(_qispi.global_position.distance_to(QISPI_START) < 0.5, "El ente debe volver")
@@ -104,11 +108,14 @@ func test_catch_respawns_player() -> void:
 ## Si atrapa a Lucía encima de ella, se aparta para que su cara quede delante de la cámara.
 func test_catch_keeps_scare_distance() -> void:
 	await wait_physics_frames(SETTLE_FRAMES)
-	_player.global_position = _qispi.global_position + Vector3(0.3, 0.0, 0.0)
+	_player.global_position = _qispi.global_position + ON_TOP
 	await wait_physics_frames(2)
 	assert_true(_caught == 1, "Debe atraparla")
 	var gap := (_player.global_position - _qispi.global_position) * Vector3(1, 0, 1)
-	assert_true(gap.length() >= Qispi.SCARE_DISTANCE - 0.05, "Debe quedar a la distancia del susto")
+	assert_true(
+		gap.length() >= Qispi.SCARE_DISTANCE - DISTANCE_TOLERANCE,
+		"Debe quedar a la distancia del susto"
+	)
 
 
 ## Dispara un destello desde los ojos de Lucía hacia la cara del ente.

@@ -4,6 +4,7 @@ extends TestCase
 const EXIT_SCENE := preload("res://src/world/level_exit/level_exit.tscn")
 const PLAYER_SCENE := preload("res://src/player/player.tscn")
 const SETTLE_FRAMES := 6
+const BEFORE_EXIT := Vector3(0, 0, 10)
 
 var _exit: LevelExit
 var _player: Player
@@ -16,7 +17,7 @@ func before_each() -> void:
 	_exit.message = "Saliste del hotel"
 	add_to_tree(_exit)
 	_player = PLAYER_SCENE.instantiate()
-	_player.position = Vector3(0, 0, 10)
+	_player.position = BEFORE_EXIT
 	add_to_tree(_player)
 	_player.set_physics_process(false)
 	EventBus.notice_requested.connect(_on_notice_requested)
@@ -35,7 +36,7 @@ func test_notifies_once() -> void:
 	assert_true(_notices.is_empty(), "Lejos no debe avisar")
 	_player.global_position = Vector3.ZERO
 	await wait_physics_frames(SETTLE_FRAMES)
-	_player.global_position = Vector3(0, 0, 10)
+	_player.global_position = BEFORE_EXIT
 	await wait_physics_frames(SETTLE_FRAMES)
 	_player.global_position = Vector3.ZERO
 	await wait_physics_frames(SETTLE_FRAMES)
@@ -50,7 +51,7 @@ func test_closed_exit_only_reminds() -> void:
 	_player.global_position = Vector3.ZERO
 	await wait_physics_frames(SETTLE_FRAMES)
 	assert_false(_exit.is_used, "Cerrada no se usa")
-	_player.global_position = Vector3(0, 0, 10)
+	_player.global_position = BEFORE_EXIT
 	_exit.is_open = true
 	await wait_physics_frames(SETTLE_FRAMES)
 	_player.global_position = Vector3.ZERO

@@ -136,21 +136,24 @@ const MAX_LEVEL := 3
 
 ```
 src/
-├── core/             Autoloads globales (EventBus, GameState, Settings, SaveGame)
+├── core/             Autoloads globales (EventBus, GameState, Settings, SaveGame, InputDevice, MenuFocus)
+├── audio/            Música que sigue al Q'ispi y ambiente del salar
+├── cinematics/       Cinemática de llegada y los tres finales
 ├── interaction/      Interactable: lo que Lucía puede usar con la tecla de interactuar
-├── enemies/          El Q'ispi (qispi/) y sus sentidos, pasos y animación (components/)
+├── items/            Catálogo de la mochila, cosas para recoger (item_pickup/), herramientas (tool_pickup/) y sus modelos (visuals/)
+├── enemies/          El Q'ispi (qispi/), sus sentidos, pasos y animación (components/) y sus emboscadas (encounters/)
 ├── player/           Lucía
 │   ├── player.tscn / player.gd      Raíz: lee la entrada y coordina
 │   ├── first_person_camera.gd       Mirada, balanceo y asomarse
 │   └── components/                  Piezas independientes (aliento, pasos, cámara de fotos, susto, interacción)
 ├── photography/      Fotos del rollo y sujetos que vale la pena fotografiar
-├── story/            Notas (notes/), su lectura en el mundo y apariciones (apparition/)
-├── world/            Niveles (level_0N/), espejos (mirror/), materiales (materials/), objetos del hotel (props/), salida (level_exit/), reaparición (respawn/) y salas de prueba
-└── ui/               Menú principal, pausa, opciones, tema, HUD, visor de la cámara, álbum, notas y captura
-assets/               Modelos (.gltf del Q'ispi), texturas y audio
+├── story/            Notas, apariciones, Don Celestino, el reflejo de Javier, tránsitos entre niveles (transition/) y zonas de objetivo y de consejos
+├── world/            Niveles (level_0N/ y su base level/), espejos, apachetas, escondites, puertas y objetos del hostal (props/), trenes, agua, clima, salida, reaparición y salas de prueba
+└── ui/               Menú principal, pausa, opciones, controles, consejos, tema, HUD, visor, álbum, inventario, mapa, notas y captura
+assets/               Modelos, texturas, íconos de la mochila y audio
 tests/                Pruebas, en carpetas que reflejan src/
-docs/                 LEEME del paquete y notas de versión
-tools/                Generadores de modelos (blender/), sonidos y navegación; nada de aquí entra al juego
+docs/                 LEEME del paquete, licencias y notas de versión
+tools/                Generadores de modelos (blender/), íconos, sonidos, voces y navegación; nada de aquí entra al juego
 ```
 
 Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.gd`). La estructura crece con cada módulo y se actualiza aquí en el mismo Pull Request.
@@ -162,7 +165,9 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 | Raíz de sistema (`Player`) | Leer la entrada, decidir el estado, llamar a sus componentes, publicar en `EventBus` | Contener la lógica interna de un componente |
 | Componente | Resolver una sola cosa y avisar con señales propias | Conocer a otros componentes o leer la entrada |
 | `EventBus` | Transportar eventos entre sistemas que no se conocen | Guardar estado |
-| `GameState` | Guardar el estado de la partida (notas leídas) | Contener reglas de una mecánica |
+| `GameState` | Guardar el estado de la partida (notas leídas, ofrendas, pistas, objetivo, mochila, cámara, álbum, herramientas, lo hecho en el nivel y lo recorrido del mapa) | Contener reglas de una mecánica |
+| `InputDevice` | Saber si se juega con teclado o mando y nombrar la tecla o el botón de cada acción | Leer acciones del juego |
+| `MenuFocus` | Hacer que el ratón y el teclado marquen la misma opción en los menús | Decidir qué hace cada opción |
 | `Settings` y `SaveGame` | Leer y escribir en disco los ajustes y la partida | Decidir qué pasa en el juego |
 | `Interactable` | Avisar a su dueño que Lucía lo usó | Decidir qué pasa al usarlo |
 | HUD y audio | Escuchar `EventBus` y presentar | Cambiar el estado del juego |
@@ -186,7 +191,8 @@ Cada escena vive junto a su script con el mismo nombre (`player.tscn` y `player.
 | Capa | Uso |
 |---|---|
 | 1 | Todo lo que se ve a simple vista |
-| 11 | Reflejo: solo se ve por el visor de la cámara y en los espejos (más adelante, también en el agua) |
+| 11 | Reflejo: solo se ve por el visor de la cámara, en los espejos y en el agua |
+| 12 | Brazos de Lucía en primera persona: los espejos no los dibujan |
 
 ### Cámara de fotos
 
@@ -215,16 +221,26 @@ Cada nivel vive en `src/world/level_0N/` con su escena, su script y su malla de 
 
 | Nodo | Para qué |
 |---|---|
-| Raíz con su script | Llama a `GameState.reset()` y arma los momentos de la historia |
+| Raíz con `GameLevel` (o un script que lo extiende) | Empieza el nivel en limpio o restaura la partida, la guarda, lleva `title` y `objective` y arma los momentos de la historia |
 | `WorldEnvironment` | Usa un ambiente de `materials/` (el hostal usa `hotel_environment.tres`) |
 | `Player`, `SpawnPoint` y `RespawnDirector` | Lucía, dónde aparece y dónde vuelve al ser atrapada |
-| `Hud`, `Viewfinder`, `Album` y `NoteViewer` | Interfaz |
+| `Hud` (con consejos, inventario y mapa), `Viewfinder`, `Album` y `NoteViewer` | Interfaz |
+| `Items` | Lo que hay para recoger; una prueba revisa que se llegue a cada cosa |
 | `NavigationRegion3D` | Por dónde camina el Q'ispi |
-| `Exit` | Salida del nivel |
+| `Exit` | Salida del nivel, con su tránsito y lo que pide para abrirse |
 
 Una prueba revisa que estén todas y que haya camino caminable desde `SpawnPoint` hasta `Exit`.
 
 El Q'ispi puede empezar dormido (`process_mode` desactivado) y despertar con `Qispi.wake()`; en el nivel 1 lo despierta la nota de Javier.
+
+### Objetivos, mochila y tránsitos
+
+- El HUD muestra el `title` del nivel abajo a la izquierda y el objetivo arriba a la izquierda, con su sonido; el objetivo cambia con `GameState.set_objective`, también desde notas (`objective_after`), herramientas, puertas y `ObjectiveTrigger`.
+- Cada salida se abre con algo del nivel: una llave en una `CardonDoor`, las mantas de los espejos, una nota (`required_note`) o una herramienta (`required_tool`). Las herramientas se recogen con `ToolPickup` y viven en `GameState.tools`; lo que ya pasó se marca con `GameState.mark_done` y un `done_id` único.
+- La mochila (`GameState.items`, por `ItemCatalog.Type`) se llena con `ItemPickup` y tiene un tope por cosa. La apacheta gasta coca y una vela, cada espejo una manta, y la cámara carga sola un rollo o pilas cuando se le acaban.
+- `QispiAmbush` saca al Q'ispi de golpe una sola vez; si dormía, lo despierta.
+- `LevelExit` abre un `Transition` con su `TransitionData`. El Q'ispi del tránsito solo está en la capa 11, así que se ve en el reflejo del agua y no a simple vista.
+- Los consejos son textos de `HintCatalog` con las acciones entre llaves, que `InputDevice.fill` cambia por la tecla o el botón actual; salen una sola vez y los vistos se guardan en `Settings`.
 
 ### Versiones
 

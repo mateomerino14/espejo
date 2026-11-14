@@ -1,7 +1,6 @@
 class_name EndingReturned
 extends CinematicScene
-## Final "El reflejo devuelto": al amanecer, con la última foto del rollo, el flash deshace el
-## reflejo y el agua devuelve a Javier. Se van, y en el agua un chico camina hacia el cerro.
+## Final "El reflejo devuelto": con la última foto, el agua devuelve a Javier al amanecer.
 
 const DAWN := &"amanecer"
 const APPROACH := &"acerca"

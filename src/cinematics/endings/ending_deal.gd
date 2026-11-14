@@ -1,7 +1,6 @@
 class_name EndingDeal
 extends CinematicScene
-## Final "El trato": Lucía le da su reflejo al Q'ispi a cambio de Javier. Él vuelve, pero en la
-## foto de despedida frente al hostal solo queda la sal.
+## Final "El trato": Lucía da su reflejo a cambio de Javier y en la foto solo queda la sal.
 
 const SHORE := &"orilla"
 const DEAL := &"trato"

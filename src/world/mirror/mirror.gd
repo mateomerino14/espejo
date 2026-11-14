@@ -1,7 +1,6 @@
 class_name Mirror
 extends Node3D
-## Espejo plano: una cámara puesta en el reflejo del ojo mira a través del marco del espejo y
-## dibuja también la capa del reflejo, donde vive el ente. Algunos se pueden tapar con una manta.
+## Espejo plano que dibuja también la capa del reflejo, donde vive el ente; algunos se tapan.
 
 ## Lo taparon.
 signal covered

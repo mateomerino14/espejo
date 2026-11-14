@@ -1,10 +1,10 @@
 extends TestCase
-## Pruebas del HUD: la barra de aliento, lo que se puede usar al frente, los avisos, el nombre del
-## nivel y el objetivo.
+## Pruebas del HUD: aliento, acción al frente, avisos, nombre del nivel y objetivo.
 
 const HUD_SCENE := preload("res://src/ui/hud/hud.tscn")
 const MAX_STAMINA := 100.0
 const FADE_FRAMES := 30
+const SPENT_STAMINA := 40.0
 
 var _hud: Hud
 var _bar: ProgressBar
@@ -24,9 +24,9 @@ func after_each() -> void:
 
 ## Con aliento gastado la barra se ve y marca lo que queda.
 func test_bar_shows_when_stamina_is_spent() -> void:
-	EventBus.stamina_changed.emit(40.0, MAX_STAMINA)
+	EventBus.stamina_changed.emit(SPENT_STAMINA, MAX_STAMINA)
 	await _wait_frames(FADE_FRAMES)
-	assert_almost_eq(_bar.value, 40.0, "La barra debe marcar el aliento que queda")
+	assert_almost_eq(_bar.value, SPENT_STAMINA, "La barra debe marcar el aliento que queda")
 	assert_true(_bar.modulate.a > 0.0, "La barra debe verse")
 
 

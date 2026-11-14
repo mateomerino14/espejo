@@ -1,7 +1,6 @@
 class_name Level02
 extends GameLevel
-## Nivel 2, el hostal vacío: Lucía vuelve y no hay nadie. El Q'ispi sale de los espejos destapados;
-## al taparlos todos, la puerta principal se abre.
+## Nivel 2, el hostal vacío: tapar todos los espejos abre la puerta principal.
 
 const LEFT_NOTICE := "Espejos sin tapar: %d"
 const DONE_NOTICE := "Tapaste todos los espejos. La puerta principal ya no está trabada."
@@ -35,8 +34,7 @@ func uncovered_count() -> int:
 	return count
 
 
-## Recuerda el espejo tapado, avisa cuántos faltan y, con el último, abre la puerta y da el
-## objetivo de salir.
+## Recuerda el espejo tapado, avisa cuántos faltan y, con el último, abre la puerta.
 func _on_mirror_covered(mirror: Mirror) -> void:
 	GameState.mark_mirror_covered(mirror.name)
 	var left := uncovered_count()

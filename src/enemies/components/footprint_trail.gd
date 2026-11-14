@@ -1,7 +1,6 @@
 class_name FootprintTrail
 extends Node3D
-## Huellas mojadas del Q'ispi: aparecen en el piso a cada paso, aunque a él no se lo vea, y se
-## secan de a poco.
+## Huellas mojadas del Q'ispi: aparecen a cada paso, aunque no se lo vea, y se secan de a poco.
 
 ## Huellas a la vez; las más viejas se reusan.
 @export var max_prints := 30

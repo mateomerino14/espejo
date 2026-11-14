@@ -1,7 +1,6 @@
 class_name MusicDirector
 extends Node
-## Música que sigue al Q'ispi: calma con una quena lejana mientras acecha, tensión cuando rastrea
-## un ruido o está aturdido, y bombo con cuerdas raspadas cuando caza. Sin Q'ispi queda en calma.
+## Música que sigue al Q'ispi: calma mientras acecha, tensión al rastrear y bombo cuando caza.
 
 enum Mood { CALM, TENSION, CHASE }
 

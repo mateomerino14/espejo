@@ -1,7 +1,6 @@
 class_name CinematicShot
 extends Node3D
-## Un plano de una cinemática: la cámara va de From a To mientras dura, con un subtítulo opcional y
-## un momento que la escena puede usar para mover a los personajes.
+## Un plano de una cinemática: la cámara va de From a To, con un subtítulo opcional.
 
 @export var duration := 4.0
 @export var fov := 50.0

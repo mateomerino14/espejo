@@ -1,8 +1,6 @@
 class_name HidingSpot
 extends Node3D
-## Escondite: Lucía entra y desde adentro solo puede mirar hacia afuera, entre las rendijas. El
-## Q'ispi no la ve ahí, pero revisa los escondites cercanos a donde la perdió, y si la vio entrar,
-## la encuentra.
+## Escondite: desde adentro se mira entre rendijas; el Q'ispi lo revisa si la vio entrar.
 
 const GROUP := &"hiding_spots"
 const ENTER_PROMPT := "Esconderse"

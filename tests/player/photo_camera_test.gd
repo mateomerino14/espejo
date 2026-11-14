@@ -5,6 +5,7 @@ const CAMERA_SCENE := preload("res://src/player/components/photo_camera.tscn")
 ## Algo más que lo que tarda en cargar el rollo.
 const RELOAD_MARGIN_SECONDS := 0.3
 const REVEAL_LAYER := 11
+const IN_FRONT := Vector3(0.0, 0.0, -2.0)
 
 var _view: Camera3D
 var _camera: PhotoCamera
@@ -100,7 +101,7 @@ func test_clue_in_frame_counts() -> void:
 	var subject := PhotoSubject.new()
 	subject.clue_id = "prueba"
 	_view.add_child(subject)
-	subject.position = Vector3(0.0, 0.0, -2.0)
+	subject.position = IN_FRONT
 	_camera.set_raised(true)
 	_camera.shoot()
 	await _camera.photo_taken

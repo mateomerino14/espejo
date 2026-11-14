@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del nivel 2: se puede ir de la puerta trasera a la principal, tapar todos los espejos
-## abre la salida y el Q'ispi sale por el espejo destapado más cercano a Lucía.
+## Pruebas del nivel 2: los espejos abren la salida y el Q'ispi sale por el más cercano.
 
 const LEVEL_SCENE := preload("res://src/world/level_02/level_02.tscn")
 const SETTLE_FRAMES := 10

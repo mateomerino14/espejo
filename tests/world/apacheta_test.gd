@@ -1,10 +1,10 @@
 extends TestCase
-## Pruebas de las apachetas y las pilas: la ofrenda pide coca y una vela, se deja una vez, aquieta
-## al Q'ispi y cuenta; las pilas del suelo van a la mochila.
+## Pruebas de las apachetas y las pilas del suelo.
 
 const ROOM_SCENE := preload("res://src/world/test_room/test_room.tscn")
 const APACHETA_SCENE := preload("res://src/world/apacheta/apacheta.tscn")
 const BATTERY_SCENE := preload("res://src/world/pickups/battery_pickup.tscn")
+const SETTLE_FRAMES := 5
 
 var _room: Node3D
 var _player: Player
@@ -46,7 +46,7 @@ func test_offering_counts_once() -> void:
 
 ## Una ofrenda saca al Q'ispi de la caza y lo deja sin notar a Lucía un rato.
 func test_offering_calms_qispi() -> void:
-	await wait_physics_frames(5)
+	await wait_physics_frames(SETTLE_FRAMES)
 	_qispi.state = Qispi.State.HUNT
 	_apacheta.get_node("Interactable").interact(_player)
 	assert_true(_qispi.state == Qispi.State.STALK, "Debe dejar de cazar")

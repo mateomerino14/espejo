@@ -1,6 +1,5 @@
 extends Node
-## Recuerda si el jugador juega con teclado y ratón o con mando (autoload "InputDevice") y dice con
-## qué tecla o botón se hace cada acción, para mostrarlo en pantalla tal como lo tiene configurado.
+## Aparato con que se juega (autoload "InputDevice") y nombre de la tecla o botón de cada acción.
 
 ## Cambió el aparato con que se juega.
 signal changed
@@ -112,8 +111,7 @@ func labels_for(actions: Array[StringName], is_gamepad: bool) -> String:
 	return " ".join(names)
 
 
-## Cambia en un texto cada grupo de acciones entre llaves, separadas por "|", por sus teclas o
-## botones entre corchetes; por ejemplo "{map} abre el mapa" queda "[M] abre el mapa".
+## Cambia cada "{acción|acción}" de un texto por sus teclas o botones entre corchetes.
 func fill(template: String) -> String:
 	var parts := template.split("{")
 	var result := parts[0]
