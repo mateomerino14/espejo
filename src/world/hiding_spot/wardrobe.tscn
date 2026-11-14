@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://src/interaction/interactable.gd" id="2_interactable"]
 [ext_resource type="AudioStream" path="res://assets/audio/wardrobe_enter.ogg" id="3_enter"]
 [ext_resource type="AudioStream" path="res://assets/audio/wardrobe_leave.ogg" id="4_leave"]
+[ext_resource type="Script" path="res://src/story/hint_trigger/hint_trigger.gd" id="hint_trigger_r"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_Back"]
 material = ExtResource("cardon")
@@ -433,3 +434,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.3)
 stream = ExtResource("3_enter")
 volume_db = -6.0
 bus = &"Efectos"
+
+[node name="HintTrigger" type="Area3D" parent="."]
+script = ExtResource("hint_trigger_r")
+hint_id = "escondite"
+radius = 2.5

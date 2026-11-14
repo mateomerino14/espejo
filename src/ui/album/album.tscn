@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/ui/album/album.gd" id="1_album"]
+[ext_resource type="Script" path="res://src/ui/key_hint_label.gd" id="k_hint"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_print"]
 content_margin_left = 18.0
@@ -62,5 +63,6 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.55, 0.6, 1)
 theme_override_font_sizes/font_size = 18
-text = "←  →  pasar fotos      Tab  cerrar"
+script = ExtResource("k_hint")
+template = "{ui_left|ui_right} pasar fotos      {album} cerrar"
 horizontal_alignment = 1
