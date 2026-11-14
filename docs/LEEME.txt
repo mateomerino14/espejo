@@ -14,7 +14,11 @@ Usar, abrir, leer ...... E
 Levantar la cámara ..... Clic derecho
 Tomar una foto ......... Clic izquierdo (con la cámara levantada)
 Álbum de fotos ......... Tab
+Mochila ................ I
+Mapa ................... M
 Pausa .................. Escape
+
+Los controles completos, también los del mando, están en Controles, en el menú y en la pausa.
 
 Algunas cosas solo se ven por el visor de la cámara o en los espejos.
 El flash aturde a lo que vive en el reflejo, pero cada vez le dura menos.

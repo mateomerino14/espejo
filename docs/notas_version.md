@@ -1,3 +1,27 @@
+# Espejo 1.1.0
+
+Todo lo que mejoró en Socavón 1.2.0 llega al salar:
+
+- **Objetivos:** el nombre del nivel aparece abajo a la izquierda y el objetivo arriba a la izquierda, con un aviso. Cada salida se abre haciendo algo:
+  - la llave de la cocina de Doña Rosa, un cuarto nuevo del hostal;
+  - las mantas para los espejos;
+  - la lista de Mateo en el vagón del Tío;
+  - los remos del bote de Don Celestino.
+- **Mochila e inventario (tecla I):** coca, velas, mantas, rollos y pilas, con lo que es y para qué sirve cada cosa.
+  - Las ofrendas ahora piden coca y una vela, y cada espejo se tapa con una manta.
+  - La cámara carga sola otro rollo o pilas nuevas de la mochila.
+  - La mochila, la cámara y el álbum pasan de un nivel al siguiente.
+- **Mapa (tecla M):** Lucía lo dibuja mientras camina. Marca las apachetas, los espejos que faltan tapar y la salida.
+- **Tránsitos:** entre nivel y nivel, Lucía cruza el salar o va en el bote y dice lo que piensa. A veces el Q'ispi la sigue, pero solo en el reflejo del agua.
+- **Emboscadas:** el Q'ispi sale de golpe en el hostal, entre los trenes y en la isla.
+- **Consejos y controles:** cuadros que enseñan cada control la primera vez que hace falta, según juegues con teclado o mando, y una pantalla de controles en el menú y en la pausa.
+- **Menús:** la opción marcada sigue al ratón.
+- **Voces nuevas** para Lucía, Javier, Doña Rosa y Don Celestino.
+- **Arreglos:**
+  - el Q'ispi ya no queda dentro de la cámara cuando atrapa a Lucía de frente;
+  - Lucía ya no estira el brazo al usar algo;
+  - las salidas del hostal ya no terminan en pared.
+
 # Espejo 1.0.1
 
 Arreglos después de ver el juego en video:
