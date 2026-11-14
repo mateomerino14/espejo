@@ -34,6 +34,7 @@
 [ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="flicker"]
 [ext_resource type="NavigationMesh" path="res://src/world/level_04/level_04_navmesh.tres" id="navmesh"]
 [ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
+[ext_resource type="Resource" path="res://src/story/transition/hacia_centro.tres" id="transition_r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
 sky_top_color = Color(0.01, 0.015, 0.035, 1)
@@ -891,6 +892,7 @@ transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, -33
 message = "Subes al bote y remas hacia el centro del salar. El agua está quieta, como un espejo."
 closed_message = "Un bote amarrado. Antes, alguien en la cima de la isla tiene algo que decirte."
 next_level_path = "res://src/world/level_05/level_05.tscn"
+transition = ExtResource("transition_r")
 
 [node name="Qispi" parent="." instance=ExtResource("qispi")]
 transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 2.807, -32.000)

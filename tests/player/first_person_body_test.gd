@@ -31,11 +31,11 @@ func test_arms_follow_camera() -> void:
 	assert_true(_animation.current_animation == FirstPersonBody.HOLD, "La baja")
 
 
-## Al usar algo estira la mano.
-func test_reaches_when_interacting() -> void:
+## Al usar algo no estira la mano: sigue sosteniendo la cámara.
+func test_keeps_holding_when_interacting() -> void:
 	var interactor: Interactor = _player.get_node("Head/Camera3D/Interactor")
 	interactor.interacted.emit()
-	assert_true(_animation.current_animation == FirstPersonBody.REACH, "Estira la mano")
+	assert_true(_animation.current_animation == FirstPersonBody.HOLD, "Sigue con la cámara")
 
 
 ## Los espejos no dibujan la capa de los brazos: Lucía no se ve en ellos.
