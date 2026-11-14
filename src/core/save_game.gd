@@ -1,6 +1,6 @@
 extends Node
 ## Partida guardada en disco (autoload "SaveGame"): el nivel, las notas leídas, el objetivo, la
-## mochila, la cámara y lo que decide el final. Las fotos del álbum no se guardan.
+## mochila, la cámara, el mapa y lo que decide el final. Las fotos del álbum no se guardan.
 ##
 ## Se escribe al empezar cada nivel. Al continuar, el nivel se carga y toma lo pendiente.
 
@@ -17,6 +17,7 @@ const ITEMS_KEY := "mochila"
 const TOOLS_KEY := "herramientas"
 const FILM_KEY := "rollo"
 const BATTERY_KEY := "pila"
+const MAP_KEY := "mapa"
 
 var save_path := DEFAULT_PATH
 
@@ -42,6 +43,7 @@ func save(level_path: String) -> void:
 	config.set_value(SECTION, TOOLS_KEY, GameState.tools)
 	config.set_value(SECTION, FILM_KEY, GameState.camera_film)
 	config.set_value(SECTION, BATTERY_KEY, GameState.camera_battery)
+	config.set_value(SECTION, MAP_KEY, GameState.explored.keys())
 	config.save(save_path)
 
 
@@ -86,6 +88,9 @@ func restore_state(pending: Dictionary) -> void:
 	GameState.tools = pending.get(TOOLS_KEY, PackedStringArray())
 	GameState.camera_film = pending.get(FILM_KEY, -1)
 	GameState.camera_battery = pending.get(BATTERY_KEY, -1.0)
+	GameState.explored.clear()
+	for cell: Vector2i in pending.get(MAP_KEY, []):
+		GameState.explored[cell] = true
 
 
 ## Entrega la partida por restaurar y la olvida.

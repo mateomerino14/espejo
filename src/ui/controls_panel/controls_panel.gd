@@ -16,6 +16,7 @@ const ROWS: Array[Array] = [
 	["Tomar una foto", [&"camera_shoot"]],
 	["Asomarse", [&"lean_left", &"lean_right"]],
 	["Inventario", [&"inventory"]],
+	["Mapa", [&"map"]],
 	["Álbum", [&"album"]],
 	["Pausa", [&"pause"]],
 ]

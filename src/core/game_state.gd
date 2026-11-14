@@ -10,6 +10,8 @@ enum Ending { RETURNED, DEAL, TAKEN }
 const TOTAL_OFFERINGS := 4
 ## Fotos de pistas que hacen falta para entender qué es el Q'ispi.
 const REQUIRED_CLUES := 3
+## Lado de cada celda del mapa, en metros.
+const MAP_CELL := 1.0
 ## Con menos ofrendas que esto el salar no la deja ir.
 const MIN_OFFERINGS := 2
 ## Veces que puede quedarse mirando un espejo antes de que el ente aprenda su cara.
@@ -34,6 +36,8 @@ var camera_film := -1
 var camera_battery := -1.0
 ## Fotos del álbum, que viajan de un nivel a otro.
 var photos: Array[Photo] = []
+## Celdas del nivel actual que Lucía ya recorrió, para el mapa.
+var explored: Dictionary[Vector2i, bool] = {}
 
 
 ## Recuerda que Lucía leyó una nota.
@@ -99,6 +103,26 @@ func use_item(type: ItemCatalog.Type) -> bool:
 	return true
 
 
+## Anota como recorridas las celdas a menos de [param reach] metros de [param point].
+func explore_around(point: Vector3, reach: float) -> void:
+	var cells := ceili(reach / MAP_CELL)
+	var center := map_cell(point)
+	for x in range(-cells, cells + 1):
+		for z in range(-cells, cells + 1):
+			if Vector2(x, z).length() <= cells:
+				explored[center + Vector2i(x, z)] = true
+
+
+## Dice si Lucía ya pasó cerca de [param point].
+func is_explored(point: Vector3) -> bool:
+	return explored.has(map_cell(point))
+
+
+## Celda del mapa donde cae un punto.
+static func map_cell(point: Vector3) -> Vector2i:
+	return Vector2i(floori(point.x / MAP_CELL), floori(point.z / MAP_CELL))
+
+
 ## Recuerda cómo quedó la cámara, para el nivel siguiente.
 func keep_camera(film: int, battery: float) -> void:
 	camera_film = film
@@ -135,3 +159,4 @@ func reset() -> void:
 	camera_film = -1
 	camera_battery = -1.0
 	photos.clear()
+	explored.clear()

@@ -4,7 +4,7 @@ extends Node
 ## que se puede usar, la cámara, la primera foto, la mochila, el flash sin pila y cuando el
 ## Q'ispi rastrea o caza.
 
-const START_HINTS: Array[String] = ["caminar", "camara", "correr"]
+const START_HINTS: Array[String] = ["caminar", "camara", "correr", "mapa"]
 
 
 ## Pide los consejos del comienzo y escucha al juego.

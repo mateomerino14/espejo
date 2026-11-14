@@ -11,11 +11,15 @@ const OBJECTIVE_DELAY_SECONDS := 2.5
 @export var title := ""
 ## Lo primero que tiene que hacer Lucía en este nivel.
 @export var objective := ""
+## Hasta dónde ve Lucía alrededor, para dibujar el mapa; afuera se ve más lejos que en el hostal.
+@export var map_reach := 4.0
 
 
-## Restaura lo pendiente, guarda, escucha las ofrendas y presenta el nivel.
+## Empieza el mapa en blanco, restaura lo pendiente, guarda, escucha las ofrendas y presenta el
+## nivel.
 func _ready() -> void:
 	var first_objective := objective
+	GameState.explored.clear()
 	if SaveGame.has_pending():
 		SaveGame.restore_state(SaveGame.take_pending())
 		if not GameState.objective.is_empty():
