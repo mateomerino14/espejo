@@ -36,6 +36,7 @@
 [ext_resource type="PackedScene" path="res://src/world/apacheta/apacheta.tscn" id="apacheta_r"]
 [ext_resource type="PackedScene" path="res://src/world/pickups/battery_pickup.tscn" id="battery_r"]
 [ext_resource type="PackedScene" path="res://src/world/hiding_spot/wardrobe.tscn" id="wardrobe_r"]
+[ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
 [node name="Level01" type="Node3D" node_paths=PackedStringArray("qispi")]
 script = ExtResource("1_r")
 title = "Nivel 1 · El hostal de sal"
@@ -402,3 +403,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.45, -5.7)
 
 [node name="BatteriesDining" parent="." instance=ExtResource("battery_r")]
 transform = Transform3D(0.7071, 0, 0.7071, 0, 1, 0, -0.7071, 0, 0.7071, -3.0, 0.68, -19.4)
+
+[node name="Items" type="Node3D" parent="."]
+
+[node name="Coca" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, -13.7)
+item_type = 1
+
+[node name="Candle" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4, 0.68, -19.6)
+item_type = 2

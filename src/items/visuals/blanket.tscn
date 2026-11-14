@@ -1,0 +1,59 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_wool"]
+albedo_color = Color(0.45, 0.14, 0.12, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_stripe_a"]
+albedo_color = Color(0.85, 0.62, 0.18, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_stripe_b"]
+albedo_color = Color(0.12, 0.3, 0.32, 1)
+roughness = 1.0
+
+[sub_resource type="BoxMesh" id="Fold"]
+material = SubResource("Mat_wool")
+size = Vector3(0.5, 0.05, 0.36)
+
+[sub_resource type="BoxMesh" id="StripeA"]
+material = SubResource("Mat_stripe_a")
+size = Vector3(0.505, 0.052, 0.03)
+
+[sub_resource type="BoxMesh" id="StripeB"]
+material = SubResource("Mat_stripe_b")
+size = Vector3(0.505, 0.052, 0.02)
+
+[node name="BlanketVisual" type="Node3D"]
+
+[node name="Fold0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("Fold")
+
+[node name="Fold1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.99, 0, 0.04, 0, 1, 0, -0.04, 0, 0.99, 0.005, 0.075, 0.004)
+mesh = SubResource("Fold")
+
+[node name="Fold2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98, 0, -0.03, 0, 1, 0, 0.03, 0, 0.98, -0.004, 0.125, -0.003)
+mesh = SubResource("Fold")
+
+[node name="Stripe0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, -0.1)
+mesh = SubResource("StripeA")
+
+[node name="Stripe1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0.1)
+mesh = SubResource("StripeA")
+
+[node name="Stripe2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.99, 0, 0.04, 0, 1, 0, -0.04, 0, 0.99, 0.005, 0.075, 0)
+mesh = SubResource("StripeB")
+
+[node name="Stripe3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98, 0, -0.03, 0, 1, 0, 0.03, 0, 0.98, -0.004, 0.125, -0.12)
+mesh = SubResource("StripeA")
+
+[node name="Stripe4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.98, 0, -0.03, 0, 1, 0, 0.03, 0, 0.98, -0.004, 0.125, 0.12)
+mesh = SubResource("StripeA")

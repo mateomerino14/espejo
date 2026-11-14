@@ -57,3 +57,6 @@ signal level_title_requested(title: String)
 
 ## Cambió lo que Lucía tiene que hacer: el HUD lo anuncia arriba a la izquierda con un sonido.
 signal objective_changed(text: String)
+
+## Cambió cuántas cosas de un tipo lleva Lucía en la mochila.
+signal inventory_changed(type: ItemCatalog.Type, count: int)

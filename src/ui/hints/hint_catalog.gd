@@ -16,7 +16,8 @@ const TEXTS: Dictionary[String, String] = {
 	"{sprint} para correr, aunque gasta aliento  ·  {crouch} para agacharte y pisar sin ruido",
 	"usar": "{interact} para usar, abrir, leer o esconderte",
 	"album": "{album} abre el álbum con tus fotos",
-	"pilas": "El flash gasta pila: cuando se acabe, la foto sale sin flash. Busca pilas",
+	"inventario": "{inventory} abre la mochila: ahí ves lo que llevas y para qué sirve",
+	"pilas": "El flash se quedó sin pila: las fotos salen sin flash hasta que encuentres pilas",
 	"asomarse": "{lean_left} y {lean_right} para asomarte por las esquinas sin salir",
 	"escondite":
 	"En roperos, casilleros y grietas te puedes esconder; si te ve entrar, te encuentra",

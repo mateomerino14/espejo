@@ -34,6 +34,7 @@
 [ext_resource type="PackedScene" path="res://src/world/pickups/battery_pickup.tscn" id="battery_r"]
 [ext_resource type="PackedScene" path="res://src/world/hiding_spot/wardrobe.tscn" id="wardrobe_r"]
 [ext_resource type="PackedScene" path="res://src/enemies/components/mirror_passage.tscn" id="passage_r"]
+[ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
 [node name="Level02" type="Node3D" node_paths=PackedStringArray("front_door", "mirrors_root")]
 script = ExtResource("1_r")
 title = "Nivel 2 · El hostal vacío"
@@ -406,3 +407,46 @@ apacheta_id = "hostal_vacio_recepcion"
 
 [node name="BatteriesR6" parent="." instance=ExtResource("battery_r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.45, -10.9)
+
+[node name="Items" type="Node3D" parent="."]
+
+[node name="BlanketR1" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0.47, -3.65)
+item_type = 3
+
+[node name="BlanketR2" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.47, -3.65)
+item_type = 3
+
+[node name="BlanketR3" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0.47, -8.85)
+item_type = 3
+
+[node name="BlanketR4" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.47, -8.85)
+item_type = 3
+
+[node name="BlanketR5" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0.47, -14.05)
+item_type = 3
+
+[node name="BlanketR6" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.47, -14.05)
+item_type = 3
+
+[node name="BlanketPile" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0, 0, 6.0)
+item_type = 3
+count = 3
+
+[node name="Coca" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0, 0.68, -19.4)
+item_type = 1
+
+[node name="Candle" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0.68, -19.8)
+item_type = 2
+
+[node name="Film" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, -13.7)
+item_type = 4
