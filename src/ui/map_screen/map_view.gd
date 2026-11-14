@@ -48,8 +48,7 @@ func refresh() -> void:
 	queue_redraw()
 
 
-## Papel, piso con su borde, bruma sobre lo no recorrido, marcas y flecha, encajados en el
-## recuadro.
+## Papel, piso con su borde, bruma sobre lo no recorrido, marcas y flecha, encajados.
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), PAPER)
 	if floor_polygons.is_empty() or GameState.explored.is_empty():

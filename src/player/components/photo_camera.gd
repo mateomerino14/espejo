@@ -64,8 +64,7 @@ var _cooldown_left := 0.0
 @onready var _dry_fire: AudioStreamPlayer3D = $DryFire
 
 
-## Arranca como quedó en el nivel anterior, o con la pila llena y el rollo nuevo, y el reflejo
-## oculto.
+## Arranca como quedó en el nivel anterior, o con pila llena y rollo nuevo, y sin el reflejo.
 func _ready() -> void:
 	battery = max_battery
 	if GameState.camera_battery >= 0.0:
@@ -117,8 +116,7 @@ func can_shoot() -> bool:
 	return is_raised and film_remaining > 0 and _cooldown_left <= 0.0
 
 
-## Toma una foto, con flash si queda batería; la imagen se revela al dibujarse el cuadro.
-## Sin rollo, el obturador hace un clic seco y no dispara.
+## Toma una foto, con flash si queda batería; sin rollo, el obturador da un clic seco.
 func shoot() -> void:
 	if is_raised and film_remaining == 0 and _cooldown_left <= 0.0:
 		_cooldown_left = cooldown

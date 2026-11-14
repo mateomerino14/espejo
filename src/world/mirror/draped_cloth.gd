@@ -46,8 +46,7 @@ static func build(size: Vector2, seed_value: int) -> ArrayMesh:
 	return tool.commit()
 
 
-## Dónde queda un punto de la manta: [param across] va de izquierda a derecha y [param down] de
-## arriba abajo, los dos de 0 a 1.
+## Punto de la manta: [param across] de izquierda a derecha, [param down] de arriba abajo, de 0 a 1.
 static func _point(size: Vector2, across: float, down: float, phase: float) -> Vector3:
 	var fold_wave := sin(across * FOLDS * TAU + phase)
 	var x := (across - 0.5) * size.x

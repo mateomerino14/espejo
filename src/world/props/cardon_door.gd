@@ -46,8 +46,7 @@ func _ready() -> void:
 	_interactable.interacted.connect(_on_interacted)
 
 
-## Abre o cierra la puerta con un giro: al abrir suena el pestillo y la bisagra, al cerrar un
-## crujido corto antes del golpe.
+## Abre o cierra con un giro: al abrir suenan pestillo y bisagra; al cerrar, crujido y golpe.
 func set_open(value: bool) -> void:
 	is_open = value
 	if _swing:
@@ -86,8 +85,7 @@ func _build_prompt(_player: Player) -> String:
 	return OPEN_PROMPT
 
 
-## La usa Lucía: la abre si está cerrada y la cierra si está abierta; con llave la abre si tiene
-## la llave y si no, solo traquetea.
+## La usa Lucía: abre o cierra; con llave, la abre si tiene la llave y si no, traquetea.
 func _on_interacted(_player: Player) -> void:
 	if is_locked and _has_key():
 		_unlock()

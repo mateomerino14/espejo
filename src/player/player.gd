@@ -175,8 +175,7 @@ func is_crouching() -> bool:
 	return _capsule.height < stand_height - CROUCH_HEIGHT_TOLERANCE
 
 
-## Camina hasta [param target] en [param seconds] mirando hacia su −Z y al final llama a
-## [param arrived], si hay.
+## Camina a [param target] en [param seconds] mirando a su −Z y luego llama a [param arrived].
 func _move_to(target: Transform3D, seconds: float, arrived: Callable) -> void:
 	_is_moving_to_hide = true
 	_head.reset_look()

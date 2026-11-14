@@ -54,8 +54,7 @@ func _process(_delta: float) -> void:
 	_camera.global_transform = reflect(eye.global_transform, global_position.y)
 
 
-## Refleja una cámara en el plano horizontal a la altura [param height]. La imagen sale espejada
-## de izquierda a derecha para que la cámara siga siendo una rotación válida; el agua la invierte.
+## Refleja una cámara en el plano a la altura [param height]; sale espejada y el agua la invierte.
 static func reflect(view: Transform3D, height: float) -> Transform3D:
 	var flip := Vector3(1.0, -1.0, 1.0)
 	var turned := Basis(-view.basis.x * flip, view.basis.y * flip, view.basis.z * flip)

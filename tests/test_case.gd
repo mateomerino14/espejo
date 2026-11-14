@@ -49,8 +49,7 @@ func wait_physics_frames(count: int) -> void:
 		await tree.physics_frame
 
 
-## Espera a que la navegación tenga camino de [param start] a cada meta, a menos de
-## [param tolerance]; en mapas grandes se arma de a poco. Se rinde a los [param max_frames].
+## Espera a que haya camino de [param start] a cada meta, a menos de [param tolerance].
 func wait_for_paths(
 	map: RID, start: Vector3, goals: Array[Vector3], tolerance: float, max_frames := 600
 ) -> void:

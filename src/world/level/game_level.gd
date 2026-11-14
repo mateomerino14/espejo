@@ -19,8 +19,7 @@ const ARRIVAL_LAYER := 9
 @export var map_reach := 4.0
 
 
-## Empieza el nivel sin herramientas, sin nada hecho y con el mapa en blanco; restaura lo pendiente,
-## guarda, escucha las ofrendas, aparece desde negro si viene de un tránsito y presenta el nivel.
+## Empieza el nivel en limpio, restaura lo pendiente, guarda, aparece desde negro y lo presenta.
 func _ready() -> void:
 	var first_objective := objective
 	GameState.start_level()
