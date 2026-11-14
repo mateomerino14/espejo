@@ -32,6 +32,7 @@
 [ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="flicker"]
 [ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
 [ext_resource type="Resource" path="res://src/story/transition/hacia_isla.tres" id="transition_r"]
+[ext_resource type="PackedScene" path="res://src/enemies/encounters/qispi_ambush.tscn" id="ambush_r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
 sky_top_color = Color(0.01, 0.015, 0.03, 1)
@@ -246,6 +247,7 @@ script = ExtResource("flicker")
 [node name="MateoList" parent="." instance=ExtResource("note")]
 transform = Transform3D(0.0000, -0.0000, 1.0000, 0.0000, 1.0000, 0.0000, -1.0000, 0.0000, 0.0000, 11.9, 1.26, -12.5)
 note = ExtResource("lista")
+objective_after = "Sigue las huellas mojadas hacia el agua, al noroeste"
 
 [node name="ListSubject" type="Node3D" parent="."]
 transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000, 0.0000, 1.0000, 11.9, 1.3, -12.5)
@@ -282,6 +284,7 @@ mesh = SubResource("HatBrim")
 [node name="HatNote" parent="." instance=ExtResource("note")]
 transform = Transform3D(0.9397, -0.0000, 0.3420, 0.0000, 1.0000, 0.0000, -0.3420, 0.0000, 0.9397, -1.4, 0.02, -1.2)
 note = ExtResource("hat_note")
+objective_after = "Es el sombrero de Javier. Busca en los vagones algo que diga a dónde se lo llevaron"
 
 [node name="Flashlight" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, -1, 0, 1, 0, 0, 0, 0, 1, -2.2, 0.03, -0.6)
@@ -354,6 +357,8 @@ transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000
 message = "Más allá de los trenes, el agua vuelve a cubrir el salar. En el horizonte, una isla con cactus."
 next_level_path = "res://src/world/level_04/level_04.tscn"
 transition = ExtResource("transition_r")
+required_note = "lista_mateo"
+missing_message = "Todavía no sabes a dónde se llevaron a Javier: revisa los vagones"
 
 [node name="Hud" parent="." instance=ExtResource("hud")]
 
@@ -385,3 +390,10 @@ item_type = 2
 [node name="Film" parent="Items" instance=ExtResource("item_pickup_r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0, 0.02, -1.2)
 item_type = 4
+
+[node name="WagonAmbush" parent="." node_paths=PackedStringArray("qispi") instance=ExtResource("ambush_r")]
+transform = Transform3D(1.0, 0, 0.0, 0, 1, 0, -0.0, 0, 1.0, 6, 0, -12)
+done_id = "nivel3_emboscada_vagones"
+qispi = NodePath("../Qispi")
+spawn_offset = Vector3(-6, 0.05, -10)
+after_objective = "Es el sombrero de Javier. Busca en los vagones algo que diga a dónde se lo llevaron"

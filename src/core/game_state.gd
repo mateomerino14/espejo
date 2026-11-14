@@ -36,6 +36,9 @@ var camera_film := -1
 var camera_battery := -1.0
 ## Fotos del álbum, que viajan de un nivel a otro.
 var photos: Array[Photo] = []
+## Lo que ya pasó en el nivel actual (puertas abiertas, herramientas recogidas, sustos), para que
+## no se repita al continuar.
+var done := PackedStringArray()
 ## Celdas del nivel actual que Lucía ya recorrió, para el mapa.
 var explored: Dictionary[Vector2i, bool] = {}
 
@@ -113,20 +116,45 @@ func explore_around(point: Vector3, reach: float) -> void:
 				explored[center + Vector2i(x, z)] = true
 
 
-## Dice si Lucía ya pasó cerca de [param point].
-func is_explored(point: Vector3) -> bool:
-	return explored.has(map_cell(point))
-
-
 ## Celda del mapa donde cae un punto.
 static func map_cell(point: Vector3) -> Vector2i:
 	return Vector2i(floori(point.x / MAP_CELL), floori(point.z / MAP_CELL))
 
 
-## Recuerda cómo quedó la cámara, para el nivel siguiente.
-func keep_camera(film: int, battery: float) -> void:
-	camera_film = film
-	camera_battery = battery
+## Guarda una herramienta.
+func add_tool(tool_name: String) -> void:
+	if not tool_name in tools:
+		tools.append(tool_name)
+
+
+## Dice si lleva esa herramienta.
+func has_tool(tool_name: String) -> bool:
+	return tool_name in tools
+
+
+## Gasta una herramienta.
+func use_tool(tool_name: String) -> void:
+	var index := tools.find(tool_name)
+	if index >= 0:
+		tools.remove_at(index)
+
+
+## Anota que algo del nivel ya pasó.
+func mark_done(id: String) -> void:
+	if not id.is_empty() and not id in done:
+		done.append(id)
+
+
+## Dice si algo del nivel ya pasó.
+func is_done(id: String) -> bool:
+	return id in done
+
+
+## Olvida lo que era de un nivel: herramientas, lo que ya pasó y el mapa. Se usa al empezar otro.
+func start_level() -> void:
+	tools.clear()
+	done.clear()
+	explored.clear()
 
 
 ## Cambia el objetivo y avisa, solo si es otro.
@@ -159,4 +187,5 @@ func reset() -> void:
 	camera_film = -1
 	camera_battery = -1.0
 	photos.clear()
+	done.clear()
 	explored.clear()

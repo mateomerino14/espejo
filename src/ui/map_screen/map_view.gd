@@ -119,7 +119,7 @@ func _point(ground: Vector2) -> Vector2:
 func _draw_marks() -> void:
 	for kind: Mark in marks:
 		for ground: Vector2 in marks[kind]:
-			if not GameState.is_explored(Vector3(ground.x, 0.0, ground.y)):
+			if not GameState.explored.has(GameState.map_cell(Vector3(ground.x, 0.0, ground.y))):
 				continue
 			var at := _point(ground)
 			match kind:

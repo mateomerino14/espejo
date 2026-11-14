@@ -202,4 +202,5 @@ func _load_batteries() -> void:
 
 ## Recuerda cómo está la cámara, para el nivel siguiente.
 func _remember() -> void:
-	GameState.keep_camera(film_remaining, battery)
+	GameState.camera_film = film_remaining
+	GameState.camera_battery = battery
