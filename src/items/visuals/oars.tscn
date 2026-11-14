@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://src/world/materials/planks.tres" id="1_wood"]
+
+[sub_resource type="CylinderMesh" id="Shaft"]
+material = ExtResource("1_wood")
+top_radius = 0.022
+bottom_radius = 0.022
+height = 1.6
+radial_segments = 8
+rings = 1
+
+[sub_resource type="BoxMesh" id="Blade"]
+material = ExtResource("1_wood")
+size = Vector3(0.16, 0.02, 0.45)
+
+[node name="OarsVisual" type="Node3D"]
+
+[node name="ShaftA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, -0.1, 0.03, 0)
+mesh = SubResource("Shaft")
+
+[node name="BladeA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.03, 0.95)
+mesh = SubResource("Blade")
+
+[node name="ShaftB" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0.12, 0.07, 0.06)
+mesh = SubResource("Shaft")
+
+[node name="BladeB" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.07, 1.01)
+mesh = SubResource("Blade")

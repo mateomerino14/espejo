@@ -6,8 +6,8 @@ extends GameLevel
 
 ## Lo que el Q'ispi sigue quieto después de que Don Celestino termina.
 const TALK_MARGIN_SECONDS := 10.0
-const OPEN_NOTICE := "Don Celestino te deja su bote, en la orilla oeste."
-const BOAT_OBJECTIVE := "Baja al bote de Don Celestino, en la orilla oeste"
+const OPEN_NOTICE := "Don Celestino te deja su bote. Los remos están en la ladera norte."
+const BOAT_OBJECTIVE := "Don Celestino dejó los remos entre los cardones de la ladera norte"
 
 @export var celestino: TalkingNpc
 @export var exit: LevelExit

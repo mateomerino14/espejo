@@ -2,7 +2,7 @@ class_name Level01
 extends GameLevel
 ## Nivel 1, la llegada: el hostal de sal de noche. Al leer la nota de Javier despierta el Q'ispi.
 
-const OUT_OBJECTIVE := "Javier no está. Sal del hostal por la puerta del comedor"
+const OUT_OBJECTIVE := "Javier no está. La puerta del comedor tiene llave: búscala en la cocina"
 
 ## Nota que despierta al ente.
 @export var wake_note: NoteData

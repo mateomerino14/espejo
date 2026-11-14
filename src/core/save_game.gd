@@ -18,6 +18,7 @@ const TOOLS_KEY := "herramientas"
 const FILM_KEY := "rollo"
 const BATTERY_KEY := "pila"
 const MAP_KEY := "mapa"
+const DONE_KEY := "hechos"
 
 var save_path := DEFAULT_PATH
 
@@ -44,6 +45,7 @@ func save(level_path: String) -> void:
 	config.set_value(SECTION, FILM_KEY, GameState.camera_film)
 	config.set_value(SECTION, BATTERY_KEY, GameState.camera_battery)
 	config.set_value(SECTION, MAP_KEY, GameState.explored.keys())
+	config.set_value(SECTION, DONE_KEY, GameState.done)
 	config.save(save_path)
 
 
@@ -88,6 +90,7 @@ func restore_state(pending: Dictionary) -> void:
 	GameState.tools = pending.get(TOOLS_KEY, PackedStringArray())
 	GameState.camera_film = pending.get(FILM_KEY, -1)
 	GameState.camera_battery = pending.get(BATTERY_KEY, -1.0)
+	GameState.done = pending.get(DONE_KEY, PackedStringArray())
 	GameState.explored.clear()
 	for cell: Vector2i in pending.get(MAP_KEY, []):
 		GameState.explored[cell] = true

@@ -32,8 +32,10 @@ func after_each() -> void:
 ## Solo cuenta como visto lo que está cerca de donde pasó Lucía.
 func test_only_nearby_is_explored() -> void:
 	GameState.explore_around(START, REACH)
-	assert_true(GameState.is_explored(START), "Lo cercano queda dibujado")
-	assert_false(GameState.is_explored(FAR_AWAY), "Lo lejano sigue sin dibujar")
+	assert_true(GameState.explored.has(GameState.map_cell(START)), "Lo cercano queda dibujado")
+	assert_false(
+		GameState.explored.has(GameState.map_cell(FAR_AWAY)), "Lo lejano sigue sin dibujar"
+	)
 
 
 ## Abierto, pausa el juego, dibuja el piso del hostal y marca la apacheta, los espejos y la
@@ -60,4 +62,4 @@ func test_explored_survives_continue() -> void:
 	GameState.reset()
 	_level = (load(SaveGame.load_pending()) as PackedScene).instantiate()
 	add_to_tree(_level)
-	assert_true(GameState.is_explored(START), "Vuelve lo recorrido")
+	assert_true(GameState.explored.has(GameState.map_cell(START)), "Vuelve lo recorrido")
