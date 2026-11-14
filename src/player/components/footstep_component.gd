@@ -41,8 +41,7 @@ func register_movement(distance: float, state: Player.MoveState, origin: Vector3
 		EventBus.noise_emitted.emit(origin, loudness)
 
 
-## Devuelve el piso que hay en [param point]: el de la zona de más prioridad que lo cubre, o sal
-## si no hay ninguna.
+## Devuelve el piso en [param point]: el de la zona de más prioridad que lo cubre, o sal.
 func surface_at(point: Vector3) -> StringName:
 	var query := PhysicsPointQueryParameters3D.new()
 	query.position = point

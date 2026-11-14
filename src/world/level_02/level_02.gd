@@ -35,8 +35,7 @@ func uncovered_count() -> int:
 	return count
 
 
-## Recuerda el espejo tapado, avisa cuántos faltan y, con el último, abre la puerta y da el
-## objetivo de salir.
+## Recuerda el espejo tapado, avisa cuántos faltan y, con el último, abre la puerta.
 func _on_mirror_covered(mirror: Mirror) -> void:
 	GameState.mark_mirror_covered(mirror.name)
 	var left := uncovered_count()

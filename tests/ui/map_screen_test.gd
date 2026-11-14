@@ -38,8 +38,7 @@ func test_only_nearby_is_explored() -> void:
 	)
 
 
-## Abierto, pausa el juego, dibuja el piso del hostal y marca la apacheta, los espejos y la
-## salida; cerrado, sigue el juego.
+## Abierto, pausa, dibuja el piso y marca la apacheta, los espejos y la salida; cerrado, sigue.
 func test_map_has_floor_and_marks() -> void:
 	var screen: MapScreen = _level.find_child("MapScreen", true, false)
 	screen.open()
