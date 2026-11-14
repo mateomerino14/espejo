@@ -36,6 +36,8 @@
 [ext_resource type="PackedScene" path="res://src/enemies/components/mirror_passage.tscn" id="passage_r"]
 [node name="Level02" type="Node3D" node_paths=PackedStringArray("front_door", "mirrors_root")]
 script = ExtResource("1_r")
+title = "Nivel 2 · El hostal vacío"
+objective = "Tapa todos los espejos con las mantas de las camas"
 front_door = NodePath("FrontDoor")
 mirrors_root = NodePath("Mirrors")
 

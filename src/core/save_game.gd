@@ -1,6 +1,6 @@
 extends Node
-## Partida guardada en disco (autoload "SaveGame"): el nivel, las notas leídas y lo que decide
-## el final.
+## Partida guardada en disco (autoload "SaveGame"): el nivel, las notas leídas, el objetivo y lo
+## que decide el final.
 ##
 ## Se escribe al empezar cada nivel. Al continuar, el nivel se carga y toma lo pendiente.
 
@@ -12,6 +12,7 @@ const OFFERINGS_KEY := "ofrendas"
 const CLUES_KEY := "pistas"
 const STARES_KEY := "miradas"
 const COVERED_KEY := "espejos_tapados"
+const OBJECTIVE_KEY := "objetivo"
 
 var save_path := DEFAULT_PATH
 
@@ -32,6 +33,7 @@ func save(level_path: String) -> void:
 	config.set_value(SECTION, CLUES_KEY, GameState.clue_photos)
 	config.set_value(SECTION, STARES_KEY, GameState.mirror_stares)
 	config.set_value(SECTION, COVERED_KEY, GameState.covered_mirrors)
+	config.set_value(SECTION, OBJECTIVE_KEY, GameState.objective)
 	config.save(save_path)
 
 
@@ -71,6 +73,7 @@ func restore_state(pending: Dictionary) -> void:
 	GameState.clue_photos = pending.get(CLUES_KEY, PackedStringArray())
 	GameState.mirror_stares = pending.get(STARES_KEY, 0)
 	GameState.covered_mirrors = pending.get(COVERED_KEY, PackedStringArray())
+	GameState.objective = pending.get(OBJECTIVE_KEY, "")
 
 
 ## Entrega la partida por restaurar y la olvida.

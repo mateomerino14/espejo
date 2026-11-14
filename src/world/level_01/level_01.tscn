@@ -38,6 +38,8 @@
 [ext_resource type="PackedScene" path="res://src/world/hiding_spot/wardrobe.tscn" id="wardrobe_r"]
 [node name="Level01" type="Node3D" node_paths=PackedStringArray("qispi")]
 script = ExtResource("1_r")
+title = "Nivel 1 · El hostal de sal"
+objective = "Busca a Javier en el hostal"
 wake_note = ExtResource("27_r")
 qispi = NodePath("Qispi")
 

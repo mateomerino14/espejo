@@ -21,6 +21,8 @@ var clue_photos := PackedStringArray()
 var mirror_stares := 0
 ## Espejos que Lucía ya tapó, para que sigan tapados al continuar.
 var covered_mirrors := PackedStringArray()
+## Lo que Lucía tiene que hacer ahora.
+var objective := ""
 
 
 ## Recuerda que Lucía leyó una nota.
@@ -62,6 +64,14 @@ func mark_mirror_covered(mirror_id: String) -> void:
 		covered_mirrors.append(mirror_id)
 
 
+## Cambia el objetivo y avisa, solo si es otro.
+func set_objective(text: String) -> void:
+	if text == objective:
+		return
+	objective = text
+	EventBus.objective_changed.emit(text)
+
+
 ## Elige el final según lo que hizo Lucía en toda la noche.
 func choose_ending() -> Ending:
 	if offerings.size() < MIN_OFFERINGS or mirror_stares >= MAX_MIRROR_STARES:
@@ -78,3 +88,4 @@ func reset() -> void:
 	clue_photos.clear()
 	mirror_stares = 0
 	covered_mirrors.clear()
+	objective = ""
