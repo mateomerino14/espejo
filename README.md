@@ -6,7 +6,7 @@ Es la segunda historia del Manqha Pacha, después de [Socavón](https://github.c
 
 ## Estado
 
-Versión `1.0.1`: el juego completo, con cinco niveles, tres finales y versión para Windows en [Releases](https://github.com/mateomerino14/espejo/releases).
+Versión `1.1.0`: el juego completo, con cinco niveles, tres finales y versión para Windows en [Releases](https://github.com/mateomerino14/espejo/releases); ahora con objetivos, mochila, mapa, tránsitos entre niveles, consejos de controles y voces nuevas.
 
 | Fase | Entrega | Estado |
 |---|---|---|
