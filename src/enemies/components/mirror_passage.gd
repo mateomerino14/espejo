@@ -1,7 +1,6 @@
 class_name MirrorPassage
 extends Node
-## El Q'ispi sale de los espejos destapados: cada tanto, si acecha lejos de Lucía, aparece en el
-## espejo destapado más cercano a ella y va a buscarla. Tapar los espejos le cierra el paso.
+## El Q'ispi sale por el espejo destapado más cercano a Lucía; tapar los espejos le cierra el paso.
 
 @export var qispi: Qispi
 @export var min_wait := 18.0

@@ -1,8 +1,8 @@
 extends TestCase
-## Pruebas de los personajes que hablan: dicen sus líneas en orden con subtítulos y avisan al
-## terminar.
+## Pruebas de los personajes que hablan: dicen sus líneas en orden y avisan al terminar.
 
 const CELESTINO_SCENE := preload("res://src/story/celestino/celestino.tscn")
+const CELESTINO_LINES := 5
 
 var _npc: TalkingNpc
 var _subtitles := PackedStringArray()
@@ -54,7 +54,7 @@ func test_ignores_talk_while_talking() -> void:
 ## Las líneas de Don Celestino tienen voz y su duración es la de la voz.
 func test_celestino_lines_have_voice() -> void:
 	var original: TalkingNpc = CELESTINO_SCENE.instantiate()
-	assert_true(original.lines.size() == 5, "Don Celestino dice cinco líneas")
+	assert_true(original.lines.size() == CELESTINO_LINES, "Don Celestino dice cinco líneas")
 	for line in original.lines:
 		assert_true(line.voice != null, "Cada línea tiene voz")
 		assert_true(is_equal_approx(line.get_seconds(), line.voice.get_length()), "Dura su voz")

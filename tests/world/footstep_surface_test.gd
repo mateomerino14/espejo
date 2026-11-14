@@ -2,6 +2,7 @@ extends TestCase
 ## Pruebas del piso: los pasos suenan distinto dentro de una zona y a sal fuera de ella.
 
 const SURFACE_SCENE := preload("res://src/world/footstep_surface/footstep_surface.tscn")
+const OUTSIDE := Vector3(5.0, 0.0, 0.0)
 
 var _root: Node3D
 var _footsteps: FootstepComponent
@@ -29,4 +30,4 @@ func after_each() -> void:
 func test_surface_under_point() -> void:
 	await wait_physics_frames(2)
 	assert_true(_footsteps.surface_at(Vector3.ZERO) == &"madera", "Dentro: madera")
-	assert_true(_footsteps.surface_at(Vector3(5.0, 0.0, 0.0)) == FootstepSurface.SALT, "Fuera: sal")
+	assert_true(_footsteps.surface_at(OUTSIDE) == FootstepSurface.SALT, "Fuera: sal")

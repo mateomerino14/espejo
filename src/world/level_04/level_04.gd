@@ -1,8 +1,6 @@
 class_name Level04
 extends GameLevel
-## Nivel 4, la isla Incahuasi: Don Celestino espera en la cima junto a su q'oa. Mientras habla, el
-## humo aquieta al Q'ispi; cuando termina, Lucía puede bajar al bote y seguir hacia el centro del
-## salar.
+## Nivel 4, la isla: Don Celestino aquieta al Q'ispi mientras habla y después abre el bote.
 
 ## Lo que el Q'ispi sigue quieto después de que Don Celestino termina.
 const TALK_MARGIN_SECONDS := 10.0

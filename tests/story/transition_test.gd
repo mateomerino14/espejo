@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del tránsito entre niveles: Lucía cruza el salar, habla y se puede saltar; el Q'ispi
-## solo se ve en el reflejo. También que cada salida tenga su tránsito, con voz.
+## Pruebas del tránsito entre niveles y de que cada salida tenga el suyo, con voz.
 
 const TRANSITION_SCENE := preload("res://src/story/transition/transition.tscn")
 const BOAT_DATA := preload("res://src/story/transition/hacia_centro.tres")

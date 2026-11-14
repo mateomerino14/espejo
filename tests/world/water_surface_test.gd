@@ -1,13 +1,19 @@
 extends TestCase
 ## Pruebas del agua: la cámara del reflejo queda debajo del agua, mirando el mundo dado vuelta.
 
+const LOOK_TARGET := Vector3(0.0, -1.0, -4.0)
+const EYE := Vector3(2.0, 1.5, 3.0)
+const REFLECTED_HEIGHT := -1.5
+
 
 ## Una cámara a 1,5 m sobre el agua se refleja 1,5 m por debajo y mirando hacia arriba.
 func test_reflected_camera_goes_below_water() -> void:
-	var view := Transform3D.IDENTITY.looking_at(Vector3(0.0, -1.0, -4.0), Vector3.UP)
-	view.origin = Vector3(2.0, 1.5, 3.0)
+	var view := Transform3D.IDENTITY.looking_at(LOOK_TARGET, Vector3.UP)
+	view.origin = EYE
 	var reflected := WaterSurface.reflect(view, 0.0)
-	assert_almost_eq(reflected.origin.y, -1.5, "Debe quedar igual de lejos del agua, debajo")
+	assert_almost_eq(
+		reflected.origin.y, REFLECTED_HEIGHT, "Debe quedar igual de lejos del agua, debajo"
+	)
 	assert_almost_eq(reflected.origin.x, 2.0, "No se corre de costado")
 	var looking := -view.basis.z
 	var reflected_looking := -reflected.basis.z

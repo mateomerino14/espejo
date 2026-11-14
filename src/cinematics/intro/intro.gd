@@ -1,7 +1,6 @@
 class_name IntroCinematic
 extends CinematicScene
-## Cinemática de inicio: el 4x4 de Javier llega al hostal bajo la lluvia, conversan, él entra y
-## Lucía se queda sacando fotos al agua. Con cada flash, en el reflejo hay alguien más cerca.
+## Cinemática de inicio: llegan al hostal bajo la lluvia y, con cada flash, alguien se acerca.
 
 const ARRIVAL := &"llegada"
 const GET_OUT := &"bajan"

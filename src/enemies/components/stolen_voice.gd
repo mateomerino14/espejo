@@ -1,7 +1,6 @@
 class_name StolenVoice
 extends AudioStreamPlayer3D
-## Las voces que el Q'ispi le robó a otros: cada tanto, desde donde está, llama a Lucía con la voz
-## de Javier o de Doña Rosa, para que vaya a buscarlos.
+## Voces robadas: cada tanto, el Q'ispi llama a Lucía con la voz de Javier o de Doña Rosa.
 
 @export var min_wait := 25.0
 @export var max_wait := 50.0

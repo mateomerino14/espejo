@@ -1,8 +1,6 @@
 class_name FirstPersonBody
 extends Node3D
-## Los brazos de Lucía vistos desde sus ojos: las manos sostienen la cámara contra el pecho y la
-## levantan para mirar por el visor. Van en su propia capa, que los espejos no dibujan: Lucía no se
-## ve en ellos.
+## Los brazos de Lucía con la cámara, en una capa que los espejos no dibujan.
 
 const HOLD := &"camera_idle"
 const AIM := &"camera_aim"

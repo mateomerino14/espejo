@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del jugador dentro de la sala de prueba: camina sobre el suelo, sus pasos hacen ruido y
-## con la cámara en alto no corre.
+## Pruebas del movimiento de Lucía: camina, sus pasos hacen ruido y con la cámara no corre.
 
 const ROOM_SCENE := preload("res://src/world/test_room/test_room.tscn")
 const SETTLE_FRAMES := 20

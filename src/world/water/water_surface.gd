@@ -1,7 +1,6 @@
 class_name WaterSurface
 extends Node3D
-## Agua quieta sobre el salar: refleja el cielo, las luces y también la capa del reflejo, donde vive
-## el ente. Una cámara en el reflejo de la cámara activa dibuja lo que el agua devuelve.
+## Agua quieta que refleja el cielo, las luces y la capa del reflejo, donde vive el ente.
 
 ## Ancho y largo del agua en metros.
 @export var size := Vector2(400.0, 400.0)

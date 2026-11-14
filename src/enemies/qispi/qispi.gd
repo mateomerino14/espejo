@@ -1,7 +1,6 @@
 class_name Qispi
 extends CharacterBody3D
-## El Q'ispi: vive del otro lado del reflejo. Acecha, sigue los ruidos, caza a Lucía si la ve o
-## si ella lo mira por el visor, y el flash lo aturde cada vez por menos tiempo.
+## El Q'ispi: acecha, sigue ruidos, caza a Lucía si la ve o si lo mira, y el flash lo aturde.
 
 ## Cambió de estado: acecha, rastrea, caza o está aturdido.
 signal state_changed(new_state: State)

@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas de los sujetos de foto en la sala: la inscripción queda en la foto solo si sale en
-## cuadro.
+## Pruebas de los sujetos de foto: la inscripción queda en la foto solo si sale en cuadro.
 
 const ROOM_SCENE := preload("res://src/world/test_room/test_room.tscn")
 const SETTLE_FRAMES := 10

@@ -3,6 +3,8 @@ extends TestCase
 
 const MIRROR_SCENE := preload("res://src/world/mirror/mirror.tscn")
 const EYE := Vector3(0.3, 0.2, 2.0)
+const REFLECTION_LAYER := 11
+const SHAPE_TOLERANCE := 0.01
 
 var _mirror: Mirror
 var _camera: Camera3D
@@ -44,13 +46,17 @@ func test_eye_behind_disables_reflection() -> void:
 
 ## La cámara del reflejo ve la capa del ente.
 func test_reflection_sees_entity_layer() -> void:
-	assert_true(_camera.get_cull_mask_value(11), "El reflejo debe mostrar la capa del ente")
+	assert_true(
+		_camera.get_cull_mask_value(REFLECTION_LAYER), "El reflejo debe mostrar la capa del ente"
+	)
 
 
 ## La imagen del reflejo tiene la proporción del vidrio.
 func test_image_matches_glass() -> void:
 	var ratio := float(_viewport.size.x) / _viewport.size.y
-	assert_almost_eq(ratio, _mirror.size.x / _mirror.size.y, "Debe tener la forma del vidrio", 0.01)
+	assert_almost_eq(
+		ratio, _mirror.size.x / _mirror.size.y, "Debe tener la forma del vidrio", SHAPE_TOLERANCE
+	)
 
 
 ## La manta cuelga más grande que el vidrio y queda por delante de él.

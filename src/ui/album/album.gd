@@ -1,7 +1,6 @@
 class_name Album
 extends CanvasLayer
-## Álbum de fotos: guarda lo que llega del rollo y se hojea con pausa, una foto a la vez. Las fotos
-## viven en GameState, así que siguen de un nivel a otro.
+## Álbum de fotos: se hojea con pausa, una foto a la vez; las fotos siguen de un nivel a otro.
 
 const EMPTY_TEXT := "Todavía no tomaste ninguna foto"
 const NO_CAPTION_TEXT := "No se ve nada fuera de lo común"

@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del guardado: cada nivel guarda al empezar y al continuar vuelven las notas leídas y el
-## objetivo.
+## Pruebas del guardado: cada nivel guarda y al continuar vuelven las notas y el objetivo.
 
 const LEVEL_SCENE := preload("res://src/world/level_01/level_01.tscn")
 const MAIN_MENU_SCENE := preload("res://src/ui/main_menu/main_menu.tscn")

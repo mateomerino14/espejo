@@ -1,7 +1,6 @@
 class_name ItemCatalog
 extends RefCounted
-## Catálogo de lo que Lucía lleva en la mochila: tipos, nombres, topes, qué es cada cosa, para qué
-## sirve, su modelo y su dibujo en el inventario.
+## Catálogo de la mochila: tipos, nombres, topes, para qué sirve cada cosa, su modelo y su dibujo.
 
 enum Type { NONE, COCA, CANDLE, BLANKET, FILM, BATTERY }
 

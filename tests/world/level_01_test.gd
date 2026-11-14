@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del nivel 1: tiene lo necesario, se puede recorrer de punta a punta y la nota de Javier
-## despierta al Q'ispi.
+## Pruebas del nivel 1: tiene lo necesario, se recorre entero y la nota despierta al Q'ispi.
 
 const LEVEL_SCENE := preload("res://src/world/level_01/level_01.tscn")
 const REQUIRED: Array[String] = [

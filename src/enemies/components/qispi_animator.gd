@@ -1,7 +1,6 @@
 class_name QispiAnimator
 extends Node3D
-## Anima al Q'ispi: quieto, acechando o corriendo según su rapidez, retorciéndose aturdido y la
-## embestida al atrapar. También deja su cuerpo en la capa del reflejo.
+## Anima al Q'ispi según su rapidez, aturdido o al embestir, y lo deja en la capa del reflejo.
 
 const IDLE := &"idle"
 const WALK := &"walk"

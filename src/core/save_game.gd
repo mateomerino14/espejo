@@ -1,6 +1,5 @@
 extends Node
-## Partida guardada en disco (autoload "SaveGame"): el nivel, las notas leídas, el objetivo, la
-## mochila, la cámara, el mapa y lo que decide el final. Las fotos del álbum no se guardan.
+## Partida guardada en disco (autoload "SaveGame"): el nivel y el estado, salvo las fotos del álbum.
 ##
 ## Se escribe al empezar cada nivel. Al continuar, el nivel se carga y toma lo pendiente.
 

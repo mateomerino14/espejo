@@ -3,6 +3,7 @@ extends TestCase
 
 const APPARITION_SCENE := preload("res://src/story/apparition/apparition.tscn")
 const IN_FRONT := Vector3(0, -1.6, -5)
+const EYE_HEIGHT := 1.6
 
 var _camera: Camera3D
 var _apparition: Apparition
@@ -11,7 +12,7 @@ var _apparition: Apparition
 ## Pone una cámara y la aparición delante de ella.
 func before_each() -> void:
 	_camera = Camera3D.new()
-	_camera.position = Vector3(0, 1.6, 0)
+	_camera.position = Vector3(0, EYE_HEIGHT, 0)
 	add_to_tree(_camera)
 	_camera.make_current()
 	_apparition = APPARITION_SCENE.instantiate()

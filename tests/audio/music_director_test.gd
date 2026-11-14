@@ -2,6 +2,8 @@ extends TestCase
 ## Pruebas de la música: sigue el estado del Q'ispi y cambia de capa.
 
 const MUSIC_SCENE := preload("res://src/audio/music_director.tscn")
+const QUICK_FADE_SECONDS := 0.05
+const WAIT_SECONDS := 0.2
 
 var _music: MusicDirector
 
@@ -9,8 +11,8 @@ var _music: MusicDirector
 ## Crea la música sin Q'ispi, con cambios instantáneos.
 func before_each() -> void:
 	_music = MUSIC_SCENE.instantiate()
-	_music.fade_seconds = 0.05
-	_music.chase_fade_seconds = 0.05
+	_music.fade_seconds = QUICK_FADE_SECONDS
+	_music.chase_fade_seconds = QUICK_FADE_SECONDS
 	add_to_tree(_music)
 
 
@@ -35,6 +37,6 @@ func test_chase_replaces_calm() -> void:
 	var chase: AudioStreamPlayer = _music.get_node("Chase")
 	assert_true(chase.volume_db <= MusicDirector.SILENT_DB, "La persecución empieza callada")
 	_music.set_mood(MusicDirector.Mood.CHASE)
-	await tree.create_timer(0.2).timeout
+	await tree.create_timer(WAIT_SECONDS).timeout
 	assert_true(chase.volume_db > MusicDirector.SILENT_DB, "La persecución debe sonar")
 	assert_true(calm.volume_db <= MusicDirector.SILENT_DB, "La calma debe apagarse")

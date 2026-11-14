@@ -1,7 +1,6 @@
 class_name TalkingNpc
 extends Node3D
-## Alguien con quien Lucía puede hablar: dice sus líneas en orden, con voz y subtítulos, y gesticula
-## mientras habla. Se puede volver a escuchar cuando termina.
+## Alguien con quien Lucía habla: dice sus líneas en orden, con voz y subtítulos, y gesticula.
 
 ## Empezó a hablar; [param seconds] es lo que dura toda la conversación.
 signal conversation_started(seconds: float)

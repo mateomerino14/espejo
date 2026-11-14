@@ -1,7 +1,6 @@
 class_name EndingTaken
 extends CinematicScene
-## Final "El salar mira de vuelta": el Q'ispi le roba el reflejo a Lucía y toma su lugar. Desde
-## abajo del agua se ve a alguien con su cara subir al 4x4 de Javier.
+## Final "El salar mira de vuelta": el Q'ispi le roba el reflejo a Lucía y toma su lugar.
 
 const SHORE := &"orilla"
 const GRAB := &"agarra"

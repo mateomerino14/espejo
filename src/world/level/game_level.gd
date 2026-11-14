@@ -1,8 +1,6 @@
 class_name GameLevel
 extends Node3D
-## Base de los niveles: al empezar restaura la partida si se eligió continuar y la guarda; también
-## la guarda con cada ofrenda. Muestra el nombre del nivel y, un poco después, el objetivo. Lo que
-## se juntó en niveles anteriores sigue en GameState.
+## Base de los niveles: empieza o restaura la partida, la guarda y presenta su nombre y objetivo.
 
 const TITLE_DELAY_SECONDS := 1.0
 const OBJECTIVE_DELAY_SECONDS := 2.5

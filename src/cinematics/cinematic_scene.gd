@@ -1,7 +1,6 @@
 class_name CinematicScene
 extends Node3D
-## Base de las escenas de cinemática: hace caminar, hablar y girar a los personajes, mueve el auto
-## y destella el flash. Cada escena decide qué pasa al empezar cada plano en [method _on_cue].
+## Base de las escenas de cinemática: mueve a los personajes, el auto y el flash en cada plano.
 
 const IDLE := &"idle"
 const WALK := &"walk"

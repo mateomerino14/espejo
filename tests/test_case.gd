@@ -3,6 +3,8 @@ extends RefCounted
 ## Base de las pruebas: cada método test_ es una prueba y sus aserciones acumulan fallos.
 
 const DEFAULT_TOLERANCE := 0.001
+## Cuadros de física que se espera, como mucho, a que la navegación tenga camino.
+const MAX_PATH_FRAMES := 600
 
 var failures := PackedStringArray()
 var tree: SceneTree
@@ -51,7 +53,7 @@ func wait_physics_frames(count: int) -> void:
 
 ## Espera a que haya camino de [param start] a cada meta, a menos de [param tolerance].
 func wait_for_paths(
-	map: RID, start: Vector3, goals: Array[Vector3], tolerance: float, max_frames := 600
+	map: RID, start: Vector3, goals: Array[Vector3], tolerance: float, max_frames := MAX_PATH_FRAMES
 ) -> void:
 	for i in max_frames:
 		var ready := true

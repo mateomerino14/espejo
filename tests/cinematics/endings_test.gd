@@ -7,6 +7,10 @@ const ENDINGS: Array[PackedScene] = [
 	preload("res://src/cinematics/endings/ending_taken.tscn"),
 ]
 const MIRROR_SCENE := preload("res://src/world/mirror/mirror.tscn")
+const WAIT_SECONDS := 0.3
+const QUICK_STARE_SECONDS := 0.2
+## Delante del espejo, a la distancia en que mirarse cuenta.
+const STARE_SPOT := Vector3(0.0, 0.0, 1.2)
 
 
 ## Deja la partida limpia.
@@ -18,7 +22,7 @@ func after_each() -> void:
 func test_endings_start() -> void:
 	for scene in ENDINGS:
 		var ending: CinematicScene = add_to_tree(scene.instantiate())
-		await tree.create_timer(0.3).timeout
+		await tree.create_timer(WAIT_SECONDS).timeout
 		assert_true(ending.director != null, "El final %s debe arrancar" % ending.name)
 		ending.free()
 
@@ -29,11 +33,11 @@ func test_staring_at_mirror_counts() -> void:
 	var root := Node3D.new()
 	add_to_tree(root)
 	var mirror: Mirror = MIRROR_SCENE.instantiate()
-	mirror.stare_seconds = 0.2
+	mirror.stare_seconds = QUICK_STARE_SECONDS
 	root.add_child(mirror)
 	var eye := Camera3D.new()
 	root.add_child(eye)
-	eye.global_position = Vector3(0.0, 0.0, 1.2)
+	eye.global_position = STARE_SPOT
 	eye.current = true
 	await tree.create_timer(0.5).timeout
 	assert_true(GameState.mirror_stares == 1, "Debe contar una mirada")

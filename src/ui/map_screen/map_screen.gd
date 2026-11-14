@@ -1,7 +1,6 @@
 class_name MapScreen
 extends CanvasLayer
-## Mapa: Lucía lo va dibujando mientras camina; con su tecla detiene el juego y muestra por dónde
-## ya pasó, dónde está, las apachetas, los espejos que faltan tapar y la salida.
+## Mapa: pausa y muestra por dónde pasó Lucía, las apachetas, los espejos y la salida.
 
 const OBJECTIVE_FORMAT := "Objetivo: %s"
 const TITLE_FORMAT := "Mapa · %s"
