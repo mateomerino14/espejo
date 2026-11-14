@@ -1,7 +1,8 @@
 class_name PhotoCamera
 extends Node3D
 ## Cámara de Lucía: el visor revela lo que vive en los reflejos, el flash gasta batería y cada
-## foto queda en el rollo.
+## foto queda en el rollo. Cuando se acaba el rollo o la pila, carga otro de la mochila; cómo
+## quedó la cámara sigue en el nivel siguiente.
 
 signal raised_changed(is_raised: bool)
 signal battery_changed(current: float, maximum: float)
@@ -19,6 +20,10 @@ const HEADLESS_DISPLAY := "headless"
 const ADVANCE_DELAY := 0.45
 ## Y el flash empieza a cargarse para la próxima foto.
 const CHARGE_DELAY := 0.8
+## Lo que tarda en cargar un rollo o cambiar las pilas de la mochila.
+const RELOAD_DELAY := 1.2
+const FILM_NOTICE := "Cargaste un rollo nuevo"
+const BATTERY_NOTICE := "Cambiaste las pilas del flash"
 
 ## Cámara del jugador, cuya vista se acerca y revela la capa del reflejo.
 @export var camera: Camera3D
@@ -46,6 +51,8 @@ var battery := 0.0
 var film_remaining := 0
 
 var _default_fov := 0.0
+var _is_loading_film := false
+var _is_loading_batteries := false
 var _cooldown_left := 0.0
 
 @onready var _flash: SpotLight3D = $FlashLight
@@ -57,15 +64,23 @@ var _cooldown_left := 0.0
 @onready var _dry_fire: AudioStreamPlayer3D = $DryFire
 
 
-## Arranca con la batería llena, el rollo nuevo y el reflejo oculto.
+## Arranca como quedó en el nivel anterior, o con la pila llena y el rollo nuevo, y el reflejo
+## oculto.
 func _ready() -> void:
 	battery = max_battery
+	if GameState.camera_battery >= 0.0:
+		battery = GameState.camera_battery
 	film_remaining = film_capacity
+	if GameState.camera_film >= 0:
+		film_remaining = GameState.camera_film
 	_default_fov = camera.fov
 	_flash.light_energy = 0.0
 	camera.set_cull_mask_value(reveal_layer, false)
 	battery_changed.emit(battery, max_battery)
 	film_changed.emit(film_remaining, film_capacity)
+	battery_changed.connect(_remember.unbind(2))
+	film_changed.connect(_remember.unbind(2))
+	EventBus.inventory_changed.connect(_reload_from_bag.unbind(2))
 
 
 ## Acerca la vista mientras mira por el visor y descuenta la espera entre fotos.
@@ -97,12 +112,6 @@ func reset() -> void:
 	raised_changed.emit(false)
 
 
-## Suma batería al flash, sin pasarse del máximo.
-func recharge(amount: float) -> void:
-	battery = minf(battery + amount, max_battery)
-	battery_changed.emit(battery, max_battery)
-
-
 ## Dice si puede disparar: mirando por el visor, con rollo y sin esperar al flash.
 func can_shoot() -> bool:
 	return is_raised and film_remaining > 0 and _cooldown_left <= 0.0
@@ -132,6 +141,7 @@ func shoot() -> void:
 		_play_after(_flash_charge, CHARGE_DELAY)
 	EventBus.noise_emitted.emit(global_position, shutter_loudness)
 	_develop(Photo.new(has_flash, _find_captions()))
+	_reload_from_bag()
 
 
 ## Hace sonar [param sound] dentro de [param delay] segundos.
@@ -158,3 +168,38 @@ func _develop(photo: Photo) -> void:
 		photo.develop(camera.get_viewport().get_texture().get_image())
 	create_tween().tween_property(_flash, "light_energy", 0.0, FLASH_FADE_SECONDS)
 	photo_taken.emit(photo)
+
+
+## Si se acabó el rollo o la pila y hay repuesto en la mochila, lo carga al rato.
+func _reload_from_bag() -> void:
+	if film_remaining == 0 and not _is_loading_film:
+		if GameState.use_item(ItemCatalog.Type.FILM):
+			_is_loading_film = true
+			get_tree().create_timer(RELOAD_DELAY).timeout.connect(_load_film)
+	if battery < flash_cost and not _is_loading_batteries:
+		if GameState.use_item(ItemCatalog.Type.BATTERY):
+			_is_loading_batteries = true
+			get_tree().create_timer(RELOAD_DELAY).timeout.connect(_load_batteries)
+
+
+## Pone el rollo nuevo, con el ruido de la palanca.
+func _load_film() -> void:
+	_is_loading_film = false
+	film_remaining = film_capacity
+	film_changed.emit(film_remaining, film_capacity)
+	_advance.play()
+	EventBus.notice_requested.emit(FILM_NOTICE)
+
+
+## Pone las pilas nuevas, con el zumbido del flash.
+func _load_batteries() -> void:
+	_is_loading_batteries = false
+	battery = max_battery
+	battery_changed.emit(battery, max_battery)
+	_flash_charge.play()
+	EventBus.notice_requested.emit(BATTERY_NOTICE)
+
+
+## Recuerda cómo está la cámara, para el nivel siguiente.
+func _remember() -> void:
+	GameState.keep_camera(film_remaining, battery)

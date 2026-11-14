@@ -2,6 +2,8 @@ extends TestCase
 ## Pruebas de la cámara: el visor revela el reflejo, las fotos gastan rollo y el flash batería.
 
 const CAMERA_SCENE := preload("res://src/player/components/photo_camera.tscn")
+## Algo más que lo que tarda en cargar el rollo.
+const RELOAD_MARGIN_SECONDS := 0.3
 const REVEAL_LAYER := 11
 
 var _view: Camera3D
@@ -9,8 +11,9 @@ var _camera: PhotoCamera
 var _photos: Array[Photo] = []
 
 
-## Arma una cámara del jugador con su cámara de fotos, sin espera entre disparos.
+## Arma una cámara del jugador con su cámara de fotos recién cargada, sin espera entre disparos.
 func before_each() -> void:
+	GameState.reset()
 	_view = Camera3D.new()
 	_camera = CAMERA_SCENE.instantiate()
 	_camera.camera = _view
@@ -20,9 +23,10 @@ func before_each() -> void:
 	_camera.photo_taken.connect(_photos.append)
 
 
-## Libera la cámara cuando termine de avisar la última foto.
+## Libera la cámara cuando termine de avisar la última foto y limpia la partida.
 func after_each() -> void:
 	_view.queue_free()
+	GameState.reset()
 
 
 ## Levantar la cámara muestra la capa del reflejo y bajarla la oculta.
@@ -102,3 +106,17 @@ func test_clue_in_frame_counts() -> void:
 	await _camera.photo_taken
 	assert_true(GameState.clue_photos.has("prueba"), "Debe guardar la pista")
 	GameState.reset()
+
+
+## Con un rollo en la mochila, el rollo vacío se cambia solo y la cámara recuerda cómo quedó.
+func test_loads_film_from_bag() -> void:
+	_camera.film_remaining = 1
+	GameState.add_item(ItemCatalog.Type.FILM, 1)
+	_camera.set_raised(true)
+	_camera.shoot()
+	assert_true(
+		GameState.count_item(ItemCatalog.Type.FILM) == 0, "Debe sacar el rollo de la mochila"
+	)
+	await tree.create_timer(PhotoCamera.RELOAD_DELAY + RELOAD_MARGIN_SECONDS).timeout
+	assert_true(_camera.film_remaining == _camera.film_capacity, "Debe cargar el rollo nuevo")
+	assert_true(GameState.camera_film == _camera.film_capacity, "Debe recordar el rollo")

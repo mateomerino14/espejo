@@ -1,6 +1,6 @@
 extends Node
-## Partida guardada en disco (autoload "SaveGame"): el nivel, las notas leídas, el objetivo y lo
-## que decide el final.
+## Partida guardada en disco (autoload "SaveGame"): el nivel, las notas leídas, el objetivo, la
+## mochila, la cámara y lo que decide el final. Las fotos del álbum no se guardan.
 ##
 ## Se escribe al empezar cada nivel. Al continuar, el nivel se carga y toma lo pendiente.
 
@@ -13,6 +13,10 @@ const CLUES_KEY := "pistas"
 const STARES_KEY := "miradas"
 const COVERED_KEY := "espejos_tapados"
 const OBJECTIVE_KEY := "objetivo"
+const ITEMS_KEY := "mochila"
+const TOOLS_KEY := "herramientas"
+const FILM_KEY := "rollo"
+const BATTERY_KEY := "pila"
 
 var save_path := DEFAULT_PATH
 
@@ -34,6 +38,10 @@ func save(level_path: String) -> void:
 	config.set_value(SECTION, STARES_KEY, GameState.mirror_stares)
 	config.set_value(SECTION, COVERED_KEY, GameState.covered_mirrors)
 	config.set_value(SECTION, OBJECTIVE_KEY, GameState.objective)
+	config.set_value(SECTION, ITEMS_KEY, GameState.items)
+	config.set_value(SECTION, TOOLS_KEY, GameState.tools)
+	config.set_value(SECTION, FILM_KEY, GameState.camera_film)
+	config.set_value(SECTION, BATTERY_KEY, GameState.camera_battery)
 	config.save(save_path)
 
 
@@ -74,6 +82,10 @@ func restore_state(pending: Dictionary) -> void:
 	GameState.mirror_stares = pending.get(STARES_KEY, 0)
 	GameState.covered_mirrors = pending.get(COVERED_KEY, PackedStringArray())
 	GameState.objective = pending.get(OBJECTIVE_KEY, "")
+	GameState.items.assign(pending.get(ITEMS_KEY, {}))
+	GameState.tools = pending.get(TOOLS_KEY, PackedStringArray())
+	GameState.camera_film = pending.get(FILM_KEY, -1)
+	GameState.camera_battery = pending.get(BATTERY_KEY, -1.0)
 
 
 ## Entrega la partida por restaurar y la olvida.

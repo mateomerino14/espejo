@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_can"]
+albedo_color = Color(0.1, 0.1, 0.11, 1)
+roughness = 0.45
+metallic = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_cap"]
+albedo_color = Color(0.55, 0.56, 0.58, 1)
+roughness = 0.35
+metallic = 0.8
+
+[sub_resource type="StandardMaterial3D" id="Mat_film"]
+albedo_color = Color(0.32, 0.18, 0.06, 1)
+roughness = 0.4
+
+[sub_resource type="CylinderMesh" id="Can"]
+material = SubResource("Mat_can")
+top_radius = 0.0125
+bottom_radius = 0.0125
+height = 0.05
+radial_segments = 20
+rings = 1
+
+[sub_resource type="CylinderMesh" id="Cap"]
+material = SubResource("Mat_cap")
+top_radius = 0.013
+bottom_radius = 0.013
+height = 0.004
+radial_segments = 20
+rings = 1
+
+[sub_resource type="BoxMesh" id="Leader"]
+material = SubResource("Mat_film")
+size = Vector3(0.0015, 0.016, 0.022)
+
+[node name="FilmVisual" type="Node3D"]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 0, 0, 0)
+
+[node name="Can" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0.0125, 0)
+mesh = SubResource("Can")
+
+[node name="CapA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0.0125, 0.026)
+mesh = SubResource("Cap")
+
+[node name="CapB" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0.0125, -0.026)
+mesh = SubResource("Cap")
+
+[node name="Leader" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0135, 0.0125, 0.008)
+mesh = SubResource("Leader")

@@ -33,6 +33,7 @@
 [ext_resource type="PackedScene" path="res://src/world/props/rowboat.tscn" id="rowboat"]
 [ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="flicker"]
 [ext_resource type="NavigationMesh" path="res://src/world/level_04/level_04_navmesh.tres" id="navmesh"]
+[ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
 sky_top_color = Color(0.01, 0.015, 0.035, 1)
@@ -918,3 +919,17 @@ transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.0
 
 [node name="MusicDirector" parent="." node_paths=PackedStringArray("qispi") instance=ExtResource("music")]
 qispi = NodePath("../Qispi")
+
+[node name="Items" type="Node3D" parent="."]
+
+[node name="Coca" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.4, 4.528, -2.0)
+item_type = 1
+
+[node name="Candle" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4, 4.076, -24.0)
+item_type = 2
+
+[node name="Film" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.0, -0.1, -11.5)
+item_type = 4

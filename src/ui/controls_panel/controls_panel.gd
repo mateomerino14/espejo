@@ -15,6 +15,7 @@ const ROWS: Array[Array] = [
 	["Levantar la cámara (mantener)", [&"camera_raise"]],
 	["Tomar una foto", [&"camera_shoot"]],
 	["Asomarse", [&"lean_left", &"lean_right"]],
+	["Inventario", [&"inventory"]],
 	["Álbum", [&"album"]],
 	["Pausa", [&"pause"]],
 ]

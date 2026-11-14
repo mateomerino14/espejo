@@ -1,8 +1,8 @@
 class_name HintDirector
 extends Node
 ## Pide los consejos que dependen de lo que pasa en el juego: los primeros pasos, la primera cosa
-## que se puede usar, la cámara, la primera foto, el flash sin pila y cuando el Q'ispi rastrea o
-## caza.
+## que se puede usar, la cámara, la primera foto, la mochila, el flash sin pila y cuando el
+## Q'ispi rastrea o caza.
 
 const START_HINTS: Array[String] = ["caminar", "camara", "correr"]
 
@@ -13,6 +13,7 @@ func _ready() -> void:
 	EventBus.camera_raised.connect(_on_camera_raised)
 	EventBus.photo_taken.connect(_on_photo_taken.unbind(1))
 	EventBus.camera_battery_changed.connect(_on_battery_changed)
+	EventBus.inventory_changed.connect(_on_inventory_changed)
 	_start.call_deferred()
 
 
@@ -39,6 +40,12 @@ func _on_camera_raised(is_raised: bool) -> void:
 ## Después de la primera foto, dónde se guardan.
 func _on_photo_taken() -> void:
 	EventBus.hint_requested.emit("album")
+
+
+## Al guardar algo en la mochila, cómo verla.
+func _on_inventory_changed(_type: ItemCatalog.Type, count: int) -> void:
+	if count > 0:
+		EventBus.hint_requested.emit("inventario")
 
 
 ## Sin pila para el flash, que hay que buscar pilas.

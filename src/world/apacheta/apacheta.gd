@@ -1,9 +1,11 @@
 class_name Apacheta
 extends Node3D
-## Apacheta: montículo de piedras donde se deja coca y una vela para pedir permiso al lugar. Cada
-## ofrenda aquieta al Q'ispi un rato, guarda la partida y cuenta para el final.
+## Apacheta: montículo de piedras donde se deja coca y una vela para pedir permiso al lugar; Lucía
+## las tiene que llevar en la mochila. Cada ofrenda aquieta al Q'ispi un rato, guarda la partida y
+## cuenta para el final.
 
 const OFFER_PROMPT := "Dejar coca y una vela"
+const MISSING_PROMPT := "Para la ofrenda hacen falta hojas de coca y una vela"
 const DONE_PROMPT := "Tu ofrenda sigue encendida"
 const NOTICE := "Dejaste coca en la apacheta. Algo, lejos, se aquietó."
 
@@ -26,15 +28,27 @@ func _ready() -> void:
 func _build_prompt(_player: Player) -> String:
 	if GameState.has_offering(apacheta_id):
 		return DONE_PROMPT
+	if not _can_offer():
+		return MISSING_PROMPT
 	return OFFER_PROMPT
 
 
-## Deja la coca y la vela una sola vez.
+## Deja la coca y la vela una sola vez, si las lleva.
 func _on_interacted(_player: Player) -> void:
-	if GameState.has_offering(apacheta_id):
+	if GameState.has_offering(apacheta_id) or not _can_offer():
 		return
+	GameState.use_item(ItemCatalog.Type.COCA)
+	GameState.use_item(ItemCatalog.Type.CANDLE)
 	GameState.add_offering(apacheta_id)
 	_offering.visible = true
 	_sound.play()
 	EventBus.notice_requested.emit(NOTICE)
 	EventBus.offering_made.emit(global_position)
+
+
+## Dice si Lucía lleva coca y una vela.
+func _can_offer() -> bool:
+	return (
+		GameState.count_item(ItemCatalog.Type.COCA) > 0
+		and GameState.count_item(ItemCatalog.Type.CANDLE) > 0
+	)

@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_wax"]
+albedo_color = Color(0.92, 0.88, 0.78, 1)
+roughness = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_wick"]
+albedo_color = Color(0.08, 0.07, 0.06, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="Candle"]
+material = SubResource("Mat_wax")
+top_radius = 0.02
+bottom_radius = 0.021
+height = 0.16
+radial_segments = 16
+rings = 1
+
+[sub_resource type="CylinderMesh" id="Wick"]
+material = SubResource("Mat_wick")
+top_radius = 0.002
+bottom_radius = 0.002
+height = 0.015
+radial_segments = 6
+rings = 1
+
+[node name="CandleVisual" type="Node3D"]
+
+[node name="Candle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("Candle")
+
+[node name="Wick" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.167, 0)
+mesh = SubResource("Wick")
