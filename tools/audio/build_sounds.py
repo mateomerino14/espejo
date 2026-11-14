@@ -173,13 +173,6 @@ def loop(x, length, xf=2.0):
     return y
 
 
-def first_onset(x, db=-30):
-    """Muestra donde empieza a sonar algo."""
-    e = env(x, 44)
-    i = np.argmax(e > e.max() * 10 ** (db / 20))
-    return max(0, i * 44 - 100)
-
-
 def trim(x, db=-40, tail=0.05):
     """Quita el silencio de los extremos."""
     e = env(x, 44)

@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://src/world/environment_quality.gd" id="quality_r"]
 [ext_resource type="PackedScene" path="res://src/audio/music_director.tscn" id="music_r"]
 [ext_resource type="PackedScene" path="res://src/audio/ambience.tscn" id="ambience_r"]
+[ext_resource type="PackedScene" path="res://src/ui/controls_panel/controls_panel.tscn" id="controls_r"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("12_fell")
@@ -149,6 +150,12 @@ layout_mode = 2
 text = "Opciones"
 alignment = 0
 
+[node name="ControlsButton" type="Button" parent="Ui/Column/MainPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Controles"
+alignment = 0
+
 [node name="CreditsButton" type="Button" parent="Ui/Column/MainPanel"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -165,6 +172,12 @@ alignment = 0
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+
+[node name="ControlsPanel" parent="Ui/Column" instance=ExtResource("controls_r")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="CreditsPanel" type="VBoxContainer" parent="Ui/Column"]
 unique_name_in_owner = true

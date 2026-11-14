@@ -1,6 +1,6 @@
 extends TestCase
-## Pruebas de las apachetas y las pilas: la ofrenda se deja una vez, aquieta al Q'ispi y cuenta;
-## las pilas cargan el flash.
+## Pruebas de las apachetas y las pilas: la ofrenda pide coca y una vela, se deja una vez, aquieta
+## al Q'ispi y cuenta; las pilas del suelo van a la mochila.
 
 const ROOM_SCENE := preload("res://src/world/test_room/test_room.tscn")
 const APACHETA_SCENE := preload("res://src/world/apacheta/apacheta.tscn")
@@ -13,7 +13,7 @@ var _apacheta: Apacheta
 var _offerings := 0
 
 
-## Carga la sala con una apacheta.
+## Carga la sala con una apacheta y la mochila con coca y velas.
 func before_each() -> void:
 	GameState.reset()
 	_room = add_to_tree(ROOM_SCENE.instantiate())
@@ -22,6 +22,8 @@ func before_each() -> void:
 	_apacheta = APACHETA_SCENE.instantiate()
 	_apacheta.apacheta_id = "prueba"
 	_room.add_child(_apacheta)
+	GameState.add_item(ItemCatalog.Type.COCA, 2)
+	GameState.add_item(ItemCatalog.Type.CANDLE, 2)
 	EventBus.offering_made.connect(_on_offering_made)
 
 
@@ -51,14 +53,22 @@ func test_offering_calms_qispi() -> void:
 	assert_true(_qispi.is_calm(), "Debe quedar aquietado")
 
 
-## Las pilas cargan el flash y desaparecen.
-func test_batteries_recharge_flash() -> void:
-	var camera: PhotoCamera = _player.get_node("Head/Camera3D/PhotoCamera")
-	camera.battery = 0.0
-	var batteries: BatteryPickup = BATTERY_SCENE.instantiate()
+## Sin coca o sin vela no hay ofrenda.
+func test_offering_needs_coca_and_candle() -> void:
+	GameState.items.clear()
+	GameState.add_item(ItemCatalog.Type.COCA, 1)
+	_apacheta.get_node("Interactable").interact(_player)
+	assert_true(GameState.offerings.is_empty(), "Sin vela no se deja la ofrenda")
+	assert_true(GameState.count_item(ItemCatalog.Type.COCA) == 1, "La coca no se gasta")
+
+
+## Las pilas del suelo van a la mochila y desaparecen.
+func test_batteries_go_to_bag() -> void:
+	GameState.items.clear()
+	var batteries: ItemPickup = BATTERY_SCENE.instantiate()
 	_room.add_child(batteries)
 	batteries.get_node("Interactable").interact(_player)
-	assert_almost_eq(camera.battery, batteries.charge, "Debe cargar el flash")
+	assert_true(GameState.count_item(ItemCatalog.Type.BATTERY) == 1, "Debe guardar las pilas")
 	await tree.process_frame
 	assert_false(is_instance_valid(batteries), "Las pilas deben desaparecer")
 

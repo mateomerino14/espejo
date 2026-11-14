@@ -1,6 +1,7 @@
 extends Node
-## Estado de la partida (autoload "GameState"): las notas que Lucía ya leyó y lo que decide el
-## final: las ofrendas que dejó, las fotos que guardan pistas y cuánto se quedó mirando espejos.
+## Estado de la partida (autoload "GameState"): las notas que Lucía ya leyó, el objetivo, la
+## mochila, la cámara, el álbum y lo que decide el final: las ofrendas que dejó, las fotos que
+## guardan pistas y cuánto se quedó mirando espejos.
 
 ## Cómo termina la historia.
 enum Ending { RETURNED, DEAL, TAKEN }
@@ -9,6 +10,8 @@ enum Ending { RETURNED, DEAL, TAKEN }
 const TOTAL_OFFERINGS := 4
 ## Fotos de pistas que hacen falta para entender qué es el Q'ispi.
 const REQUIRED_CLUES := 3
+## Lado de cada celda del mapa, en metros.
+const MAP_CELL := 1.0
 ## Con menos ofrendas que esto el salar no la deja ir.
 const MIN_OFFERINGS := 2
 ## Veces que puede quedarse mirando un espejo antes de que el ente aprenda su cara.
@@ -21,6 +24,23 @@ var clue_photos := PackedStringArray()
 var mirror_stares := 0
 ## Espejos que Lucía ya tapó, para que sigan tapados al continuar.
 var covered_mirrors := PackedStringArray()
+## Lo que Lucía tiene que hacer ahora.
+var objective := ""
+## Lo que lleva en la mochila: cuántas de cada tipo, por ItemCatalog.Type.
+var items: Dictionary[int, int] = {}
+## Lo que lleva para abrir caminos, por su nombre visible, como "la llave del hostal".
+var tools := PackedStringArray()
+## Fotos que quedan en el rollo de la cámara y carga del flash; negativas con la cámara recién
+## cargada, como al empezar la noche.
+var camera_film := -1
+var camera_battery := -1.0
+## Fotos del álbum, que viajan de un nivel a otro.
+var photos: Array[Photo] = []
+## Lo que ya pasó en el nivel actual (puertas abiertas, herramientas recogidas, sustos), para que
+## no se repita al continuar.
+var done := PackedStringArray()
+## Celdas del nivel actual que Lucía ya recorrió, para el mapa.
+var explored: Dictionary[Vector2i, bool] = {}
 
 
 ## Recuerda que Lucía leyó una nota.
@@ -62,6 +82,89 @@ func mark_mirror_covered(mirror_id: String) -> void:
 		covered_mirrors.append(mirror_id)
 
 
+## Cuántas cosas de ese tipo lleva.
+func count_item(type: ItemCatalog.Type) -> int:
+	return items.get(type, 0)
+
+
+## Guarda en la mochila lo que quepa y devuelve cuántas guardó.
+func add_item(type: ItemCatalog.Type, amount: int) -> int:
+	var added := mini(amount, ItemCatalog.max_stack(type) - count_item(type))
+	if added <= 0:
+		return 0
+	items[type] = count_item(type) + added
+	EventBus.inventory_changed.emit(type, items[type])
+	return added
+
+
+## Gasta una cosa de ese tipo si la tiene; dice si pudo.
+func use_item(type: ItemCatalog.Type) -> bool:
+	if count_item(type) <= 0:
+		return false
+	items[type] = count_item(type) - 1
+	EventBus.inventory_changed.emit(type, items[type])
+	return true
+
+
+## Anota como recorridas las celdas a menos de [param reach] metros de [param point].
+func explore_around(point: Vector3, reach: float) -> void:
+	var cells := ceili(reach / MAP_CELL)
+	var center := map_cell(point)
+	for x in range(-cells, cells + 1):
+		for z in range(-cells, cells + 1):
+			if Vector2(x, z).length() <= cells:
+				explored[center + Vector2i(x, z)] = true
+
+
+## Celda del mapa donde cae un punto.
+static func map_cell(point: Vector3) -> Vector2i:
+	return Vector2i(floori(point.x / MAP_CELL), floori(point.z / MAP_CELL))
+
+
+## Guarda una herramienta.
+func add_tool(tool_name: String) -> void:
+	if not tool_name in tools:
+		tools.append(tool_name)
+
+
+## Dice si lleva esa herramienta.
+func has_tool(tool_name: String) -> bool:
+	return tool_name in tools
+
+
+## Gasta una herramienta.
+func use_tool(tool_name: String) -> void:
+	var index := tools.find(tool_name)
+	if index >= 0:
+		tools.remove_at(index)
+
+
+## Anota que algo del nivel ya pasó.
+func mark_done(id: String) -> void:
+	if not id.is_empty() and not id in done:
+		done.append(id)
+
+
+## Dice si algo del nivel ya pasó.
+func is_done(id: String) -> bool:
+	return id in done
+
+
+## Olvida lo que era de un nivel: herramientas, lo que ya pasó y el mapa. Se usa al empezar otro.
+func start_level() -> void:
+	tools.clear()
+	done.clear()
+	explored.clear()
+
+
+## Cambia el objetivo y avisa, solo si es otro.
+func set_objective(text: String) -> void:
+	if text == objective:
+		return
+	objective = text
+	EventBus.objective_changed.emit(text)
+
+
 ## Elige el final según lo que hizo Lucía en toda la noche.
 func choose_ending() -> Ending:
 	if offerings.size() < MIN_OFFERINGS or mirror_stares >= MAX_MIRROR_STARES:
@@ -78,3 +181,11 @@ func reset() -> void:
 	clue_photos.clear()
 	mirror_stares = 0
 	covered_mirrors.clear()
+	objective = ""
+	items.clear()
+	tools.clear()
+	camera_film = -1
+	camera_battery = -1.0
+	photos.clear()
+	done.clear()
+	explored.clear()

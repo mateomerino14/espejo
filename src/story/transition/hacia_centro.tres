@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TransitionData" format=3]
+
+[ext_resource type="Script" path="res://src/story/transition/transition_data.gd" id="1_data"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/lucia_transito_centro.ogg" id="2_line"]
+
+[resource]
+script = ExtResource("1_data")
+line_audio = ExtResource("2_line")
+line_text = "Algo a cambio, dijo Don Celestino. ¿Y si lo único que tengo es mi cara?"
+has_rain = false
+is_dawn = true
+horizon = 0
+is_boat = true
+shows_qispi = true

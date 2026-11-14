@@ -1,5 +1,6 @@
 extends TestCase
-## Pruebas del HUD: la barra de aliento, lo que se puede usar al frente y los avisos.
+## Pruebas del HUD: la barra de aliento, lo que se puede usar al frente, los avisos, el nombre del
+## nivel y el objetivo.
 
 const HUD_SCENE := preload("res://src/ui/hud/hud.tscn")
 const MAX_STAMINA := 100.0
@@ -59,3 +60,26 @@ func test_shows_notice() -> void:
 func _wait_frames(count: int) -> void:
 	for i in count:
 		await tree.process_frame
+
+
+## El nombre del nivel aparece abajo a la izquierda.
+func test_shows_level_title() -> void:
+	EventBus.level_title_requested.emit("Nivel 1 · Prueba")
+	await _wait_frames(FADE_FRAMES)
+	var title: Label = _hud.get_node("%TitleLabel")
+	assert_true(title.text == "Nivel 1 · Prueba", "Debe mostrar el nombre del nivel")
+	assert_true(title.modulate.a > 0.0, "El nombre debe verse")
+
+
+## Un objetivo nuevo se anuncia con su sonido; repetirlo no lo vuelve a anunciar.
+func test_announces_new_objective() -> void:
+	GameState.objective = ""
+	GameState.set_objective("Tapa los espejos")
+	var label: Label = _hud.get_node("%ObjectiveLabel")
+	var sound: AudioStreamPlayer = _hud.get_node("%ObjectiveSound")
+	assert_true(label.text == "Tapa los espejos", "Debe mostrar el objetivo")
+	assert_true(sound.playing, "Debe sonar el aviso")
+	sound.stop()
+	GameState.set_objective("Tapa los espejos")
+	assert_false(sound.playing, "El mismo objetivo no se anuncia otra vez")
+	GameState.objective = ""

@@ -8,6 +8,8 @@ const REREAD_PROMPT := "Volver a leer: %s"
 @export var note: NoteData
 ## Texto escrito en una pared; si se asigna, muestra el cuerpo de la nota.
 @export var wall_text: Label3D
+## Objetivo que da la primera vez que se lee; vacío para no cambiarlo.
+@export var objective_after := ""
 
 @onready var _interactable: Interactable = $Interactable
 
@@ -27,7 +29,10 @@ func _build_prompt(_player: Player) -> String:
 	return READ_PROMPT % note.title
 
 
-## Marca la nota como leída y pide mostrarla.
+## Marca la nota como leída, pide mostrarla y, la primera vez, da su objetivo.
 func _on_interacted(_player: Player) -> void:
+	var is_first_read := not GameState.has_read_note(note.id)
 	GameState.mark_note_read(note.id)
 	EventBus.note_opened.emit(note)
+	if is_first_read and not objective_after.is_empty():
+		GameState.set_objective(objective_after)

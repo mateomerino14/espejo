@@ -19,9 +19,9 @@ func test_credits_text() -> void:
 	menu.free()
 
 
-## Las licencias nombran la voz con CC BY-SA y se empaquetan con el juego.
+## Las licencias nombran con qué se hicieron las voces y se empaquetan con el juego.
 func test_licenses_ship_with_game() -> void:
 	var licenses := FileAccess.get_file_as_string(LICENSES_PATH)
-	assert_true(licenses.contains("CC BY-SA 4.0"), "La voz de Lucía lleva su licencia")
+	assert_true(licenses.contains("Chatterbox"), "Las voces llevan su licencia")
 	var workflow := FileAccess.get_file_as_string(RELEASE_WORKFLOW)
 	assert_true(workflow.contains("docs/LICENCIAS.txt"), "La publicación copia las licencias")

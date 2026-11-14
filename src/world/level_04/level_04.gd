@@ -6,7 +6,8 @@ extends GameLevel
 
 ## Lo que el Q'ispi sigue quieto después de que Don Celestino termina.
 const TALK_MARGIN_SECONDS := 10.0
-const OPEN_NOTICE := "Don Celestino te deja su bote, en la orilla oeste."
+const OPEN_NOTICE := "Don Celestino te deja su bote. Los remos están en la ladera norte."
+const BOAT_OBJECTIVE := "Don Celestino dejó los remos entre los cardones de la ladera norte"
 
 @export var celestino: TalkingNpc
 @export var exit: LevelExit
@@ -26,9 +27,10 @@ func _on_conversation_started(seconds: float) -> void:
 	qispi.calm_for(seconds + TALK_MARGIN_SECONDS)
 
 
-## La primera vez que termina, abre la salida y avisa dónde está el bote.
+## La primera vez que termina, abre la salida, avisa dónde está el bote y lo da de objetivo.
 func _on_conversation_finished() -> void:
 	if exit.is_open:
 		return
 	exit.is_open = true
 	EventBus.notice_requested.emit(OPEN_NOTICE)
+	GameState.set_objective(BOAT_OBJECTIVE)

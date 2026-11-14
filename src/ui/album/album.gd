@@ -1,13 +1,13 @@
 class_name Album
 extends CanvasLayer
-## Álbum de fotos: guarda lo que llega del rollo y se hojea con pausa, una foto a la vez.
+## Álbum de fotos: guarda lo que llega del rollo y se hojea con pausa, una foto a la vez. Las fotos
+## viven en GameState, así que siguen de un nivel a otro.
 
 const EMPTY_TEXT := "Todavía no tomaste ninguna foto"
 const NO_CAPTION_TEXT := "No se ve nada fuera de lo común"
 const COUNTER_FORMAT := "%d / %d"
 const CAPTION_SEPARATOR := "\n"
 
-var photos: Array[Photo] = []
 var current := 0
 
 @onready var _image: TextureRect = %Image
@@ -44,13 +44,14 @@ func set_open(is_open: bool) -> void:
 	get_tree().paused = is_open
 	if is_open:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		show_photo(photos.size() - 1)
+		show_photo(GameState.photos.size() - 1)
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 ## Muestra la foto indicada, sin salirse del rollo.
 func show_photo(index: int) -> void:
+	var photos := GameState.photos
 	if photos.is_empty():
 		_image.texture = null
 		_caption.text = EMPTY_TEXT
@@ -65,6 +66,6 @@ func show_photo(index: int) -> void:
 	_counter.text = COUNTER_FORMAT % [current + 1, photos.size()]
 
 
-## Guarda la foto nueva al final del álbum.
+## Guarda la foto nueva al final del álbum, que sigue en los niveles siguientes.
 func _on_photo_taken(photo: Photo) -> void:
-	photos.append(photo)
+	GameState.photos.append(photo)

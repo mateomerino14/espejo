@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TransitionData" format=3]
+
+[ext_resource type="Script" path="res://src/story/transition/transition_data.gd" id="1_data"]
+[ext_resource type="AudioStream" path="res://assets/audio/voices/lucia_transito_trenes.ogg" id="2_line"]
+
+[resource]
+script = ExtResource("1_data")
+line_audio = ExtResource("2_line")
+line_text = "Tapé todos los espejos... pero afuera, el agua también es un espejo."
+has_rain = false
+is_dawn = false
+horizon = 1
+is_boat = false
+shows_qispi = true

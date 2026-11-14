@@ -33,6 +33,11 @@
 [ext_resource type="PackedScene" path="res://src/world/props/rowboat.tscn" id="rowboat"]
 [ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="flicker"]
 [ext_resource type="NavigationMesh" path="res://src/world/level_04/level_04_navmesh.tres" id="navmesh"]
+[ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
+[ext_resource type="Resource" path="res://src/story/transition/hacia_centro.tres" id="transition_r"]
+[ext_resource type="PackedScene" path="res://src/items/tool_pickup/tool_pickup.tscn" id="tool_pickup_r"]
+[ext_resource type="PackedScene" path="res://src/items/visuals/oars.tscn" id="oars_r"]
+[ext_resource type="PackedScene" path="res://src/enemies/encounters/qispi_ambush.tscn" id="ambush_r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
 sky_top_color = Color(0.01, 0.015, 0.035, 1)
@@ -171,6 +176,9 @@ buffer = PackedFloat32Array(-0.9170, 0.0000, -0.3616, 20.0000, 0.0000, 0.9857, 0
 
 [node name="Level04" type="Node3D" node_paths=PackedStringArray("celestino", "exit", "qispi")]
 script = ExtResource("level")
+title = "Nivel 4 · La isla Incahuasi"
+objective = "Sube a la cima de la isla"
+map_reach = 8.0
 celestino = NodePath("Celestino")
 exit = NodePath("Exit")
 qispi = NodePath("Qispi")
@@ -887,6 +895,9 @@ transform = Transform3D(0.0000, 0, 1.0000, 0, 1.0000, 0, -1.0000, 0, 0.0000, -33
 message = "Subes al bote y remas hacia el centro del salar. El agua está quieta, como un espejo."
 closed_message = "Un bote amarrado. Antes, alguien en la cima de la isla tiene algo que decirte."
 next_level_path = "res://src/world/level_05/level_05.tscn"
+transition = ExtResource("transition_r")
+required_tool = "los remos"
+missing_message = "El bote no tiene remos: Don Celestino los dejó en la ladera norte"
 
 [node name="Qispi" parent="." instance=ExtResource("qispi")]
 transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.000, 2.807, -32.000)
@@ -916,3 +927,30 @@ transform = Transform3D(1.0000, 0, 0.0000, 0, 1.0000, 0, -0.0000, 0, 1.0000, 4.0
 
 [node name="MusicDirector" parent="." node_paths=PackedStringArray("qispi") instance=ExtResource("music")]
 qispi = NodePath("../Qispi")
+
+[node name="Items" type="Node3D" parent="."]
+
+[node name="Coca" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.4, 4.528, -2.0)
+item_type = 1
+
+[node name="Candle" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4, 4.076, -24.0)
+item_type = 2
+
+[node name="Film" parent="Items" instance=ExtResource("item_pickup_r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.0, -0.1, -11.5)
+item_type = 4
+
+[node name="Oars" parent="." instance=ExtResource("tool_pickup_r")]
+transform = Transform3D(0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, -2.8, 1.85, -34.0)
+tool_name = "los remos"
+visual = ExtResource("oars_r")
+objective_after = "Baja al bote de Don Celestino, en la orilla oeste"
+
+[node name="SlopeAmbush" parent="." node_paths=PackedStringArray("qispi") instance=ExtResource("ambush_r")]
+transform = Transform3D(1.0, 0, 0.0, 0, 1, 0, -0.0, 0, 1.0, 0, 3.22, -30)
+done_id = "nivel4_emboscada_ladera"
+qispi = NodePath("../Qispi")
+spawn_offset = Vector3(4, -0.4, -2)
+after_objective = "Don Celestino dejó los remos entre los cardones de la ladera norte"

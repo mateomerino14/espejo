@@ -1,4 +1,5 @@
-"""Genera los sonidos del ente y el crujido de las puertas con síntesis simple.
+"""Genera los sonidos del ente, el crujido de las puertas, el aviso de objetivo y el golpe de susto
+con síntesis simple.
 
 Uso: python3 tools/generate_sounds.py assets/audio
 """
@@ -81,6 +82,30 @@ def creak():
     return body * envelope
 
 
+def chime():
+    """Aviso de objetivo: un soplo que crece y una campana de vidrio que se apaga despacio."""
+    swish_t = seconds(0.18)
+    swish = rng.standard_normal(len(swish_t)) * (swish_t / swish_t[-1]) ** 2 * 0.2
+    t = seconds(3.0)
+    root = 233.1
+    partials = [(1.0, 1.0, 1.5), (2.0, 0.4, 2.2), (2.92, 0.35, 3.0), (4.16, 0.2, 4.2), (5.43, 0.1, 6.0)]
+    bell = sum(a * np.exp(-t * d) * np.sin(2 * np.pi * root * r * t) for r, a, d in partials)
+    bell *= np.minimum(t / 0.004, 1.0)
+    return np.concatenate([swish, bell])
+
+
+def sting():
+    """Golpe de susto para cuando el Q'ispi aparece de golpe: cuerdas disonantes y un golpe grave."""
+    t = seconds(3.0)
+    notes = [146.8, 155.6, 207.7, 220.0, 311.1]
+    strings = sum(np.sin(2 * np.pi * f * t + rng.uniform(0, 6.28)) * (1 + 0.3 * np.sin(2 * np.pi * 6 * t))
+                  for f in notes) / len(notes)
+    bow = rng.standard_normal(len(t)) * 0.05
+    drum = np.sin(2 * np.pi * (60 - 20 * np.minimum(t, 0.5)) * t) * np.exp(-t * 6.0)
+    envelope = np.exp(-t * 1.4) * np.minimum(t / 0.01, 1.0)
+    return np.tanh(((strings + bow) * 0.9 * envelope + drum * 1.2) * 1.5)
+
+
 def write(path, signal, gain):
     """Normaliza y guarda la señal como WAV mono de 16 bits."""
     signal = signal / (np.abs(signal).max() + 1e-9) * gain
@@ -100,6 +125,8 @@ def main():
     write(folder / "qispi_stunned.wav", stunned(), 0.8)
     write(folder / "qispi_scream.wav", scream(), 0.95)
     write(folder / "door_creak.wav", creak(), 0.6)
+    write(folder / "objective_chime.wav", chime(), 0.8)
+    write(folder / "qispi_sting.wav", sting(), 0.85)
     print("sonidos generados")
 
 

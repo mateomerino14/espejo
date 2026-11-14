@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" path="res://assets/audio/footstep_dirt_2.wav" id="4_scrape"]
 [ext_resource type="ArrayMesh" path="res://assets/models/island/boulder_0.obj" id="5_boulder"]
 [ext_resource type="ArrayMesh" path="res://assets/models/island/boulder_1.obj" id="6_boulder"]
+[ext_resource type="Script" path="res://src/story/hint_trigger/hint_trigger.gd" id="hint_trigger_r"]
 
 [sub_resource type="BoxShape3D" id="Shape_body"]
 size = Vector3(3.2, 2.6, 1.8)
@@ -69,3 +70,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0.3)
 stream = ExtResource("4_scrape")
 volume_db = -4.0
 bus = &"Efectos"
+
+[node name="HintTrigger" type="Area3D" parent="."]
+script = ExtResource("hint_trigger_r")
+hint_id = "escondite"
+radius = 2.5

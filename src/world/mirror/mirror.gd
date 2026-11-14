@@ -17,9 +17,12 @@ const FRAME_DEPTH := 0.04
 const GLASS_GAP := 0.005
 const GROUP := &"mirrors"
 const COVER_PROMPT := "Tapar el espejo con una manta"
+const NO_BLANKET_PROMPT := "Para taparlo hace falta una manta"
 ## La manta cuelga un poco más grande que el marco y apenas por delante.
 const COVER_MARGIN := 0.08
 const COVER_DEPTH := 0.03
+## Fondo del área donde se puede tapar el espejo, delante del vidrio.
+const COVER_REACH_DEPTH := 0.3
 
 ## Ancho y alto del vidrio en metros; el vidrio mira hacia +Z.
 @export var size := Vector2(1.0, 1.6)
@@ -66,8 +69,8 @@ func _ready() -> void:
 	_cover.mesh = DrapedCloth.build(cloth_size, hash(name))
 	_cover.position.z = COVER_DEPTH
 	var reach := _interactable.get_child(0) as CollisionShape3D
-	(reach.shape as BoxShape3D).size = Vector3(size.x, size.y, COVER_DEPTH * 10.0)
-	_interactable.prompt = COVER_PROMPT
+	(reach.shape as BoxShape3D).size = Vector3(size.x, size.y, COVER_REACH_DEPTH)
+	_interactable.set_prompt_builder(_build_prompt)
 	_interactable.interacted.connect(_on_interacted)
 	_show_cover()
 	add_to_group(GROUP)
@@ -143,6 +146,14 @@ func _show_cover() -> void:
 		_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
 
 
-## Lucía lo tapa.
+## Ofrece taparlo si Lucía lleva una manta; si no, cuenta que le falta.
+func _build_prompt(_player: Player) -> String:
+	if GameState.count_item(ItemCatalog.Type.BLANKET) > 0:
+		return COVER_PROMPT
+	return NO_BLANKET_PROMPT
+
+
+## Lucía lo tapa con una de sus mantas.
 func _on_interacted(_player: Player) -> void:
-	cover()
+	if GameState.use_item(ItemCatalog.Type.BLANKET):
+		cover()

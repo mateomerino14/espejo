@@ -48,3 +48,15 @@ signal subtitle_requested(text: String, seconds: float)
 
 ## Lucía abrió una nota para leerla.
 signal note_opened(note: NoteData)
+
+## Pide mostrar un consejo de controles, por su identificador en HintCatalog.
+signal hint_requested(id: String)
+
+## Pide mostrar el nombre del nivel abajo a la izquierda.
+signal level_title_requested(title: String)
+
+## Cambió lo que Lucía tiene que hacer: el HUD lo anuncia arriba a la izquierda con un sonido.
+signal objective_changed(text: String)
+
+## Cambió cuántas cosas de un tipo lleva Lucía en la mochila.
+signal inventory_changed(type: ItemCatalog.Type, count: int)

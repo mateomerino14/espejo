@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://src/interaction/interactable.gd" id="2_interactable"]
 [ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="3_flicker"]
 [ext_resource type="AudioStream" path="res://assets/audio/paper_pick.wav" id="4_sound"]
+[ext_resource type="Script" path="res://src/story/hint_trigger/hint_trigger.gd" id="hint_trigger_r"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_stone"]
 albedo_color = Color(0.42, 0.39, 0.36, 1)
@@ -212,3 +213,8 @@ script = ExtResource("3_flicker")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 stream = ExtResource("4_sound")
 bus = &"Efectos"
+
+[node name="HintTrigger" type="Area3D" parent="."]
+script = ExtResource("hint_trigger_r")
+hint_id = "apacheta"
+radius = 3.0

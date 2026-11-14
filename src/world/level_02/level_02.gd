@@ -5,6 +5,7 @@ extends GameLevel
 
 const LEFT_NOTICE := "Espejos sin tapar: %d"
 const DONE_NOTICE := "Tapaste todos los espejos. La puerta principal ya no está trabada."
+const DONE_OBJECTIVE := "Sal del hostal por la puerta principal"
 
 @export var front_door: CardonDoor
 ## Nodo cuyos hijos son los espejos que hay que tapar.
@@ -34,7 +35,8 @@ func uncovered_count() -> int:
 	return count
 
 
-## Recuerda el espejo tapado, avisa cuántos faltan y abre la puerta con el último.
+## Recuerda el espejo tapado, avisa cuántos faltan y, con el último, abre la puerta y da el
+## objetivo de salir.
 func _on_mirror_covered(mirror: Mirror) -> void:
 	GameState.mark_mirror_covered(mirror.name)
 	var left := uncovered_count()
@@ -43,3 +45,4 @@ func _on_mirror_covered(mirror: Mirror) -> void:
 		return
 	front_door.is_locked = false
 	EventBus.notice_requested.emit(DONE_NOTICE)
+	GameState.set_objective(DONE_OBJECTIVE)

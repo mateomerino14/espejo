@@ -19,9 +19,13 @@ Los pasos de uso están al principio del script. El grito, el aturdimiento del e
 
 ## Voces
 
-`build_voices.py` genera lo que dicen los personajes con [Piper](https://github.com/rhasspy/piper), una síntesis de voz que corre en la computadora. Javier usa la voz `es_MX-ald-medium` (dominio público) un poco más grave, y Lucía usa `es_AR-daniela-high`, entrenada con un corpus CC BY-SA 4.0, por lo que sus audios llevan esa misma licencia y van en los créditos. Don Celestino usa `es_MX-claude-high` (Apache 2.0), más grave y lento. Las líneas y su texto están al principio del script; el subtítulo de cada plano repite el mismo texto.
+`tools/generate_voices.py` genera lo que dicen los personajes con [Chatterbox Multilingual](https://github.com/resemble-ai/chatterbox): cada personaje imita su muestra de timbre de `tools/audio_sources/voice_refs` y actúa la línea con la emoción que le toca; [faster-whisper](https://github.com/SYSTRAN/faster-whisper) escucha cada toma y se queda con la que mejor se entiende. Las líneas, su texto, su emoción y su efecto (agua, la otra Lucía o una voz robada) están al principio del script; el subtítulo de cada plano repite el mismo texto.
+
+Las muestras de timbre salen de [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) con `tools/audio/build_voice_refs.py`: Lucía con `ef_dora`, Doña Rosa con la misma más grave, Javier con `em_alex` y Don Celestino con `em_santa`.
 
 ```bash
-pip install piper-tts
-python3 tools/audio/build_voices.py <carpeta_con_los_onnx> assets/audio/voices
+pip install chatterbox-tts faster-whisper kokoro soundfile "setuptools<70"
+python3 tools/audio/build_voice_refs.py
+python3 tools/generate_voices.py            # todas
+python3 tools/generate_voices.py celestino_2  # solo esas
 ```
