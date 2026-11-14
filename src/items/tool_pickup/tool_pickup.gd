@@ -1,7 +1,6 @@
 class_name ToolPickup
 extends Node3D
-## Algo que abre el camino, como una llave o los remos del bote. No va a la mochila con lo demás:
-## se lleva hasta que se usa.
+## Herramienta que abre el camino, como una llave o los remos; se lleva hasta usarla.
 
 const PICK_PROMPT := "Recoger %s"
 const PICKED_NOTICE := "Recogiste %s"

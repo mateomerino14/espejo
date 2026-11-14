@@ -1,11 +1,14 @@
 extends TestCase
-## Pruebas de los escondites: Lucía entra y sale, el Q'ispi no la ve adentro y, si la vio entrar,
-## sabe dónde buscar.
+## Pruebas de los escondites: entrar, salir y que el Q'ispi sepa dónde buscar.
 
 const ROOM_SCENE := preload("res://src/world/test_room/test_room.tscn")
 const WARDROBE_SCENE := preload("res://src/world/hiding_spot/wardrobe.tscn")
 const WARDROBE_SPOT := Vector3(-3.0, 0.0, 3.0)
 const SETTLE_FRAMES := 5
+const QUICK_MOVE_SECONDS := 0.05
+const MOVE_WAIT_SECONDS := 0.2
+const INSIDE_TOLERANCE := 0.05
+const FRONT_TOLERANCE := 0.25
 
 var _room: Node3D
 var _player: Player
@@ -20,7 +23,7 @@ func before_each() -> void:
 	_qispi = _room.get_node("Qispi")
 	_qispi.set_physics_process(false)
 	_wardrobe = WARDROBE_SCENE.instantiate()
-	_wardrobe.move_seconds = 0.05
+	_wardrobe.move_seconds = QUICK_MOVE_SECONDS
 	_room.add_child(_wardrobe)
 	_wardrobe.global_position = WARDROBE_SPOT
 	_player.global_position = _wardrobe.get_exit_transform().origin
@@ -34,23 +37,25 @@ func after_each() -> void:
 ## Al esconderse queda adentro, sin cuerpo que choque, y el ropero sabe que está ocupado.
 func test_hides_inside() -> void:
 	_player.hide_in(_wardrobe)
-	await tree.create_timer(0.2).timeout
+	await tree.create_timer(MOVE_WAIT_SECONDS).timeout
 	assert_true(_player.is_hidden(), "Debe estar escondida")
 	assert_true(_wardrobe.occupant == _player, "El ropero debe saber que está ocupado")
 	var inside := _wardrobe.get_inside_transform().origin
-	assert_true(_player.global_position.distance_to(inside) < 0.05, "Debe quedar adentro")
+	assert_true(
+		_player.global_position.distance_to(inside) < INSIDE_TOLERANCE, "Debe quedar adentro"
+	)
 
 
 ## Al salir vuelve a quedar delante y libre.
 func test_leaves_hiding() -> void:
 	_player.hide_in(_wardrobe)
-	await tree.create_timer(0.2).timeout
+	await tree.create_timer(MOVE_WAIT_SECONDS).timeout
 	_player.leave_hiding()
-	await tree.create_timer(0.2).timeout
+	await tree.create_timer(MOVE_WAIT_SECONDS).timeout
 	assert_false(_player.is_hidden(), "Ya no debe estar escondida")
 	assert_true(_wardrobe.occupant == null, "El ropero debe quedar libre")
 	var offset := _wardrobe.get_exit_transform().origin - _player.global_position
-	assert_true(Vector2(offset.x, offset.z).length() < 0.25, "Debe quedar delante")
+	assert_true(Vector2(offset.x, offset.z).length() < FRONT_TOLERANCE, "Debe quedar delante")
 
 
 ## Escondida, la vista del ente no la ve aunque esté encima.

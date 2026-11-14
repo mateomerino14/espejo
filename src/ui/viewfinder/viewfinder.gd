@@ -1,7 +1,6 @@
 class_name Viewfinder
 extends CanvasLayer
-## Pantalla del visor: aparece al levantar la cámara con su marco, fotos restantes y batería, y
-## destella al disparar con flash.
+## Pantalla del visor: marco, fotos restantes y batería, y un destello al disparar con flash.
 
 const SHOWN_ALPHA := 1.0
 const HIDDEN_ALPHA := 0.0

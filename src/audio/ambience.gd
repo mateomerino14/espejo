@@ -1,7 +1,6 @@
 class_name Ambience
 extends Node3D
-## Fondo del salar: el viento no para y, de vez en cuando, la sal cruje o cae una gota cerca de
-## quien escucha.
+## Fondo del salar: viento constante y, de vez en cuando, sal que cruje o una gota cerca.
 
 @export_group("Acentos")
 @export var min_wait := 6.0

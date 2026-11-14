@@ -1,7 +1,6 @@
 class_name CaughtReaction
 extends Node
-## Susto al ser atrapada: la vista gira a la cara del ente, que se ve aunque no se mire por el
-## visor, se acerca, tiembla y suena su grito.
+## Susto al ser atrapada: la vista gira a la cara del ente, se acerca, tiembla y suena su grito.
 
 ## El temblor vertical va a otro ritmo que el horizontal para que no parezca un círculo.
 const SHAKE_VERTICAL_RATIO := 1.3

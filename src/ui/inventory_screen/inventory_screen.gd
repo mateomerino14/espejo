@@ -1,7 +1,6 @@
 class_name InventoryScreen
 extends CanvasLayer
-## Inventario: detiene el juego y muestra la mochila de Lucía con el dibujo de cada cosa, qué es y
-## para qué sirve; también la cámara, las herramientas, el objetivo y las fotos de pistas.
+## Inventario: pausa y muestra la mochila, la cámara, el objetivo y las fotos de pistas.
 
 const SLOT_SCENE := preload("res://src/ui/inventory_screen/inventory_slot.tscn")
 const OBJECTIVE_FORMAT := "Objetivo: %s"

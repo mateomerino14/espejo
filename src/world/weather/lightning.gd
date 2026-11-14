@@ -1,7 +1,6 @@
 class_name Lightning
 extends Node3D
-## Relámpagos sobre el salar: un destello que ilumina todo y el trueno que llega después, antes si
-## cayó cerca.
+## Relámpagos sobre el salar: un destello que ilumina todo y el trueno después.
 
 ## Pulsos del destello: fracción del máximo y segundos que tarda en llegar.
 const PULSES: Array[Vector2] = [

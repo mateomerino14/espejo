@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del mapa: el piso sale de la malla de navegación, se dibuja solo lo recorrido, marca la
-## apacheta, los espejos sin tapar y la salida, pausa el juego y lo recorrido vuelve al continuar.
+## Pruebas del mapa: el piso, lo recorrido, las marcas, la pausa y el guardado.
 
 const LEVEL_SCENE := preload("res://src/world/level_02/level_02.tscn")
 const SETTLE_FRAMES := 10

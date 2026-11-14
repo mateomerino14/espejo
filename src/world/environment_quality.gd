@@ -1,7 +1,6 @@
 class_name EnvironmentQuality
 extends WorldEnvironment
-## Ambiente que sigue el ajuste de calidad: en baja apaga la iluminación global, la luz rebotada
-## y la niebla volumétrica, que son lo que más pide a la tarjeta de video.
+## Ambiente que sigue el ajuste de calidad: en baja apaga los efectos de luz y niebla más caros.
 
 
 ## Aplica la calidad guardada y la vuelve a aplicar cuando cambia.

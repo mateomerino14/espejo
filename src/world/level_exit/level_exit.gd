@@ -1,7 +1,6 @@
 class_name LevelExit
 extends Area3D
-## Salida del nivel: al cruzarla avisa a la jugadora y pasa al nivel siguiente, con su tránsito si
-## tiene uno. Mientras está cerrada, solo recuerda qué falta.
+## Salida del nivel: si se cumple lo que pide, pasa al nivel siguiente con su tránsito.
 
 @export var message := "Saliste del nivel"
 ## Escena del siguiente nivel; vacía mientras no exista.

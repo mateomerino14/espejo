@@ -1,7 +1,6 @@
 class_name ItemPickup
 extends Node3D
-## Algo que Lucía recoge del suelo para la mochila: coca, velas, mantas, rollos o pilas. Si no le
-## cabe, lo deja donde está.
+## Algo que Lucía recoge para la mochila; lo que no le cabe se queda en el suelo.
 
 const PICK_PROMPT := "Recoger %s"
 const PICKED_NOTICE := "Recogiste %s"

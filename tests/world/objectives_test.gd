@@ -1,7 +1,5 @@
 extends TestCase
-## Pruebas de lo que abre las salidas: herramientas, puertas con llave, notas que dan objetivo,
-## salidas que piden algo, zonas de objetivo y emboscadas del Q'ispi; y que en cada nivel se llegue
-## a lo que hace falta.
+## Pruebas de lo que abre las salidas, de las emboscadas y de que se llegue a lo necesario.
 
 const TOOL_SCENE := preload("res://src/items/tool_pickup/tool_pickup.tscn")
 const DOOR_SCENE := preload("res://src/world/props/cardon_door.tscn")
@@ -17,6 +15,9 @@ const OTHER_OBJECTIVE := "Busca la llave"
 const NOTE_ID := "nota_de_prueba"
 const REACH_TOLERANCE := 1.6
 const SETTLE_FRAMES := 5
+const AMBUSH_TOLERANCE := 1.5
+const ISLAND := 4
+const TRAINS := 3
 
 var _nodes: Array[Node] = []
 
@@ -127,7 +128,10 @@ func test_ambush_brings_qispi_once() -> void:
 	await wait_physics_frames(SETTLE_FRAMES)
 	ambush._on_body_entered(player)
 	assert_true(qispi.state == Qispi.State.TRACK, "Sale a rastrearla")
-	assert_true(qispi.global_position.distance_to(ambush.global_position) < 1.5, "Sale en su punto")
+	assert_true(
+		qispi.global_position.distance_to(ambush.global_position) < AMBUSH_TOLERANCE,
+		"Sale en su punto"
+	)
 	assert_true(GameState.is_done("emboscada_de_prueba"), "Se recuerda")
 
 
@@ -143,7 +147,7 @@ func test_level_1_kitchen_key() -> void:
 
 ## Nivel 4: los remos están en la ladera y el bote los pide.
 func test_level_4_oars() -> void:
-	var level: Node3D = _add(load(LEVEL_PATH % [4, 4]).instantiate())
+	var level: Node3D = _add(load(LEVEL_PATH % [ISLAND, ISLAND]).instantiate())
 	await wait_physics_frames(SETTLE_FRAMES)
 	var oars: ToolPickup = level.get_node("Oars")
 	var exit: LevelExit = level.get_node("Exit")
@@ -153,7 +157,7 @@ func test_level_4_oars() -> void:
 
 ## Nivel 3: la salida pide la lista de Mateo, que está en el vagón del Tío.
 func test_level_3_needs_list() -> void:
-	var level: Node3D = _add(load(LEVEL_PATH % [3, 3]).instantiate())
+	var level: Node3D = _add(load(LEVEL_PATH % [TRAINS, TRAINS]).instantiate())
 	var exit: LevelExit = level.get_node("Exit")
 	var list: ReadableNote = level.get_node("MateoList")
 	assert_true(exit.required_note == list.note.id, "La salida pide la lista")

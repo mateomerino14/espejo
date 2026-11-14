@@ -3,6 +3,8 @@ extends TestCase
 
 const BASE_ENERGY := 2.0
 const FRAMES := 60
+## Margen por el redondeo de la energía.
+const ROUNDING := 0.001
 
 var _lamp: LampFlicker
 
@@ -29,5 +31,5 @@ func test_flickers_within_range() -> void:
 		highest = maxf(highest, _lamp.light_energy)
 	var margin := BASE_ENERGY * _lamp.flicker
 	assert_true(highest > lowest, "La llama debe temblar")
-	assert_true(lowest >= BASE_ENERGY - margin - 0.001, "No debe bajar de más")
-	assert_true(highest <= BASE_ENERGY + margin + 0.001, "No debe subir de más")
+	assert_true(lowest >= BASE_ENERGY - margin - ROUNDING, "No debe bajar de más")
+	assert_true(highest <= BASE_ENERGY + margin + ROUNDING, "No debe subir de más")

@@ -3,6 +3,11 @@ extends TestCase
 
 const VIEWFINDER_SCENE := preload("res://src/ui/viewfinder/viewfinder.tscn")
 const FADE_SECONDS := 0.3
+const SHOWN_ALPHA := 0.9
+const FILM_LEFT := 7
+const FILM_CAPACITY := 24
+const BATTERY := 25.0
+const MAX_BATTERY := 100.0
 
 var _viewfinder: Viewfinder
 
@@ -23,7 +28,7 @@ func test_follows_camera() -> void:
 	var screen: Control = _viewfinder.get_node("Screen")
 	EventBus.camera_raised.emit(true)
 	await tree.create_timer(FADE_SECONDS).timeout
-	assert_true(screen.visible and screen.modulate.a > 0.9, "El visor debe verse")
+	assert_true(screen.visible and screen.modulate.a > SHOWN_ALPHA, "El visor debe verse")
 	EventBus.camera_raised.emit(false)
 	await tree.create_timer(FADE_SECONDS).timeout
 	assert_false(screen.visible, "El visor debe ocultarse")
@@ -31,7 +36,7 @@ func test_follows_camera() -> void:
 
 ## Muestra cuántas fotos quedan y cuánta batería.
 func test_shows_film_and_battery() -> void:
-	EventBus.film_changed.emit(7, 24)
-	EventBus.camera_battery_changed.emit(25.0, 100.0)
+	EventBus.film_changed.emit(FILM_LEFT, FILM_CAPACITY)
+	EventBus.camera_battery_changed.emit(BATTERY, MAX_BATTERY)
 	assert_true(_viewfinder.get_node("%FilmLabel").text == "7 / 24", "Debe mostrar el rollo")
 	assert_true(_viewfinder.get_node("%BatteryLabel").text == "25 %", "Debe mostrar la batería")

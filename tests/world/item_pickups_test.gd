@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas de lo que hay para recoger en los niveles: Lucía llega a cada cosa, y en el hostal vacío
-## hay una manta para cada espejo.
+## Pruebas de lo que hay para recoger en los niveles y de las mantas del hostal vacío.
 
 const LEVEL_PATH := "res://src/world/level_%02d/level_%02d.tscn"
 const LEVELS: Array[int] = [1, 2, 3, 4, 5]

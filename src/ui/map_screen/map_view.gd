@@ -1,7 +1,6 @@
 class_name MapView
 extends Control
-## Dibujo del mapa: el piso ya recorrido con tinta sobre papel, lo que falta recorrer tapado por una
-## bruma, Lucía como una flecha y marcas para apachetas, espejos y salida. El norte queda arriba.
+## Dibujo del mapa: piso recorrido en tinta, bruma sobre lo demás, la flecha de Lucía y las marcas.
 
 enum Mark { APACHETA, MIRROR, EXIT }
 

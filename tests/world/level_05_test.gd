@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del nivel 5, el centro del salar: se llega del bote al espejo del centro esquivando los
-## conos de sal, la salida lleva a los finales y el reflejo de Javier solo se ve en el agua.
+## Pruebas del nivel 5: se llega al espejo del centro y Javier solo se ve en el agua.
 
 const LEVEL_SCENE := preload("res://src/world/level_05/level_05.tscn")
 const LEVEL_04_SCENE := preload("res://src/world/level_04/level_04.tscn")
@@ -8,6 +7,8 @@ const ROUTER_PATH := "res://src/cinematics/endings/ending_router.tscn"
 const LEVEL_05_PATH := "res://src/world/level_05/level_05.tscn"
 const REACH_TOLERANCE := 1.5
 const REFLECTION_LAYER := 1024
+## Distancia a la que el guía queda cerca del espejo del centro.
+const NEAR_MIRROR := 5.0
 
 var _level: GameLevel
 
@@ -65,7 +66,7 @@ func test_javier_is_only_a_reflection() -> void:
 			Vector2(last.x, last.z).distance_to(
 				Vector2(mirror.global_position.x, mirror.global_position.z)
 			)
-			< 5.0
+			< NEAR_MIRROR
 		),
 		"Termina junto al espejo"
 	)

@@ -1,8 +1,6 @@
 class_name ReflectionGuide
 extends Node3D
-## Alguien que solo se ve en el reflejo del agua y camina delante de Lucía hacia donde tiene que
-## ir: avanza mientras ella lo sigue de cerca y la espera si se queda atrás. Su modelo mira hacia
-## +Z.
+## Alguien que solo se ve en el agua y guía a Lucía: avanza si lo sigue y la espera si no.
 
 ## Distancia a un punto del camino para darlo por alcanzado.
 const ARRIVE_DISTANCE := 0.3

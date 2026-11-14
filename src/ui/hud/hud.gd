@@ -1,8 +1,6 @@
 class_name Hud
 extends CanvasLayer
-## HUD mínimo: barra de aliento que aparece al gastarlo, lo que se puede usar al frente, avisos
-## breves que se desvanecen solos y subtítulos cuando alguien habla; el nombre del nivel abajo a la
-## izquierda y el objetivo arriba a la izquierda, anunciado con un sonido.
+## HUD: aliento, acción al frente, avisos, subtítulos, nombre del nivel y objetivo.
 
 const FULL_RATIO := 0.995
 const SHOWN_ALPHA := 1.0

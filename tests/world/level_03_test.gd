@@ -1,9 +1,9 @@
 extends TestCase
-## Pruebas del nivel 3, el cementerio de trenes: se llega a la salida y al altar del Tío por la
-## rampa, y el altar y la lista de Mateo son pistas.
+## Pruebas del nivel 3: se llega a la salida y al altar del Tío, y sus pistas cuentan.
 
 const LEVEL_SCENE := preload("res://src/world/level_03/level_03.tscn")
 const REACH_TOLERANCE := 1.0
+const OUTSIDE := Vector3(20.0, 0.0, 20.0)
 
 var _level: GameLevel
 
@@ -49,7 +49,7 @@ func test_puddle_wins_over_dirt() -> void:
 	var footsteps: FootstepComponent = _level.get_node("Player/FootstepComponent")
 	var puddle: Node3D = _level.get_node("PuddleSurface")
 	assert_true(footsteps.surface_at(puddle.global_position) == &"agua", "En el charco: agua")
-	assert_true(footsteps.surface_at(Vector3(20.0, 0.0, 20.0)) == &"tierra", "Afuera: tierra")
+	assert_true(footsteps.surface_at(OUTSIDE) == &"tierra", "Afuera: tierra")
 
 
 ## Dónde están los nodos nombrados.

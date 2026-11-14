@@ -4,6 +4,9 @@ extends TestCase
 const LEVEL_SCENE := preload("res://src/world/level_01/level_01.tscn")
 const DEFAULT_SENSITIVITY := 1.0
 const DEFAULT_VOLUME := 1.0
+const SAVED_SENSITIVITY := 1.75
+const SAVED_VOLUME := 0.4
+const TOO_SENSITIVE := 10.0
 
 var _level: Node3D
 
@@ -24,19 +27,21 @@ func after_each() -> void:
 
 ## Los ajustes guardados se recuperan al volver a cargarlos.
 func test_settings_survive_reload() -> void:
-	Settings.set_mouse_sensitivity(1.75)
+	Settings.set_mouse_sensitivity(SAVED_SENSITIVITY)
 	Settings.set_crouch_toggles(true)
-	Settings.set_master_volume(0.4)
+	Settings.set_master_volume(SAVED_VOLUME)
 	_restore_defaults()
 	Settings.load_settings()
-	assert_almost_eq(Settings.mouse_sensitivity, 1.75, "Debe recuperar la sensibilidad")
+	assert_almost_eq(
+		Settings.mouse_sensitivity, SAVED_SENSITIVITY, "Debe recuperar la sensibilidad"
+	)
 	assert_true(Settings.crouch_toggles, "Debe recuperar agacharse alterno")
-	assert_almost_eq(Settings.master_volume, 0.4, "Debe recuperar el volumen")
+	assert_almost_eq(Settings.master_volume, SAVED_VOLUME, "Debe recuperar el volumen")
 
 
 ## La sensibilidad no sale de sus límites.
 func test_sensitivity_is_clamped() -> void:
-	Settings.set_mouse_sensitivity(10.0)
+	Settings.set_mouse_sensitivity(TOO_SENSITIVE)
 	assert_almost_eq(Settings.mouse_sensitivity, Settings.MAX_SENSITIVITY, "Tope máximo")
 	Settings.set_mouse_sensitivity(0.0)
 	assert_almost_eq(Settings.mouse_sensitivity, Settings.MIN_SENSITIVITY, "Tope mínimo")

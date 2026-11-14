@@ -1,7 +1,6 @@
 class_name DrapedCloth
 extends RefCounted
-## Arma la malla de una manta colgada sobre un marco: se dobla por arriba hacia atrás, cae con
-## pliegues verticales que se abren hacia abajo y el borde inferior queda un poco desparejo.
+## Arma la malla de una manta colgada sobre un marco, con pliegues y el borde desparejo.
 
 const COLUMNS := 24
 const ROWS := 32

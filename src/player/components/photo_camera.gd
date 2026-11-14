@@ -1,8 +1,6 @@
 class_name PhotoCamera
 extends Node3D
-## Cámara de Lucía: el visor revela lo que vive en los reflejos, el flash gasta batería y cada
-## foto queda en el rollo. Cuando se acaba el rollo o la pila, carga otro de la mochila; cómo
-## quedó la cámara sigue en el nivel siguiente.
+## Cámara de Lucía: visor que revela el reflejo, flash, rollo y recarga desde la mochila.
 
 signal raised_changed(is_raised: bool)
 signal battery_changed(current: float, maximum: float)

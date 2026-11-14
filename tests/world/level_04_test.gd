@@ -1,6 +1,5 @@
 extends TestCase
-## Pruebas del nivel 4, la isla Incahuasi: se sube desde la orilla hasta Don Celestino y se baja al
-## bote; la salida queda cerrada hasta escucharlo, y mientras habla el Q'ispi no se acerca.
+## Pruebas del nivel 4: se llega a la cima y al bote, que se abre después de Don Celestino.
 
 const LEVEL_SCENE := preload("res://src/world/level_04/level_04.tscn")
 const REACH_TOLERANCE := 1.5

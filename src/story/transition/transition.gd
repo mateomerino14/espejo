@@ -1,8 +1,6 @@
 class_name Transition
 extends Node3D
-## Tránsito entre niveles: Lucía cruza el salar, a pie o en el bote, y dice lo que piensa; a veces
-## el Q'ispi la sigue en el reflejo del agua. La pantalla funde a negro y se carga el nivel
-## siguiente, que muestra su nombre al empezar.
+## Tránsito entre niveles: Lucía cruza el salar, dice lo que piensa y se carga el nivel siguiente.
 
 ## Termina el tránsito, visto entero o saltado.
 signal finished

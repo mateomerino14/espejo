@@ -1,7 +1,6 @@
 class_name QispiAmbush
 extends Area3D
-## Emboscada: cuando Lucía cruza la zona, el Q'ispi sale de golpe en un punto y va por ella, con un
-## golpe de susto. Pasa una sola vez y no se repite al continuar la partida.
+## Emboscada: al cruzar la zona, el Q'ispi sale de golpe y va por Lucía, una sola vez.
 
 ## Marca con que se recuerda que ya pasó; única en el nivel.
 @export var done_id := ""
