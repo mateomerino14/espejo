@@ -6,6 +6,10 @@ extends Node3D
 
 const TITLE_DELAY_SECONDS := 1.0
 const OBJECTIVE_DELAY_SECONDS := 2.5
+## Al llegar desde un tránsito, el nivel aparece desde negro.
+const ARRIVAL_FADE_SECONDS := 1.5
+## Por encima del HUD y del visor.
+const ARRIVAL_LAYER := 9
 
 ## Nombre del nivel, que aparece abajo a la izquierda al empezar.
 @export var title := ""
@@ -15,8 +19,8 @@ const OBJECTIVE_DELAY_SECONDS := 2.5
 @export var map_reach := 4.0
 
 
-## Empieza el mapa en blanco, restaura lo pendiente, guarda, escucha las ofrendas y presenta el
-## nivel.
+## Empieza el mapa en blanco, restaura lo pendiente, guarda, escucha las ofrendas, aparece desde
+## negro si viene de un tránsito y presenta el nivel.
 func _ready() -> void:
 	var first_objective := objective
 	GameState.explored.clear()
@@ -27,6 +31,8 @@ func _ready() -> void:
 	GameState.objective = ""
 	SaveGame.save(scene_file_path)
 	EventBus.offering_made.connect(_on_offering_made)
+	if Transition.take_arrival():
+		_fade_in_from_black()
 	_present(first_objective)
 
 
@@ -48,6 +54,21 @@ func _show_title() -> void:
 func _give_objective(first_objective: String) -> void:
 	if is_inside_tree() and GameState.objective.is_empty():
 		GameState.set_objective(first_objective)
+
+
+## Aparece desde el negro en que terminó el tránsito.
+func _fade_in_from_black() -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = ARRIVAL_LAYER
+	var curtain := ColorRect.new()
+	curtain.color = Color.BLACK
+	curtain.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	curtain.set_anchors_preset(Control.PRESET_FULL_RECT)
+	layer.add_child(curtain)
+	add_child(layer)
+	var tween := create_tween()
+	tween.tween_property(curtain, "modulate:a", 0.0, ARRIVAL_FADE_SECONDS)
+	tween.tween_callback(layer.queue_free)
 
 
 ## Cada ofrenda guarda la partida.

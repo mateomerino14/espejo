@@ -12,6 +12,9 @@ const GROUP := &"enemies"
 const HORIZONTAL_PLANE := Vector3(1.0, 0.0, 1.0)
 const ARRIVAL_DISTANCE := 0.7
 const CATCH_DISTANCE := 1.0
+## Al atrapar se aparta hasta esta distancia, para que su cara quede delante de la cámara y no
+## dentro de ella.
+const SCARE_DISTANCE := 1.0
 const TURN_SPEED := 6.0
 const LOOK_AROUND_SPEED := 1.4
 const RETARGET_DISTANCE := 0.5
@@ -334,9 +337,11 @@ func _check_catch() -> void:
 		_catch()
 
 
-## La atrapa una sola vez: la mira, embiste y avisa.
+## La atrapa una sola vez: se aparta si está demasiado encima, la mira, embiste y avisa.
 func _catch() -> void:
 	_has_caught = true
+	velocity = Vector3.ZERO
+	_step_back_from_player()
 	var offset := (_player.global_position - global_position) * HORIZONTAL_PLANE
 	if offset != Vector3.ZERO:
 		rotation.y = atan2(-offset.x, -offset.z)
@@ -344,6 +349,19 @@ func _catch() -> void:
 	# Una luz fría solo en la embestida, para que su cara se vea en el susto.
 	_face_light.visible = true
 	EventBus.player_caught.emit()
+
+
+## Retrocede hasta la distancia del susto sin atravesar paredes; si una pared lo frena, empuja a
+## Lucía lo que falta. Escondida no se la empuja: sale del escondite al reaparecer.
+func _step_back_from_player() -> void:
+	var offset := (global_position - _player.global_position) * HORIZONTAL_PLANE
+	if offset.length() >= SCARE_DISTANCE or offset == Vector3.ZERO:
+		return
+	var direction := offset.normalized()
+	move_and_collide(direction * (SCARE_DISTANCE - offset.length()))
+	var gap := ((global_position - _player.global_position) * HORIZONTAL_PLANE).length()
+	if gap < SCARE_DISTANCE and _player.hiding_spot == null:
+		_player.move_and_collide(-direction * (SCARE_DISTANCE - gap))
 
 
 ## El escondite más cercano a donde la perdió que todavía no revisó; primero el que la vio usar.

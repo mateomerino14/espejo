@@ -35,6 +35,7 @@
 [ext_resource type="PackedScene" path="res://src/world/hiding_spot/wardrobe.tscn" id="wardrobe_r"]
 [ext_resource type="PackedScene" path="res://src/enemies/components/mirror_passage.tscn" id="passage_r"]
 [ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
+[ext_resource type="Resource" path="res://src/story/transition/hacia_trenes.tres" id="transition_r"]
 [node name="Level02" type="Node3D" node_paths=PackedStringArray("front_door", "mirrors_root")]
 script = ExtResource("1_r")
 title = "Nivel 2 · El hostal vacío"
@@ -194,10 +195,15 @@ is_locked = true
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.45, 0, 8.3)
 is_locked = true
 
+[node name="Porch" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 11.0)
+size = Vector3(6.0, 0.1, 4.6)
+material = ExtResource("4_r")
+
 [node name="FrontDoorway" type="CSGBox3D" parent="Hostal"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.075, 8.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.075, 8.4)
 operation = 2
-size = Vector3(1.0, 2.15, 0.3)
+size = Vector3(1.0, 2.15, 0.7)
 material = ExtResource("3_r")
 
 [node name="Desk" parent="." instance=ExtResource("20_r")]
@@ -342,6 +348,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0.68, -19.3)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.9)
 message = "Afuera ya no llueve. A lo lejos, sobre el agua, se ven los vagones del cementerio de trenes."
 next_level_path = "res://src/world/level_03/level_03.tscn"
+transition = ExtResource("transition_r")
 
 [node name="MoonLobby" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 2.4, 7.4)

@@ -37,6 +37,7 @@
 [ext_resource type="PackedScene" path="res://src/world/pickups/battery_pickup.tscn" id="battery_r"]
 [ext_resource type="PackedScene" path="res://src/world/hiding_spot/wardrobe.tscn" id="wardrobe_r"]
 [ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
+[ext_resource type="Resource" path="res://src/story/transition/hacia_vacio.tres" id="transition_r"]
 [node name="Level01" type="Node3D" node_paths=PackedStringArray("qispi")]
 script = ExtResource("1_r")
 title = "Nivel 1 · El hostal de sal"
@@ -111,9 +112,9 @@ size = Vector3(11.2, 2.8, 6.400000000000002)
 material = ExtResource("3_r")
 
 [node name="Vestibule" type="CSGBox3D" parent="Hostal"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.4, -23.55)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.4, -24.0)
 operation = 2
-size = Vector3(1.4, 2.8, 2.1000000000000014)
+size = Vector3(1.4, 2.8, 3.0)
 material = ExtResource("3_r")
 
 [node name="R1Doorway" type="CSGBox3D" parent="Hostal"]
@@ -194,6 +195,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0, -22.55)
 [node name="FrontDoor" parent="." instance=ExtResource("14_r")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.45, 0, 8.3)
 is_locked = true
+
+[node name="Yard" type="CSGBox3D" parent="Hostal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, -27.0)
+size = Vector3(6.0, 0.1, 5.0)
+material = ExtResource("4_r")
 
 [node name="FrontDoorway" type="CSGBox3D" parent="Hostal"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.075, 8.3)
@@ -337,6 +343,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4, 0.68, -19.3)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23.9)
 message = "Saliste del hostal. La lluvia no para."
 next_level_path = "res://src/world/level_02/level_02.tscn"
+transition = ExtResource("transition_r")
 
 [node name="MoonLobby" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 2.4, 7.4)

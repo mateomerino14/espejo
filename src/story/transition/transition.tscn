@@ -1,0 +1,159 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/story/transition/transition.gd" id="1_transition"]
+[ext_resource type="Environment" path="res://src/story/transition/night_environment.tres" id="2_night"]
+[ext_resource type="Material" path="res://src/world/materials/salt_crust.tres" id="3_salt"]
+[ext_resource type="PackedScene" path="res://src/world/water/water_surface.tscn" id="4_water"]
+[ext_resource type="PackedScene" path="res://src/world/weather/rain.tscn" id="5_rain"]
+[ext_resource type="PackedScene" path="res://src/world/trains/boxcar.tscn" id="6_boxcar"]
+[ext_resource type="PackedScene" path="res://src/world/trains/locomotive.tscn" id="7_locomotive"]
+[ext_resource type="ArrayMesh" path="res://assets/models/island/island.obj" id="8_island"]
+[ext_resource type="Material" path="res://src/world/materials/coral_rock.tres" id="9_rock"]
+[ext_resource type="PackedScene" path="res://src/world/props/rowboat.tscn" id="10_boat"]
+[ext_resource type="PackedScene" path="res://assets/models/characters/lucia/lucia.gltf" id="11_lucia"]
+[ext_resource type="PackedScene" path="res://assets/models/qispi/qispi.gltf" id="12_qispi"]
+[ext_resource type="AudioStream" path="res://assets/audio/amb_wind.ogg" id="13_wind"]
+[ext_resource type="AudioStream" path="res://assets/audio/amb_rain.ogg" id="14_rain"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_1.wav" id="15_step1"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_2.wav" id="16_step2"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_3.wav" id="17_step3"]
+[ext_resource type="AudioStream" path="res://assets/audio/footstep_water_4.wav" id="18_step4"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_salt"]
+material = ExtResource("3_salt")
+size = Vector2(400, 400)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_steps"]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 4
+stream_0/stream = ExtResource("15_step1")
+stream_1/stream = ExtResource("16_step2")
+stream_2/stream = ExtResource("17_step3")
+stream_3/stream = ExtResource("18_step4")
+
+[sub_resource type="LabelSettings" id="LabelSettings_subtitle"]
+font_size = 24
+font_color = Color(0.92, 0.93, 0.95, 1)
+outline_size = 6
+outline_color = Color(0, 0, 0, 0.85)
+
+[node name="Transition" type="Node3D"]
+script = ExtResource("1_transition")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_night")
+
+[node name="Moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.85, -0.3, 0.43, 0, 0.82, 0.57, -0.52, -0.48, 0.7, 0, 30, 0)
+light_color = Color(0.6, 0.68, 0.9, 1)
+light_energy = 0.7
+shadow_enabled = true
+directional_shadow_max_distance = 40.0
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_salt")
+
+[node name="Water" parent="." instance=ExtResource("4_water")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -40)
+size = Vector2(300, 300)
+resolution_scale = 0.6
+
+[node name="Rain" parent="." instance=ExtResource("5_rain")]
+
+[node name="Horizon" type="Node3D" parent="."]
+
+[node name="Trains" type="Node3D" parent="Horizon"]
+
+[node name="Boxcar1" parent="Horizon/Trains" instance=ExtResource("6_boxcar")]
+transform = Transform3D(0.17, 0, 0.98, 0, 1, 0, -0.98, 0, 0.17, -16, 0, -42)
+
+[node name="Boxcar2" parent="Horizon/Trains" instance=ExtResource("6_boxcar")]
+transform = Transform3D(0.26, 0, -0.97, 0, 1, 0, 0.97, 0, 0.26, -6, 0, -48)
+
+[node name="Locomotive" parent="Horizon/Trains" instance=ExtResource("7_locomotive")]
+transform = Transform3D(-0.34, 0, 0.94, 0, 1, 0, -0.94, 0, -0.34, 7, 0, -44)
+
+[node name="Boxcar3" parent="Horizon/Trains" instance=ExtResource("6_boxcar")]
+transform = Transform3D(0.1, 0, 1, 0, 1, 0, -1, 0, 0.1, 18, 0, -52)
+
+[node name="Island" type="MeshInstance3D" parent="Horizon"]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, -18, -2, -110)
+mesh = ExtResource("8_island")
+surface_material_override/0 = ExtResource("9_rock")
+
+[node name="Boat" parent="." instance=ExtResource("10_boat")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Lucia" parent="." instance=ExtResource("11_lucia")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Steps" type="AudioStreamPlayer3D" parent="Lucia"]
+stream = SubResource("AudioStreamRandomizer_steps")
+volume_db = -6.0
+bus = &"Efectos"
+
+[node name="Qispi" parent="." instance=ExtResource("12_qispi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, -8.5)
+
+[node name="Fill" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.98, 0.2, 0, -0.2, 0.98, 0, 2.2, 7)
+light_color = Color(0.7, 0.78, 0.95, 1)
+light_energy = 2.5
+spot_range = 20.0
+spot_angle = 22.0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.99, 0.12, 0, -0.12, 0.99, 0, 1.5, 6)
+cull_mask = 1047551
+fov = 60.0
+
+[node name="Wind" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_wind")
+volume_db = -10.0
+autoplay = true
+bus = &"Ambiente"
+
+[node name="RainSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_rain")
+volume_db = -8.0
+bus = &"Ambiente"
+
+[node name="Voice" type="AudioStreamPlayer" parent="."]
+bus = &"Efectos"
+
+[node name="StepTimer" type="Timer" parent="."]
+
+[node name="WaitTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Screen" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Curtain" type="ColorRect" parent="Screen"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Subtitle" type="Label" parent="Screen"]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -520.0
+offset_top = -150.0
+offset_right = 520.0
+offset_bottom = -96.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+label_settings = SubResource("LabelSettings_subtitle")
+horizontal_alignment = 1
+autowrap_mode = 3

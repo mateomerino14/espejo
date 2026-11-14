@@ -31,6 +31,7 @@
 [ext_resource type="Script" path="res://src/photography/photo_subject.gd" id="subject"]
 [ext_resource type="Script" path="res://src/world/props/lamp_flicker.gd" id="flicker"]
 [ext_resource type="PackedScene" path="res://src/items/item_pickup/item_pickup.tscn" id="item_pickup_r"]
+[ext_resource type="Resource" path="res://src/story/transition/hacia_isla.tres" id="transition_r"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
 sky_top_color = Color(0.01, 0.015, 0.03, 1)
@@ -352,6 +353,7 @@ transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000
 transform = Transform3D(1.0000, -0.0000, 0.0000, 0.0000, 1.0000, 0.0000, -0.0000, 0.0000, 1.0000, -24, 0, -44)
 message = "Más allá de los trenes, el agua vuelve a cubrir el salar. En el horizonte, una isla con cactus."
 next_level_path = "res://src/world/level_04/level_04.tscn"
+transition = ExtResource("transition_r")
 
 [node name="Hud" parent="." instance=ExtResource("hud")]
 
