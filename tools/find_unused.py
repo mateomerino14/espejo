@@ -10,7 +10,7 @@ from pathlib import Path
 
 ENGINE_CALLBACKS = {
     "_init", "_ready", "_process", "_physics_process", "_input", "_unhandled_input",
-    "_enter_tree", "_exit_tree", "_initialize", "_notification", "_integrate_forces",
+    "_enter_tree", "_exit_tree", "_initialize", "_notification", "_integrate_forces", "_draw",
 }
 TEST_HOOKS = {"before_each", "after_each"}
 TEST_PREFIX = "test_"
