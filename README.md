@@ -35,6 +35,10 @@ Versión `1.1.0`: el juego completo, con cinco niveles, tres finales y versión 
 4. **La isla Incahuasi:** Don Celestino espera en la cima; después hay que buscar los remos de su bote en la ladera norte.
 5. **El centro del salar:** el agua refleja el amanecer, Javier camina en el reflejo y en el centro espera un espejo.
 
+## Prensa
+
+En [`prensa/`](prensa/README.md) hay un tráiler y capturas del juego por si se quiere publicar.
+
 ## Controles
 
 También se ven en el juego, en **Controles**, desde el menú principal o la pausa. Mientras juegas, un cuadro arriba a la derecha enseña cada control la primera vez que hace falta, con la tecla o el botón según juegues con teclado o mando; se apaga en Opciones.
